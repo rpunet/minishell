@@ -13,3 +13,4 @@ Ejercicios de prueba para conocer las funciones para minishell.
       - **make ls** :     crea y ejecuta un programa que hace un ls en el directorio actual
       - **make lswc**:    crea y ejecuta un programa que hace *ls -l | wc*  y tmb el comando real
       - **make ls3** :    crea y ejecuta un programa que replica *ls -l | grep u | wc -l* y compara con comando original
+3. Más detalles comentados en el Makefile
