@@ -65,7 +65,7 @@ void	waitfor(int n)
 	}
 }
 
-int	main()
+int	main(int argc, char **argv)
 {
 	char	*line;
 	char	*tok;
@@ -73,11 +73,14 @@ int	main()
 	int		first;	// 1 si es el primer comando de la secuencia de pipes
 	int		last;	// 1 si es el último comando de la secuencia de pipes
 
+	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
+		line = argv[2];
 	while (1)
 	{
 		ft_printf("microsh > ");
-		if (get_next_line(0, &line) == -1)
-			return 0;
+		if (argc == 1)
+			if (get_next_line(0, &line) == -1)
+				return 0;
 		input = 0;
 		first = 1;
 		last = 0;
@@ -93,6 +96,8 @@ int	main()
 		last = 1;
 		parse(line, input, first, last);
 		waitfor(n);
+		if (argc > 1)
+			break;
 	}
 	return 0;
 }
