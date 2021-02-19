@@ -1,4 +1,4 @@
-NAME 		= echosh export kill ls ls_wc file_ls.txt ls3
+NAME 		= echosh export kill ls ls_wc file_ls.txt ls3 microshell
 LIBFT_PATH	= ../libftPLUS/
 
 
@@ -42,6 +42,11 @@ ls3: clean
 	@gcc ls_3procesos.c -o ls3
 	./ls3
 	ls -l | grep u | wc -l
+
+# microshell
+micro: clean
+	@gcc microshell.c -L $(LIBFT_PATH) -lft -o microshell
+	@./microshell
 
 clean:
 		@rm -f $(NAME)
