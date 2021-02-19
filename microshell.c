@@ -1,7 +1,6 @@
 #include <unistd.h>
 #include <sys/wait.h>
 #include "../libftPLUS/includes/libft.h"
-#include <stdio.h>
 
 #define READ	0
 #define WRITE	1
