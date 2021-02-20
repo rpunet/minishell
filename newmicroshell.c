@@ -19,7 +19,7 @@ typedef struct s_job
 {
 	int		n_cmds;
 	int		n_pipes;
-	int		(*fds)[2]; // puntero a array de 2 int
+	int		(*fds)[2];
 	t_cmd	*cmds;
 }				t_job;
 
