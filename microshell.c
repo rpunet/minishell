@@ -64,7 +64,7 @@ void	ft_pwd(char **args)
 	}
 }
 
-void	ft_cd(char **args)
+void	ft_cd(char **args)			// esto esta fallandoooo --------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-----------------------
 {
 	ft_printf("LLGA A DIR");
 	if (chdir(args[1]) == -1)
