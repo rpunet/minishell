@@ -1,6 +1,9 @@
 NAME 		= echosh export kill ls ls_wc file_ls.txt ls3 microshell
 LIBFT_PATH	= ../libftPLUS/
 
+# regla por defecto con -o minishell para que funcione el minishel_test
+default_for_test:
+	@gcc microshell.c -L $(LIBFT_PATH) -lft -o minishell
 
 # echo-shell: sólo responde ante el comando "echo" + 1 argumento
 echo: clean
@@ -47,6 +50,7 @@ ls3: clean
 micro: clean
 	@gcc microshell.c -L $(LIBFT_PATH) -lft -o microshell
 	@./microshell
+
 
 clean:
 		@rm -f $(NAME)

@@ -1,17 +1,82 @@
 #include <unistd.h>
+#include <stdio.h>
 #include <sys/wait.h>
 #include "../libftPLUS/includes/libft.h"
 
-#define READ	0
-#define WRITE	1
+
+#define READ		0
+#define WRITE		1
+#define BUILTINS	3
 
 int		n = 0; // numero de llamadas a comandos
 char	**args;
+char	*builtins[] = {
+	"echo",
+	"pwd",
+	"cd"
+};
+
+void	ft_echo(char **args);
+void	ft_pwd(char **args);
+void	ft_cd(char **args);
+
+void	(*ft_builtins[])(char **) = {
+	&ft_echo,
+	&ft_pwd,
+	&ft_cd
+};
+
+int		doublelen(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while(arr[i])
+		i++;
+	return i;
+}
+
+void	ft_echo(char **args)
+{
+	int i;
+
+	i = ft_strcmp(args[1], "-n") ? 1 : 2;
+	for (i; args[i+1]; i++)
+		ft_printf("%s ", args[i]);
+	ft_printf("%s", args[i]);
+	if (ft_strcmp(args[1], "-n"))
+		write(1, "\n", 1);
+}
+
+void	ft_pwd(char **args)
+{
+	char *ret;
+
+	if (doublelen(args) == 1)
+	{
+		ret = getcwd(NULL, 0);
+		ft_printf("%s\n", ret);
+		free (ret);
+	}
+	else
+	{
+		ft_printf("pwd: too many arguments\n");
+	}
+}
+
+void	ft_cd(char **args)
+{
+	ft_printf("LLGA A DIR");
+	if (chdir(args[1]) == -1)
+		ft_printf("cd error");
+	perror("cd:");
+}
 
 int	execute(int input, int first, int last)
 {
 	int		fds[2];
 	pid_t	pid;
+	int		i;
 
 	pipe(fds);
 	pid = fork();
@@ -26,7 +91,17 @@ int	execute(int input, int first, int last)
 		}
 		else if (first == 0 && last == 1)		// último comando
 			dup2(input, STDIN_FILENO);
-		if(execvp(args[0], args) == -1)			// ejecutar el nuevo proceso del comando
+		i = 0;
+		while (i < BUILTINS)
+		{
+			if (!ft_strcmp(args[0], builtins[i]))
+			{
+				(*ft_builtins[i])(args);
+				exit(EXIT_SUCCESS);
+			}
+			i++;
+		}
+		if (execvp(args[0], args) == -1)			// ejecutar el nuevo proceso del comando
 			exit(EXIT_FAILURE);
 	}
 	if (input != 0)
@@ -77,10 +152,12 @@ int	main(int argc, char **argv)
 		line = argv[2];
 	while (1)
 	{
-		ft_printf("microsh > ");
 		if (argc == 1)
+		{
+			ft_printf("microsh > ");
 			if (get_next_line(0, &line) == -1)
 				return 0;
+		}
 		input = 0;
 		first = 1;
 		last = 0;
