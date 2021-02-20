@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/20 21:16:37 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/20 21:39:36 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <sys/wait.h>
-# include "../libftPLUS/includes/libft.h"
+# include "../../libftPLUS/includes/libft.h"
 
 # define READ		0
 # define WRITE		1
