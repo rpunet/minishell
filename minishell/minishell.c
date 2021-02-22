@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/20 21:39:34 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/22 00:56:03 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,13 @@ int	ft_execute(t_job *job)
 			if (job->cmds[j].io[WRITE] != -1)
 				dup2(job->cmds[j].io[WRITE], STDOUT_FILENO);
 			ft_close_fds(job);
-
-
 			return (execvp(job->cmds[j].name, job->cmds[j].args));
 		}
 		/*else
 			// gestión de error del fork */
 		j++;
 	}
+	return 0;
 }
 
 void	ft_waitfor(int n)
@@ -87,8 +86,11 @@ void	ft_waitfor(int n)
 	while (i < n)
 	{
 		wait(NULL);
-		++i;
+		i++;
 	}
+
+
+	return ;
 }
 
 t_job	*ft_parse(char *line)
@@ -150,8 +152,6 @@ int	main(int argc, char **argv)
 {
 	char	*line;
 	t_job	*job;
-
-	int		i;
 
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
 		line = argv[2];
