@@ -116,6 +116,16 @@ void	insert(int data, t_node **root)
 	}
 }
 
+void	free_tree(t_node *root)
+{
+	if (root != NULL)
+	{
+		free_tree(root->left);
+		free_tree(root->right);
+		free(root);
+	}
+}
+
 int	main()
 {
 	t_node	*root;
@@ -127,9 +137,6 @@ int	main()
 		insert(array[i], &root);
 
 	in_order_iterative(root);
-
-
-
-
+	free_tree(root);
 	return 0;
 }

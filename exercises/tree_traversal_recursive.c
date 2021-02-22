@@ -46,7 +46,7 @@ void	insert(int data, t_node **root)
 				}
 			}
 		}
-	}
+	}  // esto se queda sin liberar...es para practicar
 }
 
 t_node	*search(int data, t_node *current)
@@ -91,6 +91,15 @@ void	post_order_traversal(t_node *root)
 		ft_printf("%d ", root->data);
 	}
 }
+void	free_tree(t_node *root)
+{
+	if (root != NULL)
+	{
+		free_tree(root->left);
+		free_tree(root->right);
+		free(root);
+	}
+}
 
 int	main()
 {
@@ -119,11 +128,12 @@ int	main()
 		ft_printf("X: %d not found\n", i);
 
 	i = 47;
-	ft_printf("\n\nSearching num %d: ", i);
+	ft_printf("\nSearching num %d: ", i);
 	tmp = search(i, root);
 	if (tmp != NULL)
 		ft_printf(" >> %d\n", tmp->data);
 	else
 		ft_printf("X: %d not found\n", i);
+	free_tree(root);
 	return 0;
 }

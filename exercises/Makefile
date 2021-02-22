@@ -56,7 +56,7 @@ new:  clean
 	@./newmicroshell
 
 tree: clean
-	@gcc tree_traversal_recursive.c -L $(LIBFT_PATH) -lft -o tree_traversal_recursive
+	@gcc -fsanitize=address tree_traversal_recursive.c -L $(LIBFT_PATH) -lft -o tree_traversal_recursive
 	@./tree_traversal_recursive
 
 tree_stack: clean
