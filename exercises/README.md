@@ -13,4 +13,8 @@ Ejercicios de prueba para conocer las funciones para minishell.
       - **make ls** :     crea y ejecuta un programa que hace un ls en el directorio actual
       - **make lswc**:    crea y ejecuta un programa que hace *ls -l | wc*  y tmb el comando real
       - **make ls3** :    crea y ejecuta un programa que replica *ls -l | grep u | wc -l* y compara con comando original
+      - **make micro**:   crea y ejecuta una pequeña shell sencilla, sin estructuras de datos, a capón.
+      - **make new**:     igual pero con estructuras de datos simples, pipes mejorados y algunos builtins
+      - **tree**:         crea y ejecuta un programa que construye un árbol binario a partir de un array, y luego recorre y consulta con distintos métodos (recursivos)
+      - **tree_stak**:    programa que construye el mismo árbol pero que utiliza una pila creada mediante lista enlazada para recorrerlo in-order.
 3. Más detalles comentados en el Makefile
