@@ -1,5 +1,6 @@
 NAME 		= echosh export kill ls ls_wc file_ls.txt ls3 microshell minishell newmicroshell tree_traversal_recursive tree_traversal_stack
 LIBFT_PATH	= ../../libftPLUS/
+GCC			= gcc -Wall -Wextra -Werror
 
 # regla por defecto con -o minishell para que funcione el minishel_test
 default_for_test:
@@ -52,7 +53,7 @@ micro: clean
 	@./microshell
 
 new:  clean
-	@gcc -g newmicroshell.c -L $(LIBFT_PATH) -lft -o newmicroshell
+	@$(GCC) -g newmicroshell.c -L $(LIBFT_PATH) -lft -o newmicroshell
 	@./newmicroshell
 
 tree: clean

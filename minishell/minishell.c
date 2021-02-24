@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/22 00:56:03 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/24 20:34:50 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,9 @@ int	ft_execute(t_job *job)
 		{
 			if (!ft_strcmp(job->cmds[j].name, builtins[i]))
 			{
-				if (!job->n_pipes)
-					return (*ft_builtins[i])(job->cmds[j].args);
-				else
-				{
-					(*ft_builtins[i])(job->cmds[j].args);
-				}
+				(*ft_builtins[i])(job->cmds[j].args);
+				return 0;
+				//exit(EXIT_SUCCESS);
 			}
 			i++;
 		}
@@ -152,6 +149,7 @@ int	main(int argc, char **argv)
 {
 	char	*line;
 	t_job	*job;
+	char	**instr;
 
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
 		line = argv[2];
@@ -160,12 +158,17 @@ int	main(int argc, char **argv)
 		if (argc == 1)
 			if (ft_get_input(&line))
 				return 0;
-		job = ft_parse(line);
-		ft_piping(job);
-		if (ft_execute(job) == -1)
-			perror("error");
-		ft_close_fds(job);		// cerrar fds padre
-		ft_waitfor(job->n_cmds);
+		instr = ft_split(line, ';');
+		while (*instr)
+		{
+			job = ft_parse(*instr);
+			ft_piping(job);
+			if (ft_execute(job) == -1)
+				perror("error");
+			ft_close_fds(job);		// cerrar fds padre
+			ft_waitfor(job->n_cmds);
+			instr++;
+		}
 		if (argc > 1)			// esto es para que salga si la ejecucion es con -c
 			break;
 	}

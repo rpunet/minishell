@@ -59,8 +59,11 @@ void	ft_echo(char **args)
 
 	i = ft_strcmp(args[1], "-n") ? 1 : 2;
 	ft_printf("builtIN-%s: ", args[0]);
-	for (i; args[i+1]; i++)
+	while (args[i + 1])
+	{
 		ft_printf("%s ", args[i]);
+		i++;
+	}
 	ft_printf("%s", args[i]);
 	if (ft_strcmp(args[1], "-n"))
 		write(1, "\n", 1);
@@ -125,6 +128,17 @@ int	ft_execute(t_job *job)
 	j = 0;
 	while (j < job->n_cmds)
 	{
+		i = 0;
+		while (i < BUILTINS)
+		{
+			if (!ft_strcmp(job->cmds[j].name, builtins[i]))
+			{
+				(*ft_builtins[i])(job->cmds[j].args);
+				return 0;
+				//exit(EXIT_SUCCESS);
+			}
+			i++;
+		}
 		pid = fork();
 		if (pid == 0)
 		{										//redirigir las i-o de los pipes.
@@ -133,22 +147,13 @@ int	ft_execute(t_job *job)
 			if (job->cmds[j].io[WRITE] != -1)
 				dup2(job->cmds[j].io[WRITE], STDOUT_FILENO);
 			ft_close_fds(job);
-			i = 0;
-			while (i < BUILTINS)
-			{
-				if (!ft_strcmp(job->cmds[j].name, builtins[i]))
-				{
-					(*ft_builtins[i])(job->cmds[j].args);
-					exit(EXIT_SUCCESS);
-				}
-				i++;
-			}
 			return (execvp(job->cmds[j].name, job->cmds[j].args));
 		}
 		/*else
 			// gestión de error del fork */
 		j++;
 	}
+	return 0;
 }
 
 void	ft_waitfor(int n)
@@ -221,8 +226,7 @@ int	main(int argc, char **argv)
 {
 	char	*line;
 	t_job	*job;
-
-	int		i;
+	char	**instr;
 
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
 		line = argv[2];
@@ -231,12 +235,17 @@ int	main(int argc, char **argv)
 		if (argc == 1)
 			if (ft_get_input(&line))
 				return 0;
-		job = ft_parse(line);
-		ft_piping(job);
-		if (ft_execute(job) == -1)
-			perror("error");
-		ft_close_fds(job);		// cerrar fds padre
-		ft_waitfor(job->n_cmds);
+		instr = ft_split(line, ';');
+		while (*instr)
+		{
+			job = ft_parse(*instr);
+			ft_piping(job);
+			if (ft_execute(job) == -1)
+				perror("error");
+			ft_close_fds(job);		// cerrar fds padre
+			ft_waitfor(job->n_cmds);
+			instr++;
+		}
 		if (argc > 1)			// esto es para que salga si la ejecucion es con -c
 			break;
 	}

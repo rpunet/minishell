@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/21 22:19:54 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/24 20:39:43 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int		ft_echo(char **args)
 		return 0;
 	}
 	i = ft_strcmp(args[1], "-n") ? 1 : 2;
-	ft_printf("builtIN-%s: ", args[0]);
+	//ft_printf("builtIN-%s: ", args[0]);
 	while (args[i + 1])
 	{
 		ft_printf("%s ", args[i]);
@@ -51,7 +51,7 @@ int		ft_pwd(char **args)
 	if (doublelen(args) == 1)
 	{
 		ret = getcwd(NULL, 0);
-		ft_printf("builtIN-%s: ", args[0]);
+		//ft_printf("builtIN-%s: ", args[0]);
 		ft_printf("%s\n", ret);
 		free (ret);
 	}
@@ -62,9 +62,9 @@ int		ft_pwd(char **args)
 	return 0;
 }
 
-int		ft_cd(char **args)
+int	ft_cd(char **args)			// esto esta fallandoooo --------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-----------------------
 {
-	ft_printf("LLGA A DIR");
+	//ft_printf("LLGA A DIR");
 	char *ret;
 	//ret = getcwd(NULL, 0);
 	ret = args[1];
@@ -76,9 +76,11 @@ int		ft_cd(char **args)
 
 int		ft_exit(char **args)
 {
-	ft_printf("builtIN-%s: ", args[0]);
+	//ft_printf("builtIN-%s: ", args[0]);
 	//if (pid != 0)
+	if (args[0])
 		exit(EXIT_SUCCESS);
+	return 0;
 }
 
 
