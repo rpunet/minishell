@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/24 20:34:50 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/26 11:46:24 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,14 @@
 
 char	*builtins[] = {
 	"echo",
-	"pwd",
+//	"pwd",
 	"cd",
 	"exit"
 };
 
 int		(*ft_builtins[])(char **) = {
 	&ft_echo,
-	&ft_pwd,
+//	&ft_pwd,
 	&ft_cd,
 	&ft_exit
 };
@@ -44,20 +44,33 @@ int	ft_execute(t_job *job)
 	pid_t	pid;
 	int		i;
 	int		j;
+	int		next;
 
 	j = 0;
 	while (j < job->n_cmds)
 	{
+		next = 0;
 		i = 0;
 		while (i < BUILTINS)
 		{
 			if (!ft_strcmp(job->cmds[j].name, builtins[i]))
 			{
 				(*ft_builtins[i])(job->cmds[j].args);
-				return 0;
-				//exit(EXIT_SUCCESS);
+				next = 1;
+				break;
 			}
 			i++;
+		}
+		if (!ft_strcmp(job->cmds[j].name, "pwd"))		// de momento añadido extra hasta que veamos que datos se pasan a las funciones en conjunto , pero ya furrulaa
+		{
+			ft_pwd2(job, j);
+			j++;
+			continue;
+		}
+		if (next == 1)
+		{
+			j++;
+			continue;
 		}
 		pid = fork();
 		if (pid == 0)
@@ -85,10 +98,33 @@ void	ft_waitfor(int n)
 		wait(NULL);
 		i++;
 	}
-
-
 	return ;
 }
+
+/*
+char	**quoting(char **cmds, int num)
+{
+	int		i = 0;
+	char	**ret;
+	char	*ptr;
+	int		quoted = 0;
+
+	ret = malloc(sizeof(char *) * num);
+	while (i < num)
+	{
+		while (ptr = ft_strchr(cmds[i], '"') != NULL)
+		{
+			if (quoted == 0)
+			{
+				quoted = 1;
+				ptr++;
+			}
+		}
+
+	}
+}echo
+
+ */
 
 t_job	*ft_parse(char *line)
 {
@@ -100,11 +136,13 @@ t_job	*ft_parse(char *line)
 	cmds = ft_split(line, '|');
 	aux = cmds;
 	i = 0;
-	while (*aux != NULL)
+	while (*aux != NULL)		// contar numero de comandos, esto se puede sacar del split, que ya los cuenta
 	{
 		aux++;
 		i++;
 	}
+
+
 	new = malloc(sizeof(t_job));
 	new->n_cmds = i;
 	new->cmds = malloc(sizeof(t_cmd) * new->n_cmds);

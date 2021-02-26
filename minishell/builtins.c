@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/24 20:39:43 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/26 11:46:32 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,23 +44,67 @@ int		ft_echo(char **args)
 	return 0;
 }
 
-int		ft_pwd(char **args)
+/* int		ft_pwd(char **args)
 {
-	char *ret;
+	char 	*ret;
+	pid_t	pid;
 
-	if (doublelen(args) == 1)
+	pid = fork();
+	if (pid == 0)
 	{
-		ret = getcwd(NULL, 0);
-		//ft_printf("builtIN-%s: ", args[0]);
-		ft_printf("%s\n", ret);
-		free (ret);
-	}
-	else
-	{
-		ft_printf("pwd: too many arguments\n");
+		if (doublelen(args) == 1)
+		{
+			ret = getcwd(NULL, 0);
+			//ft_printf("builtIN-%s: ", args[0]);
+			ft_putstr_fd(ret, STDIN_FILENO);
+			free (ret);
+		}
+		else
+		{
+			ft_printf("pwd: too many arguments\n");
+		}
 	}
 	return 0;
 }
+ */
+void	ft_pwd2(t_job *job, int j)
+{
+	char 	*ret;
+	pid_t	pid;
+
+	//ft_printf("builtedPWD");
+	pid = fork();
+	if (pid == 0)
+	{
+		if (job->cmds[j].io[WRITE] != -1)
+			dup2(job->cmds[j].io[WRITE], STDOUT_FILENO);
+		ft_close_fds(job);
+		if (doublelen(job->cmds[j].args) == 1)
+		{
+			ret = getcwd(NULL, 0);
+			ft_printf("builtIN-%s\n",ret);
+			//ft_putstr_fd(ret, STDIN_FILENO);
+			free (ret);
+			exit(0);
+		}
+		else
+		{
+			ft_printf("pwd: too many arguments\n");
+		}
+	}
+/* 	else if (pid < 0)
+		gestion de error */
+	// else
+	// 	while (waitpid(pid, NULL, 0) > 0);
+}
+
+
+
+
+
+
+
+
 
 int	ft_cd(char **args)			// esto esta fallandoooo --------xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-----------------------
 {

@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/20 21:39:36 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/25 13:04:38 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define READ		0
 # define WRITE		1
-# define BUILTINS	4
+# define BUILTINS	3 // 4
 
 // STRUCTS   --------------------------------
 typedef struct	s_cmd
@@ -42,6 +42,7 @@ typedef struct	s_job
 int		doublelen(char **arr);
 int		ft_echo(char **args);
 int		ft_pwd(char **args);
+void	ft_pwd2(t_job *job, int j);		// uniformar argumentos de todas las (*func)
 int		ft_cd(char **args);
 int		ft_exit(char **args);
 
