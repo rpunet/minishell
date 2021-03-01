@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/27 22:28:48 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/01 23:20:55 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 	lexer->list_token = token;
 	state = GENERAL;
 	i = 0;
-	while (line[i] != NULL)
+	j = 0;
+	while (line[i] != 0)
 	{
 		c = (line[i]);
 		if (state == GENERAL)
@@ -54,7 +55,7 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 			{
 				if (j > 0)
 				{
-					token->data[j] == 0;
+					token->data[j] = 0;
 					token->next = tok_init(size - i);
 					token = token->next;
 					j = 0;
@@ -64,7 +65,7 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 			{
 				if (j > 0)
 				{
-					token->data[j] == 0;
+					token->data[j] = 0;
 					token->next = tok_init(1);
 					token = token->next;
 					j = 0;

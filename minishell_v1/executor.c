@@ -6,31 +6,72 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/01 20:59:26 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/01 23:08:05 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 
-void	execute_CMD()
+void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 {
-	//if (   REDIR; INDIR)
-	//...				aquií irán las redireecciones un poco más adelante que bastante liado esta esto ya
+	int			i;
+	char		**args;
+	t_ASTnode	*curr;
 
-	if (    type = CMDPATH_NODE)
-		e
+	//if (   REDIR; INDIR)
+	//...				aquií irán las redireecciones un poco más adelante que bastante liado esta esto ya...
+	//					seguramente habŕa que pasar más parametros o ejecutar todo desde aquí
+
+
+
+	if (cmd_node->type == CMDPATH_NODE)
+	{
+		pid_t pid;
+
+		curr = cmd_node;
+		i = 0;
+		while (curr != NULL && (curr->type == CMDPATH_NODE || curr->type == TOKEN_NODE))
+		{
+			i++;
+			curr = curr->right;
+		}
+		args = malloc(sizeof(char *) * (i + 1));			// checkear el malloc (habra que revisar todos los retornos de funciones para que retornes erorres...me parece que voids poquitos :((
+		curr = cmd_node;
+		while (curr != NULL && (curr->type == CMDPATH_NODE || curr->type == TOKEN_NODE))
+		{
+			args[i] = ft_strdup(curr->data);											// esto hay que liberarlo FREEE y el malloc anterior
+			curr = curr->right;
+			i++;
+		}
+		args[i] = NULL;
+		if (i > 0)
+		{
+			if ((pid = fork()) == 0)
+			{
+				if (in != 0)
+					dup2(in, STDIN_FILENO);
+				if (out != 1)
+					dup2(out, STDOUT_FILENO);
+				//close(in), close(out);
+				if (execve(args[0], args, NULL) == -1)
+					return ; //errorrrrr habrá que salir y restaurar el STDOUT FILENO para que salga el error por pantalla
+			}
+			//else if (pid < 0){ return error fork()}
+			while (waitpid(pid, NULL, 0) <= 0); //ejecute la espera hasta que salga exitosa y retorne el pid que cambia de estado
+		}
+	}
+
 }
 
-void	execute_INSTR(t_ASTnode *instr)
+void	execute_INSTR(t_ASTnode *instr)			// PIPING tripping
 {
 	t_ASTnode	*curr;
 	int			fds[2];
 	int			pipe_ends[2];
-	t_cmd		cmd;
 
 	pipe(fds);
-	pipe_ends[1] = fds[WRITE];
+	pipe_ends[1] = fds[WRITE];					// para almacen temporal de fds de pipes que comparten comandos consecutivos
 	pipe_ends[0] = fds[READ];
 	execute_CMD(instr->left, STDIN_FILENO, fds[WRITE]);
 	curr = instr->right;
@@ -38,8 +79,8 @@ void	execute_INSTR(t_ASTnode *instr)
 	{
 		close(fds[WRITE]);
 		pipe(fds);
-		execute_CMD(curr->left, pipe_ends[0], fds[WRITE]);
-		close(pipe_ends[0])
+		execute_CMD(curr->left, pipe_ends[0], fds[WRITE]);		//comando a ejecucion con el fd READ del pipe anterior que se almacena en pipe_ends, y el WRITE actual
+		close(pipe_ends[0]);
 		pipe_ends[0] = fds[READ];
 		curr = curr->right;
 	}
@@ -50,8 +91,6 @@ void	execute_INSTR(t_ASTnode *instr)
 
 void	execute_JOB(t_ASTnode *job)
 {
-	t_cmd	cmd;
-
 	if (job == NULL)
 		return ;
 	if (job->type == PIPE_NODE)
@@ -78,7 +117,7 @@ void	execute_SEQ(t_ASTnode *seq)
 		execute_JOB(seq);
 }
 
-void	execute(t_ASTnode *syntax_tree)
+void	ft_execute(t_ASTnode *syntax_tree)
 {
 	execute_SEQ(syntax_tree);
 }

@@ -6,56 +6,16 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/27 22:31:17 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/01 23:08:18 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*builtins[] = {
-//	"echo",
-//	"pwd",
-	"cd",
-	"exit"
-};
-
-int		(*ft_builtins[])(char **) = {
-//	&ft_echo,
-//	&ft_pwd,
-	&ft_cd,
-	&ft_exit
-};
-
-void	ft_close_fds(t_job *job)
-{
-	int	i;
-
-	i = 0;
-	while (i < job->n_pipes)
-	{
-		close(job->fds[i][0]);
-		close(job->fds[i][1]);
-		i++;
-	}
-}
-
-
-void	ft_waitfor(int n)
-{
-	int	i = 0;
-
-	while (i < n)
-	{
-		wait(NULL);
-		i++;
-	}
-	return ;
-}
-
 
 int	ft_get_input(char **line)
 {
-	ft_printf("newsh > ");
+	ft_printf("MINIsh > ");
 	if (get_next_line(0, line) == -1)
 			return 1;
 	return 0;
@@ -74,17 +34,21 @@ t_tok	*tok_init(int datasize)
 	return (token);
 }
 
-int		char_type(char c)
+void	tok_delete(t_tok *token)
 {
-	if (c )
+	if (token != NULL)
+	{
+		free(token->data);
+		tok_delete(token->next);
+		free(token);
+	}
 }
-
-
 
 int	main(int argc, char **argv)
 {
-	char	*line;
-	t_lex	lexer;
+	char		*line;
+	t_lex		lexer;
+	t_ASTnode	*syntax_tree;
 
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
 		line = argv[2];
@@ -94,9 +58,11 @@ int	main(int argc, char **argv)
 			if (ft_get_input(&line))
 				return 0;
 		if (ft_lexer(line, &lexer, ft_strlen(line)))
-			//error;
-
-
+			ft_printf("error");
+		if (!ft_parser(&lexer, &syntax_tree))
+			ft_execute(syntax_tree);
+		ASTdelete(syntax_tree);		//meter al final de execute antes de salir para limpiar main
+		tok_delete(lexer.list_token);
 		if (argc > 1)			// esto es para que salga si la ejecucion es con -c
 			break;
 	}
