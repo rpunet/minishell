@@ -6,12 +6,12 @@
 #    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/02/27 22:31:39 by rpunet           ###   ########.fr        #
+#    Updated: 2021/02/24 21:21:35 by rpunet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= minishell
-SRCS		= minishell.c lexer.c parser.c
+SRCS		= minishell.c builtins.c
 LIBFT_PATH	= ../../libftPLUS/
 
 

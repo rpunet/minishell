@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/01 11:48:58 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/27 15:25:18 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,62 +23,39 @@
 # define BUILTINS	2 // 4
 
 // STRUCTS   --------------------------------
-typedef struct		s_tok
+typedef struct	s_cmd
 {
-	char			*data;
-	int				type;
-	struct s_tok	*next;
-}					t_tok;
+	char	*name;
+	int		io[2];
+	char	**args;
+}				t_cmd;
 
-typedef struct		s_lex
+typedef struct	s_job
 {
-	//int				n_tokens;
-	t_tok			*list_token;
-}					t_lex;
+	int		n_cmds;
+	int		n_pipes;
+	int		(*fds)[2];
+	t_cmd	*cmds;
+}				t_job;
 
-enum				e_tok{
-	TOKEN = -1,
-	SEMICOLON = ';',
-	SPACE = ' ',
-	PIPE = '|',
-	REDIR = '>',
-	INDIR = '<',
-	APPEND = 66,
-	QUOTE = '\'',
-	DQUOTE = '\"',
-	ESCAPE = '\\',
-	NULTOK = 0,
-};
+// BUILTINS ------------------------------
+int		doublelen(char **arr);
+int		ft_echo(char **args);
+void	ft_echo2(t_job *job, int j);
+int		ft_pwd(char **args);
+void	ft_pwd2(t_job *job, int j);		// uniformar argumentos de todas las (*func)
+int		ft_cd(char **args);
+int		ft_exit(char **args);
 
-enum				e_seq{
-	GENERAL,
-	QUOTED,
-	DQUOTED,
-	SCAPED,
-};
+// extern char	*builtins[];
+// extern void	(*ft_builtins[])(char **);
 
-typedef struct		s_ASTnode
-{
-	int				type;
-	char			*data;
-	struct s_ASTnode	*left;
-	struct s_ASTnode	*right;
-}					t_ASTnode;
-
-enum				e_node
-{
-	SEQ,
-	PIPE,
-	REDIR,
-	INDIR,
-	APPEND,
-	CMDPATH,
-	TOKEN,
-	DATA,				// tipo general para comprobaciones de free, etc   de los tipos terminales que guardan datos en node->data. los demás solo tienen node->type
-};
-
-
-int		ft_lexer(char *line, t_lex *lexer, int size);
+void	ft_close_fds(t_job *job);
+int		ft_execute(t_job *job);
+void	ft_waitfor(int n);
+t_job	*ft_parse(char *line);
+int		ft_get_input(char **line);
+void	ft_piping(t_job *job);
 int		main(int argc, char **argv);
 
 #endif

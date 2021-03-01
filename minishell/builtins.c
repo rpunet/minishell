@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/02/27 21:04:13 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/02/27 15:27:44 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,29 @@ void	ft_echo2(t_job *job, int j)
 	}
 }
 
+/* int		ft_pwd(char **args)
+{
+	char 	*ret;
+	pid_t	pid;
+
+	pid = fork();
+	if (pid == 0)
+	{
+		if (doublelen(args) == 1)
+		{
+			ret = getcwd(NULL, 0);
+			//ft_printf("builtIN-%s: ", args[0]);
+			ft_putstr_fd(ret, STDIN_FILENO);
+			free (ret);
+		}
+		else
+		{
+			ft_printf("pwd: too many arguments\n");
+		}
+	}
+	return 0;
+}
+ */
 void	ft_pwd2(t_job *job, int j)
 {
 	char 	*ret;
