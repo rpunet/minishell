@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/01 23:23:43 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/02 21:18:41 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 /*
 ----------shell grammar rules:---------------
 
-SEQUENCE		:=		JOB
+SEQUENCE		:=		JOB	;	SEQUENCE
 						JOB	;
-						JOB	;	SEQUENCE
+						JOB
 
 JOB				:=		INSTR
 						INSTR	|	JOB
@@ -26,7 +26,7 @@ INSTR			:=		CMD
 						CMD		<	filename
 						CMD		>>	filename			¿¿cómo incluir varias >  > ?? el test lo prueba
 
-CMD				:=		cmdpath	TOKENLIST
+CMD				:=		cmdname	TOKENLIST
 
 TOKENLIST		:=		token	TOKENLIST
 						(empty)
@@ -64,13 +64,13 @@ t_ASTnode	*GR_seq()
 	t_tok		*save;
 
 	save = g_current_tok;
-	if ((node = gr_seq_1()) != NULL)
+	if ((node = gr_seq_3()) != NULL)
 		return (node);
 	g_current_tok = save;
 	if ((node = gr_seq_2()) != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_seq_3()) != NULL)
+	if ((node = gr_seq_1()) != NULL)
 		return (node);
 	return (NULL);
 }
@@ -92,7 +92,7 @@ t_ASTnode	*gr_seq_2()
 		ASTdelete(job);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ASTnode *));  // CHECK MALLOC--> AQUI O EN UNA FUNCION PARA DAR LOS VALORES AL NODO
+	parent = malloc(sizeof(t_ASTnode));  // CHECK MALLOC--> AQUI O EN UNA FUNCION PARA DAR LOS VALORES AL NODO
 	parent->type = SEQ_NODE;
 	parent->left = job;
 	parent->right = NULL;
@@ -117,7 +117,7 @@ t_ASTnode	*gr_seq_3()
 		ASTdelete(job);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ASTnode *));
+	parent = malloc(sizeof(t_ASTnode));
 	parent->type = SEQ_NODE;
 	parent->left = job;
 	parent->right = seq;
@@ -131,10 +131,10 @@ t_ASTnode	*GR_job()
 	t_tok		*save;
 
 	save = g_current_tok;
-	if ((node = gr_job_1()) != NULL)
+	if ((node = gr_job_2()) != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_job_2()) != NULL)
+	if ((node = gr_job_1()) != NULL)
 		return (node);
 	return (NULL);
 }
@@ -162,7 +162,7 @@ t_ASTnode	*gr_job_2()
 		ASTdelete(instr);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ASTnode *));
+	parent = malloc(sizeof(t_ASTnode));
 	parent->type = PIPE_NODE;
 	parent->left = instr;
 	parent->right = job;
@@ -177,13 +177,13 @@ t_ASTnode	*GR_instr()
 	t_ASTnode	*node;
 
 	save = g_current_tok;
-	if ((node = gr_instr_1()) != NULL)
+	if ((node = gr_instr_3()) != NULL)
 		return (node);
 	g_current_tok = save;
 	if ((node = gr_instr_2()) != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_instr_3()) != NULL)
+	if ((node = gr_instr_1()) != NULL)
 		return (node);
 	return (NULL);
 }
@@ -213,7 +213,7 @@ t_ASTnode	*gr_instr_2()
 		ASTdelete(cmd);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ASTnode *));
+	parent = malloc(sizeof(t_ASTnode));
 	parent->type = REDIR_NODE;
 	parent->data = filename;
 	parent->left = cmd;
@@ -241,7 +241,7 @@ t_ASTnode	*gr_instr_3()
 		ASTdelete(cmd);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ASTnode *));
+	parent = malloc(sizeof(t_ASTnode));
 	parent->type = INDIR_NODE;
 	parent->data = filename;
 	parent->left = cmd;
@@ -263,17 +263,17 @@ t_ASTnode	*gr_cmd_1()
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*tokenlist;
-	char		*datapath;
+	char		*dataname;
 
-	if (g_current_tok->data != NULL)
-		datapath = ft_strdup(g_current_tok->data);
+	if (g_current_tok != NULL)
+		dataname = ft_strdup(g_current_tok->data);
 	if (!terminal(TOKEN))
 		return (NULL);
 	tokenlist = GR_tokenlist();
 		// aqui no chequeo NULL por que NULL es válido (vacío)
-	parent = malloc(sizeof(t_ASTnode *));
-	parent->type = CMDPATH_NODE;
-	parent->data = datapath;
+	parent = malloc(sizeof(t_ASTnode));
+	parent->type = CMDNAME_NODE;
+	parent->data = dataname;
 	parent->left = NULL;
 	parent->right = tokenlist;
 	return (parent);
@@ -297,16 +297,16 @@ t_ASTnode	*gr_tokenlist_1()
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*tokenlist;
-	char		*data;
+	char		*dataarg;
 
-	if (g_current_tok->data != NULL)
-		data = ft_strdup(g_current_tok->data);
+	if (g_current_tok != NULL)
+		dataarg = ft_strdup(g_current_tok->data);
 	if (!terminal(TOKEN))
 		return (NULL);
 	tokenlist = GR_tokenlist();
 		// aqui tampoco chequeo NULL por que NULL es válido (vacío)
-	parent = malloc(sizeof(t_ASTnode *));
-	parent->data = data;
+	parent = malloc(sizeof(t_ASTnode));
+	parent->data = dataarg;
 	parent->type = TOKEN_NODE;
 	parent->left = NULL;
 	parent->right = tokenlist;

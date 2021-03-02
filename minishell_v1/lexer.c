@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/01 23:20:55 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/02 17:08:49 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 			else // if (c == is_ascii)
 			{
 				token->data[j] = (char)c;
+				j++;
 				token->type = TOKEN;
 			}
 		}
@@ -96,6 +97,12 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 			else
 				token->data[j++] = (char)c;
 		}
+/* 		ft_printf("%d-", i);
+		ft_printf("%c  ", line[i]);
+		ft_printf("%s   ", token->data);
+		ft_printf("%d   ", token->type);
+		ft_printf("%p   ", token->next); */
+
 		i++;
 	}
 	token->data[j] = 0;

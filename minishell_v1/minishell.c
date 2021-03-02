@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/01 23:08:18 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/02 17:35:20 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,22 @@ int	main(int argc, char **argv)
 				return 0;
 		if (ft_lexer(line, &lexer, ft_strlen(line)))
 			ft_printf("error");
+
+
+		t_lex	aux = lexer;
+		while (aux.list_token !=  NULL)
+		{
+			ft_printf("%s  ", aux.list_token->data);
+			ft_printf("%d  ", aux.list_token->type);
+			ft_printf("%p  \n", aux.list_token->data);
+			aux.list_token = aux.list_token->next;
+		}
+	//ft_printf("el lexer ha terminado, interrupcion de bucle-----------");
+		//continue;
+
+
+
+		ft_printf("este es el input:  %s\n\n", line                            );
 		if (!ft_parser(&lexer, &syntax_tree))
 			ft_execute(syntax_tree);
 		ASTdelete(syntax_tree);		//meter al final de execute antes de salir para limpiar main

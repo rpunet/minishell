@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/01 23:09:21 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/02 19:39:08 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ enum				e_node
 	REDIR_NODE,
 	INDIR_NODE,
 	APPEND_NODE,
-	CMDPATH_NODE,
+	CMDNAME_NODE,
 	TOKEN_NODE,
 	DATA,				// tipo general para comprobaciones de free, etc   de los tipos terminales que guardan datos en node->data. los demás solo tienen node->type
 };
