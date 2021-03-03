@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/02 21:18:41 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/03 17:18:33 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 /*
 ----------shell grammar rules:---------------
 
-SEQUENCE		:=		JOB	;	SEQUENCE
-						JOB	;
+SEQUENCE		:=		JOB		;	SEQUENCE			ha de ir de reglas más largas a cortas, para que si la larga no encaja, pruebe una más sencilla. Si no, entra ya en la regla sencilla y no comprueba las más largas
+						JOB		;
 						JOB
 
 JOB				:=		INSTR
@@ -57,6 +57,18 @@ int			terminal(int	tokentype)
 	g_current_tok = g_current_tok->next;
 	return (0);
 }
+// --------------------------------------------------  TREE ROOT ---------------------------------------------
+int		ft_parser(t_lex *lexer, t_ASTnode **syntax_tree)
+{
+	// error check
+	g_current_tok = lexer->list_token;
+	*syntax_tree = GR_seq();
+	//check errors
+	if (g_current_tok != NULL && g_current_tok->type != NULTOK)
+		return (1);
+	return (0);
+}
+
 // -----------------------------------------------------------------------------------------------
 t_ASTnode	*GR_seq()
 {
@@ -318,13 +330,3 @@ t_ASTnode	*gr_tokenlist_2()
 	return (NULL);
 }
 
-int		ft_parser(t_lex *lexer, t_ASTnode **syntax_tree)
-{
-	// error check
-	g_current_tok = lexer->list_token;
-	*syntax_tree = GR_seq();
-	//check errors
-	if (g_current_tok != NULL && g_current_tok->type != NULTOK)
-		return (1);
-	return (0);
-}

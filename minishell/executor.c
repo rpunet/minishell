@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/02 21:41:09 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/03/03 00:26:10 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	execute_INSTR(t_ASTnode *instr)			// PIPING tripping
 	int			fds[2];
 	int			pipe_ends[2];
 
-	int p = pipe(fds);
+	pipe(fds);
 	pipe_ends[1] = fds[WRITE];					// para almacen temporal de fds de pipes que comparten comandos consecutivos
 	pipe_ends[0] = fds[READ];
 	execute_CMD(instr->left, STDIN_FILENO, fds[WRITE]);
