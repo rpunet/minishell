@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/13 13:51:13 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 17:00:21 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:44:17 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static int	putchar_var(t_block *b, char c)
 {
-	int r;
+	int	r;
 
 	r = write(b->fd, &c, 1);
 	return (r);
@@ -92,11 +92,14 @@ static void	put_wstr(t_block *b, wchar_t *wstr, int *len)
 	}
 }
 
-void		ft_printf_prtwstr(t_block *b, wchar_t *wstr)
+void	ft_printf_prtwstr(t_block *b, wchar_t *wstr)
 {
 	int	len;
 
-	len = (b->flags.pre < 0 ? ft_wstrlen(wstr) : b->flags.pre);
+	if (b->flags.pre < 0)
+		len = ft_wstrlen(wstr);
+	else
+		len = b->flags.pre;
 	if (b->flags.f_minus)
 	{
 		put_wstr(b, wstr, &len);

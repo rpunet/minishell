@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 13:25:59 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:57:20 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:38:00 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	ft_print_wchar(t_block *b, wchar_t wc)
 	(b->i)++;
 }
 
-void		ft_printf_prtwchar(t_block *b, char c)
+void	ft_printf_prtwchar(t_block *b, char c)
 {
 	wchar_t	*wstr;
 	wchar_t	wc;
@@ -64,13 +64,15 @@ void		ft_printf_prtwchar(t_block *b, char c)
 		b->flags.f_zero = 0;
 	if (b->type == 'c')
 	{
-		if ((wc = va_arg(b->ap, wchar_t)) == 0)
+		wc = va_arg(b->ap, wchar_t);
+		if (wc == 0)
 			return (ft_printf_prtnull(b));
 		ft_print_wchar(b, wc);
 	}
 	else if (b->type == 's')
 	{
-		if (!(wstr = va_arg(b->ap, wchar_t *)))
+		wstr = va_arg(b->ap, wchar_t *);
+		if (wstr == NULL)
 			return (ft_printf_prtnull(b));
 		ft_printf_prtwstr(b, wstr);
 	}

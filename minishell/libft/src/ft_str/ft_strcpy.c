@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:19:25 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/12/16 22:30:03 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 19:46:50 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ft_strcpy(char *dest, char *src)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (src[i] != '\0')
@@ -28,8 +28,8 @@ char	*ft_strcpy(char *dest, char *src)
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t i;
-	size_t s;
+	size_t	i;
+	size_t	s;
 
 	i = 0;
 	s = 0;
@@ -50,7 +50,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 
 char	*ft_strncpy(char *dest, char *src, unsigned int n)
 {
-	unsigned int i;
+	unsigned int	i;
 
 	i = 0;
 	while (src[i] != '\0' && (i < n))

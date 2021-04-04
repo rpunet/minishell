@@ -6,65 +6,39 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 12:45:27 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 20:01:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:34:20 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_uitoa(unsigned int n)
+static size_t	add_len(size_t n)
 {
-	char			*r;
-	size_t			len;
-	unsigned int	i;
+	size_t	len;
 
-	len = 2;
-	i = n;
-	while ((n = n / 10))
+	len = 1 + (n < 0);
+	while (n)
+	{
+		n = n / 10;
 		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
-		return (NULL);
-	r[len--] = '\0';
-	r[len--] = (i % 10) + 48;
-	while ((i = i / 10))
-		r[len--] = (i % 10) + 48;
-	return (r);
+	}
+	return (len);
 }
 
-char	*ft_ultoa(unsigned long n)
+char	*ft_utoa(size_t n)
 {
-	char			*r;
-	size_t			len;
-	unsigned long	i;
+	char	*r;
+	size_t	len;
 
-	len = 2;
-	i = n;
-	while ((n = n / 10))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
+	len = add_len(n);
+	r = (char *)malloc(sizeof(char) * len--);
+	if (r == NULL)
 		return (NULL);
 	r[len--] = '\0';
-	r[len--] = (i % 10) + 48;
-	while ((i = i / 10))
-		r[len--] = (i % 10) + 48;
-	return (r);
-}
-
-char	*ft_ulltoa(unsigned long long n)
-{
-	char				*r;
-	size_t				len;
-	unsigned long long	i;
-
-	len = 2;
-	i = n;
-	while ((n = n / 10))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
-		return (NULL);
-	r[len--] = '\0';
-	r[len--] = (i % 10) + 48;
-	while ((i = i / 10))
-		r[len--] = (i % 10) + 48;
+	while (n)
+	{
+		r[len--] = (n % 10) + 48;
+		n = n / 10;
+	}
 	return (r);
 }

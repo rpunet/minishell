@@ -6,11 +6,22 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 22:30:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/02/07 16:37:14 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:20:09 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static char	*relocate_tmp_ptr(t_qsort_data *data, char *run_ptr, char *tmp_ptr)
+{
+	char	*ptr;
+
+	ptr = run_ptr - data->size;
+	while ((*data->cmp)((void *)run_ptr, (void *)ptr) < 0)
+		ptr -= data->size;
+	ptr += data->size;
+	return (ptr);
+}
 
 static void	run_insertion_sort(t_qsort_data *data, char *run_ptr, char *tmp_ptr)
 {
@@ -19,10 +30,7 @@ static void	run_insertion_sort(t_qsort_data *data, char *run_ptr, char *tmp_ptr)
 	char			*trav;
 	char			c;
 
-	tmp_ptr = run_ptr - data->size;
-	while ((*data->cmp)((void *)run_ptr, (void *)tmp_ptr) < 0)
-		tmp_ptr -= data->size;
-	tmp_ptr += data->size;
+	tmp_ptr = relocate_tmp_ptr(data, run_ptr, tmp_ptr);
 	if (tmp_ptr != run_ptr)
 	{
 		trav = run_ptr + data->size;
@@ -31,17 +39,19 @@ static void	run_insertion_sort(t_qsort_data *data, char *run_ptr, char *tmp_ptr)
 			c = *trav;
 			hi = trav;
 			lo = trav;
-			while ((lo -= data->size) >= tmp_ptr)
+			lo -= data->size;
+			while (lo >= tmp_ptr)
 			{
 				*hi = *lo;
 				hi = lo;
+				lo -= data->size;
 			}
 			*hi = c;
 		}
 	}
 }
 
-void		ft_insertion_sort(t_qsort_data *data)
+void	ft_insertion_sort(t_qsort_data *data)
 {
 	char *const		end_ptr = &(data->base_ptr)[data->size * (data->nmemb - 1)];
 	char			*tmp_ptr;
@@ -60,6 +70,10 @@ void		ft_insertion_sort(t_qsort_data *data)
 	if (tmp_ptr != data->base_ptr)
 		ft_qsort_swap(tmp_ptr, data->base_ptr, data->size);
 	run_ptr = data->base_ptr + data->size;
-	while ((run_ptr += data->size) <= end_ptr)
+	run_ptr += data->size;
+	while (run_ptr <= end_ptr)
+	{
 		run_insertion_sort(data, run_ptr, tmp_ptr);
+		run_ptr += data->size;
+	}
 }

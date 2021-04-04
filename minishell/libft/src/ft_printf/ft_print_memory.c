@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:25:57 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:57:46 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:57:43 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 static char	hex_conv(unsigned char i)
 {
-	return (i <= 9 ? '0' + i : 'a' - 10 + i);
+	if (i <= 9)
+		return ('0' + i);
+	return ('a' - 10 + i);
 }
 
 static void	puthex(unsigned char c)
 {
-	unsigned char p;
-	unsigned char s;
+	unsigned char	p;
+	unsigned char	s;
 
 	p = hex_conv(c / 16);
 	s = hex_conv(c % 16);
@@ -30,7 +32,7 @@ static void	puthex(unsigned char c)
 
 static void	putstr(char *str, size_t start, size_t len)
 {
-	size_t i;
+	size_t	i;
 
 	i = 0;
 	while ((start + i) < len && i < 16)
@@ -43,7 +45,7 @@ static void	putstr(char *str, size_t start, size_t len)
 	}
 }
 
-void		ft_print_memory(void *addr, size_t len)
+void	ft_print_memory(void *addr, size_t len)
 {
 	char	*str;
 	size_t	l;

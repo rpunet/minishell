@@ -1,38 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tolower.c                                       :+:      :+:    :+:   */
+/*   ft_uitoa_base.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/07/23 17:28:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 15:56:18 by jcarrete         ###   ########.fr       */
+/*   Created: 2020/08/17 23:14:43 by jcarrete          #+#    #+#             */
+/*   Updated: 2021/04/04 19:12:57 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_tolower(int c)
+size_t	add_len(size_t n, int base)
 {
-	if (c >= 65 && c <= 90)
-		return (c + 32);
-	return (c);
+	size_t	len;
+
+	len = 1;
+	while (n)
+	{
+		n = n / (unsigned)base;
+		len++;
+	}
+	return (len);
 }
 
-char	*ft_str_tolower(char *str)
+char	*ft_utoa_base(size_t n, int base)
 {
-	int		i;
-	char	*ret;
+	char			*r;
+	size_t			len;
 
-	i = 0;
-	ret = ft_calloc(sizeof(str), sizeof(char));
-	while (str[i] != '\0')
+	len = add_len(n, base);
+	r = (char *)malloc(sizeof(char) * len--);
+	if (r == NULL)
+		return (NULL);
+	r[len--] = '\0';
+	while (n)
 	{
-		if (str[i] >= 65 && str[i] <= 90)
-			ret[i] = str[i] + 32;
+		if ((n % base) < 10)
+			r[len--] = (n % base) + 48;
 		else
-			ret[i] = str[i];
-		i++;
+			r[len--] = (n % base) + 87;
+		n = n / (unsigned)base;
 	}
-	return (ret);
+	return (r);
 }

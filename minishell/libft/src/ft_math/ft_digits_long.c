@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/19 13:08:58 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:55:00 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:36:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 
 int	ft_digits_long(int nb)
 {
-	if (nb < 0)
-		nb = (nb == INT_MIN) ? INT_MAX : -nb;
+	nb = ft_abs(nb);
 	if (nb < 10)
 		return (1);
 	if (nb < 100)

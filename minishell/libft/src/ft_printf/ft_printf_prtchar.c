@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/12 12:41:10 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:51:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:59:03 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	print_char(t_block *b, char c)
 	(b->i)++;
 }
 
-void		ft_printf_prtchar(t_block *b, char c)
+void	ft_printf_prtchar(t_block *b, char c)
 {
 	int		tempc;
 	char	*temps;
@@ -69,9 +69,10 @@ void		ft_printf_prtchar(t_block *b, char c)
 	}
 	else if (b->type == 's')
 	{
-		if (!(temps = va_arg(b->ap, char *)))
+		temps = va_arg(b->ap, char *);
+		if (temps == NULL)
 			return (ft_printf_prtnull(b));
-		b->s = ft_strdup((char*)temps);
+		b->s = ft_strdup((char *)temps);
 		print_str(b);
 	}
 }

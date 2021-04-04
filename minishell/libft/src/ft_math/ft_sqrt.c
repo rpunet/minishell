@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:46:06 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:55:54 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:35:03 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	ft_sqrt(int nb)
 {
-	int sqrt;
-	int temp;
+	int	sqrt;
+	int	temp;
 
 	if (nb < 0)
 		return (0);

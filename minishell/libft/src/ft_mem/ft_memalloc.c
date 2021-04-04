@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 17:02:04 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:57:03 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:38:04 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,10 @@
 
 void	*ft_memalloc(size_t size)
 {
-	void *all;
+	void	*all;
 
-	if (!(all = malloc(size)))
+	all = malloc(size);
+	if (all == NULL)
 		return (0);
 	ft_bzero(all, size);
 	return (all);
@@ -33,7 +34,8 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*r;
 
-	if (!(r = (void *)malloc(count * size)))
+	r = (void *)malloc(count * size);
+	if (r == NULL)
 		return (NULL);
 	ft_bzero(r, (count * size));
 	return (r);
@@ -41,5 +43,5 @@ void	*ft_calloc(size_t count, size_t size)
 
 char	*ft_strnew(size_t size)
 {
-	return ((char*)ft_memalloc((sizeof(char) * (size + 1))));
+	return ((char *)ft_memalloc((sizeof(char) * (size + 1))));
 }

@@ -6,11 +6,18 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:17:10 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:59:58 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 16:00:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static char	*return_duplicate(char const *s1, char const *s2)
+{
+	if (!(s1))
+		return (ft_strdup(s2));
+	return (ft_strdup(s1));
+}
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
@@ -23,8 +30,9 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	if (!(s1) && !(s2))
 		return (NULL);
 	else if (!(s1) || !(s2))
-		return (!(s1) ? ft_strdup(s2) : ft_strdup(s1));
-	if (!(str = (char *)malloc(sizeof(char) * (s1len + s2len + 1))))
+		return (return_duplicate(s1, s2));
+	str = (char *)malloc(sizeof(char) * (s1len + s2len + 1));
+	if (str == NULL)
 		return (NULL);
 	ft_strlcpy(str, s1, s1len + 1);
 	ft_strlcat(str + s1len, s2, s2len + 1);
@@ -42,8 +50,9 @@ char	*ft_strjoin_gnl(char *s1, char *s2)
 	if (!(s1) && !(s2))
 		return (NULL);
 	else if (!(s1) || !(s2))
-		return (!(s1) ? ft_strdup(s2) : ft_strdup(s1));
-	if (!(str = (char *)malloc(sizeof(char) * (s1len + s2len + 1))))
+		return (return_duplicate(s1, s2));
+	str = (char *)malloc(sizeof(char) * (s1len + s2len + 1));
+	if (str == NULL)
 		return (NULL);
 	ft_strlcpy(str, s1, s1len + 1);
 	ft_memfree(s1, NULL);

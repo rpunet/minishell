@@ -6,11 +6,18 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 22:05:30 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:58:13 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:56:01 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static int	s_value(long double ld)
+{
+	if (ld < 0)
+		return (-1);
+	return (1);
+}
 
 char	*ft_ftoa(long double ld)
 {
@@ -19,7 +26,7 @@ char	*ft_ftoa(long double ld)
 	int		len;
 	int		s;
 
-	s = (ld < 0) ? -1 : 1;
+	s = s_value(ld);
 	len = (ld < 0);
 	ld *= s;
 	temp = (long)ld;

@@ -6,14 +6,14 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:42:14 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:55:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:55:23 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-void		ft_printf_check_inf(t_block *b, double temp)
+void	ft_printf_check_inf(t_block *b, double temp)
 {
 	b->flags.f_zero = 0;
 	if (temp != temp)
@@ -27,7 +27,7 @@ void		ft_printf_check_inf(t_block *b, double temp)
 	ft_printf_prtfloat(b);
 }
 
-void		ft_printf_check_pre(t_block *b, char **flo)
+void	ft_printf_check_pre(t_block *b, char **flo)
 {
 	int		len;
 	char	*temp;
@@ -39,7 +39,7 @@ void		ft_printf_check_pre(t_block *b, char **flo)
 	*flo = ft_memfree(*flo, temp);
 }
 
-void		ft_printf_prtflt_pre(t_block *b, char **flo)
+void	ft_printf_prtflt_pre(t_block *b, char **flo)
 {
 	int		len;
 	char	*temp;
@@ -49,7 +49,7 @@ void		ft_printf_prtflt_pre(t_block *b, char **flo)
 	*flo = ft_memfree(*flo, temp);
 }
 
-void		ft_printf_prtflt_sign(t_block *b)
+void	ft_printf_prtflt_sign(t_block *b)
 {
 	if (b->flags.f_minus)
 		b->flags.f_zero = 0;
@@ -61,7 +61,7 @@ void		ft_printf_prtflt_sign(t_block *b)
 		b->ret += write(b->fd, " ", 1);
 }
 
-void		ft_printf_prtfloat(t_block *b)
+void	ft_printf_prtfloat(t_block *b)
 {
 	if (b->flags.f_minus)
 	{

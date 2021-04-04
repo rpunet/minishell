@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:54:23 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/01/19 23:28:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 22:11:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	printf_prtgdec(t_block *b, long double ld)
 	unsigned long long	num;
 
 	num = (unsigned long long)ft_absld(ld);
-	f_num = ((ft_float_power(b->flags.pre, 10)) * ft_absld(ld))\
+	f_num = ((ft_float_power(b->flags.pre, 10)) * ft_absld(ld)) \
 				- ((ft_float_power(b->flags.pre, 10)) * num);
 	ft_printf_round_flt(b, ft_absld(ld), &num, &f_num);
 	nb = ft_ulltoa(num);
@@ -29,7 +29,8 @@ static void	printf_prtgdec(t_block *b, long double ld)
 	ft_printf_check_pre(b, &flo);
 	if (b->flags.pre == 0)
 	{
-		nb = (b->flags.f_pad) ? ft_strappend_nchr(nb, '.', 1) : nb;
+		if (b->flags.f_pad)
+			nb = ft_strappend_nchr(nb, '.', 1);
 		b->s = ft_strdup(nb);
 	}
 	else
@@ -52,12 +53,14 @@ static void	printf_prtgexp(t_block *b, long double ld)
 		b->flags.neg = 1;
 	absd = ft_absld(ld);
 	num = (unsigned long long)ft_printf_getexp_long(b, ld, &e);
-	f_num = (e > 292) ? ((absd * ft_float_power(e - 1, 10) * 10) -
-		(unsigned long long)(absd * ft_float_power(e - 1, 10) * 10))
-		* ft_float_power(15, 10)
-		: absd * ft_float_power(15 + e, 10) -
-		(unsigned long long)(absd * ft_float_power(e, 10)) *
-		ft_float_power(15, 10);
+	if (e > 292)
+		f_num = ((absd * ft_float_power(e - 1, 10) * 10) - \
+			(unsigned long long)(absd * ft_float_power(e - 1, 10) * 10)) \
+			* ft_float_power(15, 10);
+	else
+		f_num = absd * ft_float_power(15 + e, 10) - \
+			((unsigned long long)(absd * ft_float_power(e, 10))) * \
+			ft_float_power(15, 10);
 	if (b->flags.fltround)
 		f_num = 0;
 	ft_printf_round_exp(b, &e, &num, &f_num);
@@ -102,7 +105,10 @@ static void	ft_printf_gtoef(t_block *b, long double ld, int e)
 	}
 	if (e < -4 || e >= b->flags.pre)
 	{
-		b->type = (b->type == 'g') ? 'e' : 'E';
+		if (b->type == 'g')
+			b->type = 'e';
+		else
+			b->type = 'E';
 		b->flags.pre--;
 	}
 	else
@@ -112,7 +118,7 @@ static void	ft_printf_gtoef(t_block *b, long double ld, int e)
 	}
 }
 
-void		ft_printf_prtdecexp(t_block *b, long double ld)
+void	ft_printf_prtdecexp(t_block *b, long double ld)
 {
 	int		e;
 

@@ -6,13 +6,13 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/16 19:05:28 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:55:46 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:34:38 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_pow(int x, unsigned int y)
+int	ft_pow(int x, unsigned int y)
 {
 	int	temp;
 

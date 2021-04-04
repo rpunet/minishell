@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/15 00:04:26 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:53:22 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:36:48 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	check_precision(t_block *b)
 	}
 }
 
-void		ft_printf_prtdig(t_block *b)
+void	ft_printf_prtdig(t_block *b)
 {
 	check_precision(b);
 	if (b->flags.f_minus)
@@ -84,7 +84,7 @@ void		ft_printf_prtdig(t_block *b)
 	b->s = ft_memfree(b->s, NULL);
 }
 
-void		ft_printf_prtint(t_block *b)
+void	ft_printf_prtint(t_block *b)
 {
 	long long	temp;
 

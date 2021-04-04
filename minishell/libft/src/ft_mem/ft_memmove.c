@@ -6,11 +6,20 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:08:12 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:57:30 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:41:44 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
+
+static void	mm_copy(size_t len, unsigned char *d, unsigned char *s, int i)
+{
+	while (len--)
+	{
+		d[i] = s[i];
+		i++;
+	}
+}
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
@@ -24,11 +33,7 @@ void	*ft_memmove(void *dst, const void *src, size_t len)
 	if (dst == src || len == 0)
 		return (dst);
 	if (d < s)
-		while (len--)
-		{
-			d[i] = s[i];
-			i++;
-		}
+		mm_copy(len, d, s, i);
 	else
 	{
 		i = len - 1;

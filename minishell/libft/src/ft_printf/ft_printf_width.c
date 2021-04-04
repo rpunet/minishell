@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/31 15:37:55 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:55:26 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:57:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_printf_prtflt_width(t_block *b)
 {
 	int	len;
 
-	len = ft_strlen(b->s) +\
+	len = ft_strlen(b->s) + \
 		(b->flags.f_plus) + (b->flags.f_blank) + (b->flags.neg);
 	if (((b->flags.f_plus) || (b->flags.f_blank)) && (b->flags.neg))
 		len--;

@@ -6,13 +6,13 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/03 23:08:25 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/02/10 18:56:13 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 14:05:27 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static void	set_up_pointers(t_qsort_data *data, t_qsort *tmp,\
+static void	set_up_pointers(t_qsort_data *data, t_qsort *tmp, \
 						t_qsort **top, t_qsort *ptrs)
 {
 	if ((size_t)(ptrs->hi - tmp->lo) <= (4 * data->size))
@@ -36,16 +36,16 @@ static void	set_up_pointers(t_qsort_data *data, t_qsort *tmp,\
 	}
 }
 
-static void	collapse_the_walls(t_qsort_data *data, t_qsort *ptrs,\
+static void	collapse_the_walls(t_qsort_data *data, t_qsort *ptrs, \
 								t_qsort *tmp, char *mid)
 {
 	ptrs->lo = tmp->lo + data->size;
 	ptrs->hi = tmp->hi - data->size;
 	while (ptrs->lo <= ptrs->hi)
 	{
-		while ((*(data->cmp))((void*)ptrs->lo, (void *)mid) < 0)
+		while ((*(data->cmp))((void *)ptrs->lo, (void *)mid) < 0)
 			ptrs->lo += data->size;
-		while ((*(data->cmp))((void*)mid, (void *)ptrs->hi) < 0)
+		while ((*(data->cmp))((void *)mid, (void *)ptrs->hi) < 0)
 			ptrs->hi -= data->size;
 		if (ptrs->lo < ptrs->hi)
 		{
@@ -94,7 +94,7 @@ static void	quicksort_partitions(t_qsort_data *data)
 	}
 }
 
-void		ft_qsort_array(void *const base, size_t nmemb, size_t size,\
+void	ft_qsort_array(void *const base, size_t nmemb, size_t size, \
 					t_compare cmp)
 {
 	t_qsort_data	data;

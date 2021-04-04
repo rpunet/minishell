@@ -6,17 +6,17 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 21:32:06 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/01/19 23:29:29 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:42:46 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-static void			ft_printf_getfloat_floatstr(t_block *b, char *flo,\
+static void	ft_printf_getfloat_floatstr(t_block *b, char *flo, \
 											int j, int dot_bool)
 {
-	int i;
+	int	i;
 
 	if (b->flags.f_pad && dot_bool == 0)
 		(b->s)[j++] = '.';
@@ -25,7 +25,7 @@ static void			ft_printf_getfloat_floatstr(t_block *b, char *flo,\
 		(b->s)[j++] = flo[i++];
 }
 
-void				ft_printf_getfloat_str(t_block *b, char *nb,\
+void	ft_printf_getfloat_str(t_block *b, char *nb, \
 											char *flo, int len)
 {
 	int		i;
@@ -55,8 +55,8 @@ void				ft_printf_getfloat_str(t_block *b, char *nb,\
 	ft_printf_getfloat_floatstr(b, flo, j, dot_bool);
 }
 
-void				ft_printf_round_flt(t_block *b, long double ld,\
-					unsigned long long *num, unsigned long long *f_num)
+void	ft_printf_round_flt(t_block *b, long double ld, \
+		unsigned long long *num, unsigned long long *f_num)
 {
 	double				dtemp;
 	unsigned long long	utemp;
@@ -72,7 +72,7 @@ void				ft_printf_round_flt(t_block *b, long double ld,\
 				*num += 1;
 		return ;
 	}
-	if (((utemp + 0.5) * ft_float_power(18, 10)) <\
+	if (((utemp + 0.5) * ft_float_power(18, 10)) < \
 		(ld - *num) * ft_float_power(b->flags.pre + 18, 10))
 		utemp = (utemp + 1) % (long)ft_float_power(b->flags.pre, 10);
 	else if (utemp + 0.5 == (ld - *num) * ft_float_power(b->flags.pre, 10))
@@ -83,7 +83,7 @@ void				ft_printf_round_flt(t_block *b, long double ld,\
 	*f_num = utemp;
 }
 
-void				ft_printf_flopoint(t_block *b, long double ld)
+void	ft_printf_flopoint(t_block *b, long double ld)
 {
 	char				*flo;
 	char				*nb;
@@ -91,7 +91,7 @@ void				ft_printf_flopoint(t_block *b, long double ld)
 	unsigned long long	num;
 
 	num = (unsigned long long)ft_absld(ld);
-	f_num = ((double)((ft_float_power(b->flags.pre, 10)) * ft_absld(ld))\
+	f_num = ((double)((ft_float_power(b->flags.pre, 10)) * ft_absld(ld)) \
 				- ((ft_float_power(b->flags.pre, 10)) * num));
 	ft_printf_round_flt(b, ft_absld(ld), &num, &f_num);
 	nb = ft_ulltoa(num);
@@ -112,12 +112,13 @@ void				ft_printf_flopoint(t_block *b, long double ld)
 	ft_printf_prtfloat(b);
 }
 
-void				ft_printf_parseflt(t_block *b, char c)
+void	ft_printf_parseflt(t_block *b, char c)
 {
 	double	temp;
 
 	b->type = c;
-	b->flags.pre = (b->flags.pre > -1) ? b->flags.pre : 6;
+	if (b->flags.pre <= -1)
+		b->flags.pre = 6;
 	temp = va_arg(b->ap, double);
 	if (signbit(temp))
 		b->flags.neg = 1;

@@ -6,20 +6,20 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:29:44 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 20:01:24 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:57:03 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int			ft_toupper(int c)
+int	ft_toupper(int c)
 {
 	if (c >= 97 && c <= 122)
 		return (c - 32);
 	return (c);
 }
 
-char		*ft_str_toupper(char *str)
+char	*ft_str_toupper(char *str)
 {
 	int		i;
 	char	*ret;

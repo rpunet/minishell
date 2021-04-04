@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/26 13:18:12 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:55:07 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:34:22 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,12 @@ double	ft_float_power(int nb, int base)
 		}
 	}
 	else if (temp > 0)
+	{
 		while (i < temp)
 		{
 			pre = pre * base;
 			i++;
 		}
+	}
 	return (pre);
 }

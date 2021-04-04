@@ -6,100 +6,53 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 23:14:43 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:58:25 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 19:39:49 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa_base(int n, int base)
+static int	s_value(long long n)
+{
+	if (n < 0)
+		return (-1);
+	return (1);
+}
+
+static size_t	add_len(long long n, int base)
+{
+	size_t	len;
+
+	len = 1 + (n < 0);
+	while (n)
+	{
+		n = n / base;
+		len++;
+	}
+	return (len);
+}
+
+char	*ft_itoa_base(long long n, int base)
 {
 	char	*r;
-	char	s;
+	int		s;
 	size_t	len;
-	long	i;
 
-	s = (n < 0) ? -1 : 1;
-	len = 2 + (n < 0);
-	i = (long)n;
-	while ((n = n / base))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * --len)))
+	s = s_value(n);
+	len = add_len(n, base);
+	r = (char *)malloc(sizeof(char) * --len);
+	if (r == NULL)
 		return (NULL);
 	r[len--] = '\0';
-	r[len--] = (s * (i % base) < 10) ? s * (i % base) + 48\
-				: s * (i % base) + 87;
-	while ((i = i / base))
-		r[len--] = (s * (i % base) < 10) ? s * (i % base) + 48\
-				: s * (i % base) + 87;
+	while (n)
+	{
+		if (s * (n % base) < 10)
+			r[len--] = s * (n % base) + 48;
+		else
+			r[len--] = s * (n % base) + 87;
+		n = n / base;
+	}
 	if (s < 0)
 		r[len] = '-';
-	return (r);
-}
-
-char	*ft_ltoa_base(long n, int base)
-{
-	char	*r;
-	char	s;
-	size_t	len;
-	long	i;
-
-	s = (n < 0) ? -1 : 1;
-	len = 2 + (n < 0);
-	i = n;
-	while ((n = n / base))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
-		return (NULL);
-	r[len--] = '\0';
-	r[len--] = (s * (i % base) < 10) ? s * (i % base) + 48\
-				: s * (i % base) + 87;
-	while ((i = i / base))
-		r[len--] = (s * (i % base) < 10) ? s * (i % base) + 48\
-				: s * (i % base) + 87;
-	if (s < 0)
-		r[len] = '-';
-	return (r);
-}
-
-char	*ft_uitoa_base(unsigned int n, int base)
-{
-	char			*r;
-	size_t			len;
-	unsigned int	i;
-
-	len = 2;
-	i = n;
-	while ((n = n / (unsigned)base))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
-		return (NULL);
-	r[len--] = '\0';
-	r[len--] = ((i % base) < 10) ? (i % base) + 48\
-				: (i % base) + 87;
-	while ((i = i / (unsigned)base))
-		r[len--] = ((i % base) < 10) ? (i % base) + 48\
-				: (i % base) + 87;
-	return (r);
-}
-
-char	*ft_ultoa_base(unsigned long n, int base)
-{
-	char			*r;
-	size_t			len;
-	unsigned long	i;
-
-	len = 2;
-	i = n;
-	while ((n = n / (unsigned)base))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
-		return (NULL);
-	r[len--] = '\0';
-	r[len--] = ((i % base) < 10) ? (i % base) + 48\
-				: (i % base) + 87;
-	while ((i = i / (unsigned)base))
-		r[len--] = ((i % base) < 10) ? (i % base) + 48\
-				: (i % base) + 87;
 	return (r);
 }

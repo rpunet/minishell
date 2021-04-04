@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/27 12:44:04 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/12/16 19:59:28 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 19:47:07 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int		ft_wstrlen(wchar_t *wstr)
+int	ft_wstrlen(wchar_t *wstr)
 {
 	int	i;
 	int	len;
@@ -45,7 +45,7 @@ int		ft_wstrlen(wchar_t *wstr)
 	return (len);
 }
 
-int		ft_strcount(char **array)
+int	ft_strcount(char **array)
 {
 	int	i;
 

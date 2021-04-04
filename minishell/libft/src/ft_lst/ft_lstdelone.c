@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/18 19:50:37 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:54:05 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:33:30 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void*))
 
 void	ft_lstdel(t_list *lst, void (*del)(void*))
 {
-	t_list *next;
+	t_list	*next;
 
 	while (lst != NULL)
 	{

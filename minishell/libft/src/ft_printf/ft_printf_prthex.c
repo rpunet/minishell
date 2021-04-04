@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 13:05:54 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:52:53 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:47:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void	ft_printf_prtbase_width(t_block *b)
 			b->flags.width -= 2;
 	if (b->flags.pre >= 0)
 	{
-		while (b->flags.width > b->flags.pre + i &&\
+		while (b->flags.width > b->flags.pre + i && \
 			b->flags.width > len + i)
 		{
 			b->ret += write(b->fd, " ", 1);
@@ -53,7 +53,7 @@ static void	ft_printf_prtbase_ini(t_block *b, long l)
 	}
 }
 
-void		ft_printf_prtbase(t_block *b, long l)
+void	ft_printf_prtbase(t_block *b, long l)
 {
 	if (b->flags.f_minus)
 	{
@@ -61,7 +61,7 @@ void		ft_printf_prtbase(t_block *b, long l)
 		b->ret += write(b->fd, b->s, ft_strlen(b->s));
 		ft_printf_prtbase_width(b);
 	}
-	else if ((b->flags.f_zero && b->flags.f_pad == 0) ||\
+	else if ((b->flags.f_zero && b->flags.f_pad == 0) || \
 			(b->flags.f_zero && b->flags.f_pad && b->flags.pre < 0))
 	{
 		ft_printf_prtbase_ini(b, l);
@@ -78,7 +78,7 @@ void		ft_printf_prtbase(t_block *b, long l)
 	b->s = ft_memfree(b->s, NULL);
 }
 
-void		ft_printf_basepre(t_block *b)
+void	ft_printf_basepre(t_block *b)
 {
 	int		len;
 	char	*temp;
@@ -106,7 +106,7 @@ void		ft_printf_basepre(t_block *b)
 	}
 }
 
-void		ft_printf_prthex(t_block *b, char c)
+void	ft_printf_prthex(t_block *b, char c)
 {
 	unsigned long long	temp;
 	unsigned long long	ul;

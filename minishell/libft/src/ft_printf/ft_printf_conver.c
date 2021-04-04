@@ -6,14 +6,14 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 20:18:26 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 21:52:26 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:53:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-void		ft_printf_conv_type(const char *format, t_block *b)
+void	ft_printf_conv_type(const char *format, t_block *b)
 {
 	if (format[b->i] == '%')
 		ft_printf_prtpct(b);
@@ -32,7 +32,7 @@ void		ft_printf_conv_type(const char *format, t_block *b)
 		ft_printf_prthex(b, format[b->i]);
 	else if (format[b->i] == 'n')
 		ft_printf_prtret(b);
-	else if (format[b->i] == 'f' || format[b->i] == 'g' ||\
+	else if (format[b->i] == 'f' || format[b->i] == 'g' || \
 			format[b->i] == 'e' || format[b->i] == 'G' || format[b->i] == 'E')
 		ft_printf_parseflt(b, format[b->i]);
 	else if (format[b->i] == 'o')
@@ -90,21 +90,22 @@ static void	flag_width(t_block *b)
 	}
 }
 
-void		ft_printf_conv_flag(const char *format, t_block *b)
+void	ft_printf_conv_flag(const char *format, t_block *b)
 {
 	while (ft_strchr(PRINTF_FLAG, format[b->i]) && format[b->i] != '\0')
 	{
-		format[b->i] == '0' ? b->flags.f_zero = 1 : 0;
-		format[b->i] == '+' ? b->flags.f_plus = 1 : 0;
-		format[b->i] == '-' ? b->flags.f_minus = 1 : 0;
-		format[b->i] == '#' ? b->flags.f_pad = 1 : 0;
-		format[b->i] == ' ' ? b->flags.f_blank = 1 : 0;
-		format[b->i] == '*' ? flag_width(b) : 0;
-		format[b->i] == 'l' || format[b->i] == 'h'\
-			? flag_len(format, b) : 0;
+		b->flags.f_zero = (format[b->i] == '0');
+		b->flags.f_plus = (format[b->i] == '+');
+		b->flags.f_minus = (format[b->i] == '-');
+		b->flags.f_pad = (format[b->i] == '#');
+		b->flags.f_blank = (format[b->i] == ' ');
+		if (format[b->i] == '*')
+			flag_width(b);
+		if (format[b->i] == 'l' || format[b->i] == 'h')
+			flag_len(format, b);
 		if (format[b->i] == '.')
 			flag_pre(format, b);
-		else if ((format[b->i] >= 49 && format[b->i] <= 57)\
+		else if ((format[b->i] >= 49 && format[b->i] <= 57) \
 			&& b->flags.pre < 0)
 		{
 			b->flags.width = ft_atoi(format + (b->i));

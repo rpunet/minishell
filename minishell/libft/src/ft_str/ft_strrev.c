@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:26:03 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 20:00:32 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 19:46:18 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ char	*ft_strrev(const char *s)
 
 	i = 0;
 	len = ft_strlen(s);
-	if (!(str = (char *)malloc(sizeof(char) * (len + 1))))
+	str = (char *)malloc(sizeof(char) * (len + 1));
+	if (str == NULL)
 		return (NULL);
 	while (s[i])
 		str[i++] = s[(len--) - 1];

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 11:54:59 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 21:53:37 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:46:47 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void	ft_printf_flagpad_addzero(t_block *b, unsigned long long ul)
 {
-	char *temp;
+	char	*temp;
 
 	if (b->flags.f_pad && b->s[0] != '0')
 	{
@@ -25,7 +25,7 @@ static void	ft_printf_flagpad_addzero(t_block *b, unsigned long long ul)
 	ft_printf_prtbase(b, (long)ul);
 }
 
-void		ft_printf_prtoct(t_block *b, char c)
+void	ft_printf_prtoct(t_block *b, char c)
 {
 	unsigned long long	temp;
 	unsigned long long	ul;

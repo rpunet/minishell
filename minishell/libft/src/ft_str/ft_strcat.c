@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:18:37 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:58:57 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:53:53 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strcat(char *dest, char *src)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	i = 0;
 	while (dest[i] != '\0')
@@ -55,8 +55,8 @@ size_t	ft_strlcat(char *dest, const char *src, size_t dstsize)
 
 char	*ft_strncat(char *dest, char *src, size_t nb)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;

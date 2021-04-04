@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:22:02 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/12/12 23:49:17 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 15:54:33 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_strcmp(char *s1, char *s2)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s1[i])
@@ -61,7 +61,7 @@ int	ft_strrncmp(const char *s1, const char *s2, size_t n)
 		return (-1);
 	while (n--)
 	{
-		if (str[str_len - i] != suffix[suffix_len - i] ||\
+		if (str[str_len - i] != suffix[suffix_len - i] || \
 			str[str_len - i] == 0 || suffix[suffix_len - i] == 0)
 			return (str[str_len - i] - suffix[suffix_len - i]);
 		i++;

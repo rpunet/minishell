@@ -6,14 +6,14 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/06 19:41:21 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 21:54:45 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:56:06 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-void		ft_printf_roundnine(t_block *b, long double *num)
+void	ft_printf_roundnine(t_block *b, long double *num)
 {
 	long double		nb;
 	int				i;
@@ -35,7 +35,7 @@ void		ft_printf_roundnine(t_block *b, long double *num)
 	}
 }
 
-int			ft_printf_check_exp(t_block *b, unsigned long long nb,\
+int	ft_printf_check_exp(t_block *b, unsigned long long nb, \
 				unsigned long long flo, int *e)
 {
 	int	floexp;
@@ -62,7 +62,7 @@ int			ft_printf_check_exp(t_block *b, unsigned long long nb,\
 	return (0);
 }
 
-void		ft_printf_trimzeros_f(t_block *b)
+void	ft_printf_trimzeros_f(t_block *b)
 {
 	int		i;
 
@@ -77,7 +77,7 @@ void		ft_printf_trimzeros_f(t_block *b)
 	ft_strempt_endchar(b->s, '.');
 }
 
-void		ft_printf_trimzeros_e(t_block *b)
+void	ft_printf_trimzeros_e(t_block *b)
 {
 	int		i;
 	char	*exp;

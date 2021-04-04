@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/11 23:01:21 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:54:13 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:46:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	ft_printf_noprt(t_block *b, char c)
 
 void	ft_printf_prtnull(t_block *b)
 {
-	int len;
+	int	len;
 
 	if (b->type == 'c')
 	{
@@ -43,8 +43,10 @@ void	ft_printf_prtnull(t_block *b)
 	}
 	else if (b->type == 's')
 	{
-		len = ((b->flags.pre < 0) || (b->flags.pre > 6)\
-					? 6 : b->flags.pre);
+		if ((b->flags.pre < 0) || (b->flags.pre > 6))
+			len = 6;
+		else
+			len = b->flags.pre;
 		if (b->flags.f_minus)
 			b->ret += write(b->fd, "(null)", len);
 		ft_printf_prtwidth(b, len);

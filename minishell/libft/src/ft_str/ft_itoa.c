@@ -6,80 +6,52 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:47:04 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:58:32 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 19:45:37 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_itoa(int n)
+static int	s_value(long long n)
 {
-	char	*r;
-	char	s;
-	int		len;
-	long	i;
-
-	s = (n < 0) ? -1 : 1;
-	len = 2 + (n < 0);
-	i = (long)n;
-	while ((n = n / 10))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
-		return (NULL);
-	r[len--] = '\0';
-	r[len--] = s * (i % 10) + 48;
-	while ((i = i / 10))
-		r[len--] = s * (i % 10) + 48;
-	if (s < 0)
-		r[len] = '-';
-	return (r);
+	if (n < 0)
+		return (-1);
+	return (1);
 }
 
-char	*ft_ltoa(long n)
+static size_t	add_len(long long n, int base)
 {
-	char	*r;
-	char	s;
 	size_t	len;
-	long	i;
 
-	if (n == LONG_MIN)
-		return (ft_strdup("-9223372036854775808"));
-	s = (n < 0) ? -1 : 1;
-	len = 2 + (n < 0);
-	i = n;
-	while ((n = n / 10))
+	len = 1 + (n < 0);
+	while (n)
+	{
+		n = n / base;
 		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
-		return (NULL);
-	r[len--] = '\0';
-	r[len--] = s * (i % 10) + 48;
-	while ((i = i / 10))
-		r[len--] = s * (i % 10) + 48;
-	if (s < 0)
-		r[len] = '-';
-	return (r);
+	}
+	return (len);
 }
 
-char	*ft_lltoa(long long n)
+char	*ft_itoa(long long n)
 {
-	char		*r;
-	char		s;
-	size_t		len;
-	long long	i;
+	char	*r;
+	int		s;
+	size_t	len;
 
-	if (n == LLONG_MIN)
-		return (ft_strdup("-9223372036854775808"));
-	s = (n < 0) ? -1 : 1;
-	len = 2 + (n < 0);
-	i = n;
-	while ((n = n / 10))
-		len++;
-	if (!(r = (char *)malloc(sizeof(char) * len--)))
+	s = s_value(n);
+	len = add_len(n, 10);
+	r = (char *)malloc(sizeof(char) * --len);
+	if (r == NULL)
 		return (NULL);
 	r[len--] = '\0';
-	r[len--] = s * (i % 10) + 48;
-	while ((i = i / 10))
-		r[len--] = s * (i % 10) + 48;
+	while (n)
+	{
+		if (s * (n % 10) < 10)
+			r[len--] = s * (n % 10) + 48;
+		else
+			r[len--] = s * (n % 10) + 87;
+		n = n / 10;
+	}
 	if (s < 0)
 		r[len] = '-';
 	return (r);

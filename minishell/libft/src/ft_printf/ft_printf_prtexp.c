@@ -6,14 +6,14 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:45:18 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/01/19 23:28:56 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 22:07:32 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 #include "libft.h"
 
-char				*ft_printf_getexp(int e, unsigned long long f_num)
+char	*ft_printf_getexp(int e, unsigned long long f_num)
 {
 	char	*temp1;
 	char	*temp2;
@@ -40,7 +40,7 @@ char				*ft_printf_getexp(int e, unsigned long long f_num)
 	return (exp);
 }
 
-double				ft_printf_getexp_long(t_block *b, double dob, int *exp)
+double	ft_printf_getexp_long(t_block *b, double dob, int *exp)
 {
 	long double			num;
 	int					e;
@@ -65,8 +65,8 @@ double				ft_printf_getexp_long(t_block *b, double dob, int *exp)
 	return (num);
 }
 
-void				ft_printf_expstr(t_block *b, unsigned long long num,\
-						int e, unsigned long long f_num)
+void	ft_printf_expstr(t_block *b, unsigned long long num, \
+			int e, unsigned long long f_num)
 {
 	char				*nb;
 	char				*exp;
@@ -94,7 +94,7 @@ void				ft_printf_expstr(t_block *b, unsigned long long num,\
 	exp = ft_memfree(exp, NULL);
 }
 
-void				ft_printf_round_exp(t_block *b, int *e,\
+void	ft_printf_round_exp(t_block *b, int *e, \
 			unsigned long long *num, unsigned long long *f_num)
 {
 	unsigned long long	nb;
@@ -104,12 +104,12 @@ void				ft_printf_round_exp(t_block *b, int *e,\
 	int					rec;
 
 	rec = 0;
-	flo = *num * ft_float_power(b->flags.pre, 10) +
+	flo = *num * ft_float_power(b->flags.pre, 10) + \
 		*f_num / ft_float_power(15 - b->flags.pre, 10);
-	nb = (*num * ft_float_power(b->flags.pre + 1, 10)) +
+	nb = (*num * ft_float_power(b->flags.pre + 1, 10)) + \
 		(*f_num / ft_float_power(15 - b->flags.pre - 1, 10));
 	l_nb = flo;
-	l_flo = *f_num - (long long)(*f_num / ft_float_power(15 - b->flags.pre, 10))
+	l_flo = *f_num - ((long long)(*f_num / ft_float_power(15 - b->flags.pre, 10))) \
 		* ft_float_power(15 - b->flags.pre, 10);
 	if (5 * ft_float_power(15 - b->flags.pre - 1, 10) < l_flo)
 		nb = flo++;
@@ -123,7 +123,7 @@ void				ft_printf_round_exp(t_block *b, int *e,\
 		b->flags.pre--;
 }
 
-void				ft_printf_prtexp(t_block *b, double dob)
+void	ft_printf_prtexp(t_block *b, double dob)
 {
 	double				absd;
 	int					e;
@@ -134,12 +134,14 @@ void				ft_printf_prtexp(t_block *b, double dob)
 		b->flags.neg = 1;
 	absd = ft_absld(dob);
 	num = (unsigned long long)ft_printf_getexp_long(b, dob, &e);
-	f_num = (e > 292) ? ((absd * ft_float_power(e - 1, 10) * 10) -
-		(unsigned long long)(absd * ft_float_power(e - 1, 10) * 10))
-		* ft_float_power(15, 10)
-		: absd * ft_float_power(15 + e, 10) -
-		(unsigned long long)(absd * ft_float_power(e, 10)) *
-		ft_float_power(15, 10);
+	if (e > 292)
+		f_num = ((absd * ft_float_power(e - 1, 10) * 10) - \
+			(unsigned long long)(absd * ft_float_power(e - 1, 10) * 10)) \
+			* ft_float_power(15, 10);
+	else
+		f_num = absd * ft_float_power(15 + e, 10) - \
+			((unsigned long long)(absd * ft_float_power(e, 10))) * \
+			ft_float_power(15, 10);
 	if (b->flags.fltround)
 		f_num = 0;
 	ft_printf_round_exp(b, &e, &num, &f_num);

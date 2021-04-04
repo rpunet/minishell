@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 12:34:32 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 16:53:43 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:39:21 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 static void	ft_printf_prtaddr_width(t_block *b)
 {
-	int len;
+	int	len;
 
 	len = ft_strlen(b->s);
 	if (b->flags.f_minus)
@@ -58,15 +58,17 @@ static void	ft_printf_prtaddr_pre(t_block *b)
 	ft_str_tolower(b->s);
 }
 
-void		ft_printf_prtpoint(t_block *b)
+void	ft_printf_prtpoint(t_block *b)
 {
 	unsigned long	temp;
 	unsigned long	addr;
 
 	temp = (unsigned long)va_arg(b->ap, void *);
 	addr = (unsigned long)temp;
-	b->s = (b->flags.pre == 0 && temp == 0)\
-		? ft_strdup("\0") : ft_ultoa_base(addr, 16);
+	if (b->flags.pre == 0 && temp == 0)
+		b->s = ft_strdup("\0");
+	else
+		b->s = ft_ultoa_base(addr, 16);
 	if (b->flags.f_zero && b->flags.pre < 0)
 		b->flags.pre = b->flags.width - 2;
 	else if (b->flags.pre == 0 && temp != 0)

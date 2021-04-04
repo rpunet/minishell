@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:15:25 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 19:59:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 16:01:20 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char	*ft_strchr(const char *s, int c)
 
 size_t	ft_strchr_count(const char *str, char c)
 {
-	size_t i;
-	size_t j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = 0;
@@ -43,7 +43,7 @@ size_t	ft_strchr_count(const char *str, char c)
 	return (j);
 }
 
-int		ft_strchr_pos(char *str, int c)
+int	ft_strchr_pos(char *str, int c)
 {
 	int	i;
 

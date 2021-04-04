@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 23:14:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/14 23:17:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 21:56:26 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static void	restart_block(t_block *b)
 	b->flags.width = 0;
 }
 
-int			ft_printf(const char *format, ...)
+int	ft_printf(const char *format, ...)
 {
 	t_block	b;
 
@@ -55,7 +55,7 @@ int			ft_printf(const char *format, ...)
 	return (b.ret);
 }
 
-int			ft_dprintf(int fd, const char *format, ...)
+int	ft_dprintf(int fd, const char *format, ...)
 {
 	t_block	b;
 
