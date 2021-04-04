@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/02/10 18:55:07 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 11:09:30 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,19 +36,19 @@
 
 typedef int			(*t_compare)(const void *, const void *);
 
-typedef struct		s_list
+typedef struct s_list
 {
 	void			*content;
 	struct s_list	*next;
 }					t_list;
 
-typedef struct		s_qsort
+typedef struct s_qsort
 {
 	char	*lo;
 	char	*hi;
 }					t_qsort;
 
-typedef struct		s_qsort_data
+typedef struct s_qsort_data
 {
 	char			*base_ptr;
 	size_t			nmemb;
@@ -88,7 +88,7 @@ size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlen(const char *s);
 char				*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
-char				*ft_strnstr(const char *haystack,\
+char				*ft_strnstr(const char *haystack, \
 						const char *needle, size_t len);
 char				*ft_strrchr(const char *s, int c);
 char				*ft_strtrim(char const *s1, char const *set);
@@ -106,7 +106,7 @@ void				ft_lstclear(t_list **lst, void (*del)(void *));
 void				ft_lstdelone(t_list *lst, void (*del)(void *));
 void				ft_lstiter(t_list *lst, void (*f)(void *));
 t_list				*ft_lstlast(t_list *lst);
-t_list				*ft_lstmap(t_list *lst, void *(*f)(void *),\
+t_list				*ft_lstmap(t_list *lst, void *(*f)(void *), \
 						void (*del)(void *));
 t_list				*ft_lstnew(void *content);
 int					ft_lstsize(t_list *lst);
@@ -139,7 +139,7 @@ void				*ft_memfree(void *all, void *npo);
 int					ft_min(int a, int b);
 void				ft_print_memory(void *addr, size_t len);
 int					ft_pow(int x, unsigned int y);
-void				ft_qsort_array(void *const base, size_t nmemb, size_t size,\
+void				ft_qsort_array(void *const base, size_t nmemb, size_t size, \
 						t_compare cmp);
 char				*ft_qsort_min(char *a, char *b);
 void				ft_qsort_pop(t_qsort **top, char *low, char *high);

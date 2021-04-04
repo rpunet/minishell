@@ -3,38 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/03 17:18:33 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/04/04 11:28:07 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 /*
-----------shell grammar rules:---------------
-
-SEQUENCE		:=		JOB		;	SEQUENCE			ha de ir de reglas más largas a cortas, para que si la larga no encaja, pruebe una más sencilla. Si no, entra ya en la regla sencilla y no comprueba las más largas
-						JOB		;
-						JOB
-
-JOB				:=		INSTR
-						INSTR	|	JOB
-
-INSTR			:=		CMD
-						CMD		>	filename
-						CMD		<	filename
-						CMD		>>	filename			¿¿cómo incluir varias >  > ?? el test lo prueba
-
-CMD				:=		cmdname	TOKENLIST
-
-TOKENLIST		:=		token	TOKENLIST
-						(empty)
+** ----------shell grammar rules:---------------
+** SEQUENCE		:=		JOB		;	SEQUENCE
+** 						JOB		;
+** 						JOB
+** 
+** JOB				:=		INSTR
+** 						INSTR	|	JOB
+** 
+** INSTR			:=		CMD
+** 						CMD		>	filename
+** 						CMD		<	filename
+** 						CMD		>>	filename
+** 
+** CMD				:=		cmdname	TOKENLIST
+** 
+** TOKENLIST		:=		token	TOKENLIST
+** 						(empty)
 */
 
 t_tok	*g_current_tok;
 
-void		ASTdelete(t_ASTnode *node)
+void	ASTdelete(t_ASTnode *node)
 {
 	if (node == NULL)
 		return ;
@@ -45,7 +44,7 @@ void		ASTdelete(t_ASTnode *node)
 	free(node);
 }
 
-int			terminal(int	tokentype)
+int	terminal(int tokentype)
 {
 	if (g_current_tok == NULL)
 		return (0);
@@ -57,161 +56,187 @@ int			terminal(int	tokentype)
 	g_current_tok = g_current_tok->next;
 	return (0);
 }
-// --------------------------------------------------  TREE ROOT ---------------------------------------------
-int		ft_parser(t_lex *lexer, t_ASTnode **syntax_tree)
+
+/*
+** ----------------------  TREE ROOT ----------------------------
+*/
+int	ft_parser(t_lex *lexer, t_ASTnode **syntax_tree)
 {
-	// error check
 	g_current_tok = lexer->list_token;
 	*syntax_tree = GR_seq();
-	//check errors
 	if (g_current_tok != NULL && g_current_tok->type != NULTOK)
 		return (1);
 	return (0);
 }
 
-// -----------------------------------------------------------------------------------------------
-t_ASTnode	*GR_seq()
+/*
+** --------------------------------------------------------------
+*/
+t_ASTnode	*GR_seq(void)
 {
 	t_ASTnode	*node;
 	t_tok		*save;
 
 	save = g_current_tok;
-	if ((node = gr_seq_3()) != NULL)
+	node = gr_seq_3();
+	if (node != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_seq_2()) != NULL)
+	node = gr_seq_2();
+	if (node != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_seq_1()) != NULL)
+	node = gr_seq_1();
+	if (node != NULL)
 		return (node);
 	return (NULL);
 }
 
-t_ASTnode	*gr_seq_1()
+t_ASTnode	*gr_seq_1(void)
 {
 	return (GR_job());
 }
 
-t_ASTnode	*gr_seq_2()
+t_ASTnode	*gr_seq_2(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*job;
 
-	if ((job = GR_job()) == NULL)
+	job = GR_job();
+	if (job == NULL)
 		return (NULL);
 	if (!terminal(SEMICOLON))
 	{
 		ASTdelete(job);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ASTnode));  // CHECK MALLOC--> AQUI O EN UNA FUNCION PARA DAR LOS VALORES AL NODO
+	parent = malloc(sizeof(t_ASTnode));
+	if (parent == NULL)
+		exit_failure();
 	parent->type = SEQ_NODE;
 	parent->left = job;
 	parent->right = NULL;
 	return (parent);
 }
 
-t_ASTnode	*gr_seq_3()
+t_ASTnode	*gr_seq_3(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*seq;
 	t_ASTnode	*job;
 
-	if ((job = GR_job()) == NULL)
+	job = GR_job();
+	if (job == NULL)
 		return (NULL);
 	if (!terminal(SEMICOLON))
 	{
 		ASTdelete(job);
 		return (NULL);
 	}
-	if ((seq = GR_seq()) == NULL)
+	seq = GR_seq();
+	if (seq == NULL)
 	{
 		ASTdelete(job);
 		return (NULL);
 	}
 	parent = malloc(sizeof(t_ASTnode));
+	if (parent == NULL)
+		exit_failure();
 	parent->type = SEQ_NODE;
 	parent->left = job;
 	parent->right = seq;
 	return (parent);
 }
-// ----------------------------------------------------------------------------------------------
+/*
+** --------------------------------------------------------------
+*/
 
-t_ASTnode	*GR_job()
+t_ASTnode	*GR_job(void)
 {
 	t_ASTnode	*node;
 	t_tok		*save;
 
 	save = g_current_tok;
-	if ((node = gr_job_2()) != NULL)
+	node = gr_job_2();
+	if (node != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_job_1()) != NULL)
+	node = gr_job_1();
+	if (node != NULL)
 		return (node);
 	return (NULL);
 }
 
-t_ASTnode	*gr_job_1()
+t_ASTnode	*gr_job_1(void)
 {
 	return (GR_instr());
 }
 
-t_ASTnode	*gr_job_2()
+t_ASTnode	*gr_job_2(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*job;
 	t_ASTnode	*instr;
 
-	if ((instr = GR_instr()) == NULL)
+	instr = GR_instr();
+	if (instr == NULL)
 		return (NULL);
 	if (!terminal(PIPE))
 	{
 		ASTdelete(instr);
 		return (NULL);
 	}
-	if ((job = GR_job()) == NULL)
+	job = GR_job();
+	if (job == NULL)
 	{
 		ASTdelete(instr);
 		return (NULL);
 	}
 	parent = malloc(sizeof(t_ASTnode));
+	if (parent == NULL)
+		exit_failure();
 	parent->type = PIPE_NODE;
 	parent->left = instr;
 	parent->right = job;
 	return (parent);
-
 }
-// ----------------------------------------------------------------------------------------------
+/*
+** --------------------------------------------------------------
+*/
 
-t_ASTnode	*GR_instr()
+t_ASTnode	*GR_instr(void)
 {
 	t_tok		*save;
 	t_ASTnode	*node;
 
 	save = g_current_tok;
-	if ((node = gr_instr_3()) != NULL)
+	node = gr_instr_3();
+	if (node != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_instr_2()) != NULL)
+	node = gr_instr_2();
+	if (node != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_instr_1()) != NULL)
+	node = gr_instr_1();
+	if (node != NULL)
 		return (node);
 	return (NULL);
 }
 
-t_ASTnode	*gr_instr_1()
+t_ASTnode	*gr_instr_1(void)
 {
 	return (GR_cmd());
 }
 
-t_ASTnode	*gr_instr_2()
+t_ASTnode	*gr_instr_2(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*cmd;
 	char		*filename;
 
-	if ((cmd = GR_cmd()) == NULL)
+	cmd = GR_cmd();
+	if (cmd == NULL)
 		return (NULL);
 	if (!terminal(REDIR))
 	{
@@ -226,6 +251,8 @@ t_ASTnode	*gr_instr_2()
 		return (NULL);
 	}
 	parent = malloc(sizeof(t_ASTnode));
+	if (parent == NULL)
+		exit_failure();
 	parent->type = REDIR_NODE;
 	parent->data = filename;
 	parent->left = cmd;
@@ -233,13 +260,14 @@ t_ASTnode	*gr_instr_2()
 	return (parent);
 }
 
-t_ASTnode	*gr_instr_3()
+t_ASTnode	*gr_instr_3(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*cmd;
 	char		*filename;
 
-	if ((cmd = GR_cmd()) == NULL)
+	cmd = GR_cmd();
+	if (cmd == NULL)
 		return (NULL);
 	if (!terminal(INDIR))
 	{
@@ -254,6 +282,8 @@ t_ASTnode	*gr_instr_3()
 		return (NULL);
 	}
 	parent = malloc(sizeof(t_ASTnode));
+	if (parent == NULL)
+		exit_failure();
 	parent->type = INDIR_NODE;
 	parent->data = filename;
 	parent->left = cmd;
@@ -261,17 +291,20 @@ t_ASTnode	*gr_instr_3()
 	return (parent);
 }
 
-// ----------------------------------------------------------------------------------------------
-t_ASTnode	*GR_cmd()
+/*
+** --------------------------------------------------------------
+*/
+t_ASTnode	*GR_cmd(void)
 {
 	t_ASTnode	*node;
 
-	if ((node = gr_cmd_1()) != NULL)
+	node = gr_cmd_1();
+	if (node != NULL)
 		return (node);
 	return (NULL);
 }
 
-t_ASTnode	*gr_cmd_1()
+t_ASTnode	*gr_cmd_1(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*tokenlist;
@@ -282,30 +315,36 @@ t_ASTnode	*gr_cmd_1()
 	if (!terminal(TOKEN))
 		return (NULL);
 	tokenlist = GR_tokenlist();
-		// aqui no chequeo NULL por que NULL es válido (vacío)
 	parent = malloc(sizeof(t_ASTnode));
+	if (parent == NULL)
+		exit_failure();
 	parent->type = CMDNAME_NODE;
 	parent->data = dataname;
 	parent->left = NULL;
 	parent->right = tokenlist;
 	return (parent);
 }
-// ----------------------------------------------------------------------------------------------
-t_ASTnode	*GR_tokenlist()
+
+/*
+** --------------------------------------------------------------
+*/
+t_ASTnode	*GR_tokenlist(void)
 {
 	t_tok		*save;
 	t_ASTnode	*node;
 
 	save = g_current_tok;
-	if ((node = gr_tokenlist_1()) != NULL)
+	node = gr_tokenlist_1();
+	if (node != NULL)
 		return (node);
 	g_current_tok = save;
-	if ((node = gr_tokenlist_2()) != NULL)
+	node = gr_tokenlist_2();
+	if (node != NULL)
 		return (node);
 	return (NULL);
 }
 
-t_ASTnode	*gr_tokenlist_1()
+t_ASTnode	*gr_tokenlist_1(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*tokenlist;
@@ -316,8 +355,9 @@ t_ASTnode	*gr_tokenlist_1()
 	if (!terminal(TOKEN))
 		return (NULL);
 	tokenlist = GR_tokenlist();
-		// aqui tampoco chequeo NULL por que NULL es válido (vacío)
 	parent = malloc(sizeof(t_ASTnode));
+	if (parent == NULL)
+		exit_failure();
 	parent->data = dataarg;
 	parent->type = TOKEN_NODE;
 	parent->left = NULL;
@@ -325,8 +365,7 @@ t_ASTnode	*gr_tokenlist_1()
 	return (parent);
 }
 
-t_ASTnode	*gr_tokenlist_2()
+t_ASTnode	*gr_tokenlist_2(void)
 {
 	return (NULL);
 }
-

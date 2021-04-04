@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/02 17:27:40 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/04 11:10:19 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,18 @@
 # define WRITE		1
 # define BUILTINS	2 // 4
 
-// STRUCTS   --------------------------------
-typedef struct		s_tok
+/*
+** STRUCTS ---------------------------------
+*/
+typedef struct s_tok
 {
 	char			*data;
 	int				type;
 	struct s_tok	*next;
 }					t_tok;
 
-typedef struct		s_lex
+typedef struct s_lex
 {
-	//int				n_tokens;
 	t_tok			*list_token;
 }					t_lex;
 
@@ -57,19 +58,17 @@ enum				e_seq{
 	SCAPED,
 };
 
-typedef struct		s_ASTnode
+typedef struct s_ASTnode
 {
-	int				type;
-	char			*data;
+	int					type;
+	char				*data;
 	struct s_ASTnode	*left;
 	struct s_ASTnode	*right;
 }					t_ASTnode;
 
-typedef struct		s_cmd
+typedef struct s_cmd
 {
-	//char			*name;
 	int				io[2];
-	//char			**args;
 }					t_cmd;
 
 enum				e_node
@@ -81,43 +80,44 @@ enum				e_node
 	APPEND_NODE,
 	CMDNAME_NODE,
 	TOKEN_NODE,
-	DATA,				// tipo general para comprobaciones de free, etc   de los tipos terminales que guardan datos en node->data. los demás solo tienen node->type
+	DATA,
 };
+/*
+** tipo general para comprobaciones de free, etc  
+** de los tipos terminales que guardan datos en node->data.
+** los demás solo tienen node->type
+*/
 
+int			ft_get_input(char **line);
+t_tok		*tok_init(int datasize);
+void		tok_delete(t_tok *token);
 
-int	ft_get_input(char **line);
-t_tok	*tok_init(int datasize);
-void	tok_delete(t_tok *token);
+int			ft_lexer(char *line, t_lex *lexer, int size);
 
-
-int		ft_lexer(char *line, t_lex *lexer, int size);
-
-int		ft_parser(t_lex *lexer, t_ASTnode **syntax_tree);
+int			ft_parser(t_lex *lexer, t_ASTnode **syntax_tree);
 void		ASTdelete(t_ASTnode *node);
 int			terminal(int	tokentype);
-t_ASTnode	*GR_seq();
-t_ASTnode	*gr_seq_1();
-t_ASTnode	*gr_seq_2();
-t_ASTnode	*gr_seq_3();
-t_ASTnode	*GR_job();
-t_ASTnode	*gr_job_1();
-t_ASTnode	*gr_job_2();
-t_ASTnode	*GR_instr();
-t_ASTnode	*gr_instr_1();
-t_ASTnode	*gr_instr_2();
-t_ASTnode	*gr_instr_3();
-t_ASTnode	*GR_cmd();
-t_ASTnode	*gr_cmd_1();
-t_ASTnode	*GR_tokenlist();
-t_ASTnode	*gr_tokenlist_1();
-t_ASTnode	*gr_tokenlist_2();
+t_ASTnode	*GR_seq(void);
+t_ASTnode	*gr_seq_1(void);
+t_ASTnode	*gr_seq_2(void);
+t_ASTnode	*gr_seq_3(void);
+t_ASTnode	*GR_jobvoid(void);
+t_ASTnode	*gr_job_1(void);
+t_ASTnode	*gr_job_2(void);
+t_ASTnode	*GR_instr(void);
+t_ASTnode	*gr_instr_1(void);
+t_ASTnode	*gr_instr_2(void);
+t_ASTnode	*gr_instr_3(void);
+t_ASTnode	*GR_cmd(void);
+t_ASTnode	*gr_cmd_1(void);
+t_ASTnode	*GR_tokenlist(void);
+t_ASTnode	*gr_tokenlist_1(void);
+t_ASTnode	*gr_tokenlist_2(void);
 
-
-void	execute_CMD(t_ASTnode *cmd_node, int in, int out);
-void	execute_INSTR(t_ASTnode *instr);
-void	execute_JOB(t_ASTnode *job);
-void	execute_SEQ(t_ASTnode *seq);
-void	ft_execute(t_ASTnode *syntax_tree);
-
+void		execute_CMD(t_ASTnode *cmd_node, int in, int out);
+void		execute_INSTR(t_ASTnode *instr);
+void		execute_JOB(t_ASTnode *job);
+void		execute_SEQ(t_ASTnode *seq);
+void		ft_execute(t_ASTnode *syntax_tree);
 
 #endif

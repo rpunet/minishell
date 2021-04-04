@@ -3,18 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/03/02 17:08:49 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/04/04 11:07:52 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		ft_lexer(char *line, t_lex *lexer, int size)
+int	ft_lexer(char *line, t_lex *lexer, int size)
 {
-	// añadir safe returns;
 	t_tok	*token;
 	int		c;
 	int		i;
@@ -34,15 +33,11 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 			if (c == '\'')
 			{
 				state = QUOTED;
-			//	token->data[j] = '\'';
-			//	j++;
 				token->type = TOKEN;
 			}
 			else if (c == '\"')
 			{
 				state = DQUOTED;
-			//	token->data[j] = '\"';
-			//	j++;
 				token->type = TOKEN;
 			}
 			else if (c == '\\')
@@ -76,7 +71,7 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 				token->next = tok_init(size - i);
 				token = token->next;
 			}
-			else // if (c == is_ascii)
+			else
 			{
 				token->data[j] = (char)c;
 				j++;
@@ -97,12 +92,6 @@ int		ft_lexer(char *line, t_lex *lexer, int size)
 			else
 				token->data[j++] = (char)c;
 		}
-/* 		ft_printf("%d-", i);
-		ft_printf("%c  ", line[i]);
-		ft_printf("%s   ", token->data);
-		ft_printf("%d   ", token->type);
-		ft_printf("%p   ", token->next); */
-
 		i++;
 	}
 	token->data[j] = 0;
