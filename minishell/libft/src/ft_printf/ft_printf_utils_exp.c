@@ -6,11 +6,14 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/07 19:18:50 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/07 19:26:45 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/08 00:34:41 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-void	ft_printf_create_exponent(int e)
+#include "ft_printf.h"
+#include "libft.h"
+
+char	*ft_printf_create_exponent(int e)
 {
 	char	*temp1;
 

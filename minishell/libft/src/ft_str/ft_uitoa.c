@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/11 12:45:27 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 21:34:20 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/08 00:37:09 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static size_t	add_len(size_t n)
 {
 	size_t	len;
 
-	len = 1 + (n < 0);
+	len = 1;
 	while (n)
 	{
 		n = n / 10;

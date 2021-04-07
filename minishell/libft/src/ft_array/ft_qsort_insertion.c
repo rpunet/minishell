@@ -6,13 +6,13 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/06 22:30:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 15:20:09 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/08 00:32:05 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	*relocate_tmp_ptr(t_qsort_data *data, char *run_ptr, char *tmp_ptr)
+static char	*relocate_tmp_ptr(t_qsort_data *data, char *run_ptr)
 {
 	char	*ptr;
 
@@ -30,7 +30,7 @@ static void	run_insertion_sort(t_qsort_data *data, char *run_ptr, char *tmp_ptr)
 	char			*trav;
 	char			c;
 
-	tmp_ptr = relocate_tmp_ptr(data, run_ptr, tmp_ptr);
+	tmp_ptr = relocate_tmp_ptr(data, run_ptr);
 	if (tmp_ptr != run_ptr)
 	{
 		trav = run_ptr + data->size;

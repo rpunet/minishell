@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 23:14:10 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/08 17:02:13 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/08 00:33:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void				ft_printf_check_inf(t_block *b, double temp);
 void				ft_printf_check_pre(t_block *b, char **flo);
 void				ft_printf_conv_flag(const char *format, t_block *b);
 void				ft_printf_conv_type(const char *format, t_block *b);
-void				ft_printf_create_exponent(int e);
+char				*ft_printf_create_exponent(int e);
 void				ft_printf_expstr(t_block *b, unsigned long long whole,\
 						int e, unsigned long long f_num);
 void				ft_printf_flopoint(t_block *b, long double ld);

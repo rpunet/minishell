@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 11:09:30 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/08 00:36:25 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int					ft_isalpha(int c);
 int					ft_isascii(int c);
 int					ft_isdigit(int c);
 int					ft_isprint(int c);
-char				*ft_itoa(int n);
+char				*ft_itoa(long long n);
 void				*ft_memccpy(void *dst, const void *src, int c, size_t n);
 void				*ft_memchr(const void *s, int c, size_t n);
 int					ft_memcmp(const void *s1, const void *s2, size_t n);
@@ -128,7 +128,7 @@ int					ft_get_next_line(int fd, char **line);
 void				ft_insertion_sort(t_qsort_data *data);
 int					ft_is_prime(int nb);
 int					ft_isspace(int c);
-char				*ft_itoa_base(int n, int base);
+char				*ft_itoa_base(long long n, int base);
 long long			ft_llpow(long long x, unsigned long long y);
 char				*ft_lltoa(long long n);
 char				*ft_ltoa(long n);

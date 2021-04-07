@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/29 18:31:05 by jcarrete          #+#    #+#              #
-#    Updated: 2021/04/07 19:29:10 by jcarrete         ###   ########.fr        #
+#    Updated: 2021/04/08 00:29:34 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -rf
 
-HDIR = ../../include
+HDIR = ../../minishell
 SDIR = src
 ODIR = obj
 
@@ -138,7 +138,7 @@ END = \033[0m
 
 all: $(LNAME)
 
-$(LNAME):  $(MKDIR) $(OBJS)
+$(LNAME): $(OBJS)
 	@echo "\n$(GR)[Compiling $(B)'$(LNAME)'$(GR). Please, wait a few seconds...]${END}\n"
 	$(AR) $(LNAME) $(OBJS)
 	@echo "\n$(G)[Compiled $(B)'$(LNAME)' $(G)successfully]${END}\n"
