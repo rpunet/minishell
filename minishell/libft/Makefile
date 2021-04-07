@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/29 18:31:05 by jcarrete          #+#    #+#              #
-#    Updated: 2021/02/07 23:50:02 by jcarrete         ###   ########.fr        #
+#    Updated: 2021/04/07 19:29:10 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -74,9 +74,11 @@ FTPF = ft_print_memory \
 	ft_printf_prtspc \
 	ft_printf_prtuint \
 	ft_printf_prtwchar \
+	ft_printf_type \
 	ft_printf_prtwstr \
 	ft_printf_utils \
 	ft_printf_utils_eg \
+	ft_printf_utils_exp \
 	ft_printf_width
 
 FTSTR_PATH = ft_str/

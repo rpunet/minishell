@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 21:32:06 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 21:42:46 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/05 21:58:39 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,8 @@ void	ft_printf_flopoint(t_block *b, long double ld)
 	ft_printf_check_pre(b, &flo);
 	if (b->flags.pre == 0)
 	{
-		nb = (b->flags.f_pad) ? ft_strappend_nchr(nb, '.', 1) : nb;
+		if (b->flags.f_pad)
+			nb = ft_strappend_nchr(nb, '.', 1);
 		b->s = ft_strdup(nb);
 	}
 	else
@@ -109,7 +110,6 @@ void	ft_printf_flopoint(t_block *b, long double ld)
 	}
 	nb = ft_memfree(nb, NULL);
 	flo = ft_memfree(flo, NULL);
-	ft_printf_prtfloat(b);
 }
 
 void	ft_printf_parseflt(t_block *b, char c)
@@ -125,7 +125,10 @@ void	ft_printf_parseflt(t_block *b, char c)
 	if (temp != temp || (temp * 2 == temp && temp != 0))
 		ft_printf_check_inf(b, temp);
 	else if (b->type == 'f')
+	{
 		ft_printf_flopoint(b, temp);
+		ft_printf_prtfloat(b);
+	}
 	else if (b->type == 'e' || b->type == 'E')
 		ft_printf_prtexp(b, temp);
 	else if (b->type == 'g' || b->type == 'G')

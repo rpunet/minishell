@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:45:18 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 22:07:32 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/07 19:30:07 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ char	*ft_printf_getexp(int e, unsigned long long f_num)
 	char	*flo;
 	char	*r;
 
-	if (e < 0)
-		temp1 = ft_strjoin("e", e < -9 ? "-" : "-0");
-	else
-		temp1 = ft_strjoin("e", e > 9 ? "+" : "+0");
+	temp1 = ft_printf_create_exponent(e);
 	temp2 = ft_itoa(ft_abs(e));
 	exp = ft_strjoin(temp1, temp2);
 	temp1 = ft_memfree(temp1, NULL);
@@ -82,7 +79,8 @@ void	ft_printf_expstr(t_block *b, unsigned long long num, \
 	nb = ft_ulltoa(num);
 	if (b->flags.pre == 0)
 	{
-		nb = (b->flags.f_pad) ? ft_strappend_nchr(nb, '.', 1) : nb;
+		if (b->flags.f_pad)
+			nb = ft_strappend_nchr(nb, '.', 1);
 		b->s = ft_strjoin(nb, exp);
 	}
 	else
