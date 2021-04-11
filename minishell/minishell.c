@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/02 19:07:45 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/09 23:35:50 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ void	tok_delete(t_tok *token)
 {
 	if (token != NULL)
 	{
-		free(token->data);
+		token->data = ft_memfree(token->data, NULL);
 		tok_delete(token->next);
-		free(token);
+		token = ft_memfree(token, NULL);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/04 11:06:38 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/09 22:57:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 		}
 		args = malloc(sizeof(char *) * (i + 1));
 		if (args == NULL)
-			exit_failure();
+			exit_failure("CMD Malloc is NULL");
 		curr = cmd_node;
 		i = 0;
 		while (curr != NULL && \
@@ -52,13 +52,20 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 				if (out != 1)
 					dup2(out, STDOUT_FILENO);
 				if (execvp(args[0], args) == -1)
+				{
+					free_char_array(args, i);
 					exit_failure("Error de exec");
+				}
 			}
 			else if (pid < 0)
-				exit_failure();
+			{
+				free_char_array(args, i);
+				exit_failure("CMD PID < 0");
+			}
 			while (waitpid(pid, NULL, 0) <= 0)
 				do_nothing();
 		}
+		free_char_array(args, i);
 	}
 }
 

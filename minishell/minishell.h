@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/04 11:10:19 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/09 23:40:16 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include <unistd.h>
 # include <stdio.h>
+# include <errno.h>
 # include <sys/wait.h>
 # include "libft.h"
 
@@ -119,5 +120,7 @@ void		execute_INSTR(t_ASTnode *instr);
 void		execute_JOB(t_ASTnode *job);
 void		execute_SEQ(t_ASTnode *seq);
 void		ft_execute(t_ASTnode *syntax_tree);
+
+int			exit_failure(char *format, ...);
 
 #endif

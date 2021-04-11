@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/04 11:28:07 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/09 23:41:16 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ void	ASTdelete(t_ASTnode *node)
 	if (node == NULL)
 		return ;
 	if (node->type == DATA)
-		free(node->data);
+		node->data = ft_memfree(node->data, NULL);
 	ASTdelete(node->left);
 	ASTdelete(node->right);
-	free(node);
+	node = ft_memfree(node, NULL);
 }
 
 int	terminal(int tokentype)
@@ -112,7 +112,7 @@ t_ASTnode	*gr_seq_2(void)
 	}
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
-		exit_failure();
+		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	parent->type = SEQ_NODE;
 	parent->left = job;
 	parent->right = NULL;
@@ -141,7 +141,7 @@ t_ASTnode	*gr_seq_3(void)
 	}
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
-		exit_failure();
+		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	parent->type = SEQ_NODE;
 	parent->left = job;
 	parent->right = seq;
@@ -194,7 +194,7 @@ t_ASTnode	*gr_job_2(void)
 	}
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
-		exit_failure();
+		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	parent->type = PIPE_NODE;
 	parent->left = instr;
 	parent->right = job;
@@ -252,7 +252,7 @@ t_ASTnode	*gr_instr_2(void)
 	}
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
-		exit_failure();
+		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	parent->type = REDIR_NODE;
 	parent->data = filename;
 	parent->left = cmd;
@@ -283,7 +283,7 @@ t_ASTnode	*gr_instr_3(void)
 	}
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
-		exit_failure();
+		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	parent->type = INDIR_NODE;
 	parent->data = filename;
 	parent->left = cmd;
@@ -317,7 +317,7 @@ t_ASTnode	*gr_cmd_1(void)
 	tokenlist = GR_tokenlist();
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
-		exit_failure();
+		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	parent->type = CMDNAME_NODE;
 	parent->data = dataname;
 	parent->left = NULL;
@@ -357,7 +357,7 @@ t_ASTnode	*gr_tokenlist_1(void)
 	tokenlist = GR_tokenlist();
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
-		exit_failure();
+		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	parent->data = dataarg;
 	parent->type = TOKEN_NODE;
 	parent->left = NULL;

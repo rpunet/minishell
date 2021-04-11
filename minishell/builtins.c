@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/02 19:28:55 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/09 22:58:32 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,22 +71,13 @@ void	ft_pwd2(t_job *job, int j)
 		{
 			ret = getcwd(NULL, 0);
 			ft_printf("builtIN-%s\n", ret);
-			free (ret);
+			ret = ft_memfree(ret, NULL);
 			exit(0);
 		}
 		else
-		{
-			ft_printf("pwd: too many arguments\n");
-			exit(0);
-		}
+			exit_failure("pwd: too many arguments\n");
 	}
 }
-
-/* 	else if (pid < 0)
-** 		gestion de error
-** 	// else
-** 	// 	while (waitpid(pid, NULL, 0) > 0);
-*/
 
 int	ft_cd(char **args)
 {
@@ -94,7 +85,7 @@ int	ft_cd(char **args)
 
 	ret = args[1];
 	if (chdir(ret) == -1)
-		ft_printf("cd error");
+		exit_failure("CD error\n");
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/08 23:14:10 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/08 00:33:59 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/09 21:58:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 ** Structs
 */
 
-typedef struct		s_flags
+typedef struct s_flags
 {
 	int			f_zero;
 	int			f_plus;
@@ -49,7 +49,7 @@ typedef struct		s_flags
 	int			len_ll;
 }					t_flags;
 
-typedef struct		s_block
+typedef struct s_block
 {
 	char		*s;
 	char		type;
@@ -67,18 +67,18 @@ typedef struct		s_block
 int					ft_printf(const char *format, ...);
 int					ft_dprintf(int fd, const char *format, ...);
 void				ft_printf_basepre(t_block *b);
-int					ft_printf_check_exp(t_block *b, unsigned long long nb,\
+int					ft_printf_check_exp(t_block *b, unsigned long long nb, \
 						unsigned long long flo, int *e);
 void				ft_printf_check_inf(t_block *b, double temp);
 void				ft_printf_check_pre(t_block *b, char **flo);
 void				ft_printf_conv_flag(const char *format, t_block *b);
 void				ft_printf_conv_type(const char *format, t_block *b);
 char				*ft_printf_create_exponent(int e);
-void				ft_printf_expstr(t_block *b, unsigned long long whole,\
+void				ft_printf_expstr(t_block *b, unsigned long long whole, \
 						int e, unsigned long long f_num);
 void				ft_printf_flopoint(t_block *b, long double ld);
 char				*ft_printf_getfloat_nb(t_block *b, long double ld);
-void				ft_printf_getfloat_str(t_block *b, char *nb,\
+void				ft_printf_getfloat_str(t_block *b, char *nb, \
 						char *flo, int len);
 char				*ft_printf_getexp(int e, unsigned long long f_num);
 double				ft_printf_getexp_long(t_block *b, double dob, int *exp);
@@ -105,9 +105,9 @@ void				ft_printf_prtwchar(t_block *b, char c);
 void				ft_printf_prtwidth(t_block *b, int len);
 void				ft_printf_prtwstr(t_block *b, wchar_t *wstr);
 void				ft_printf_roundnine(t_block *b, long double *num);
-void				ft_printf_round_exp(t_block *b, int *e,\
+void				ft_printf_round_exp(t_block *b, int *e, \
 						unsigned long long *num, unsigned long long *f_num);
-void				ft_printf_round_flt(t_block *b, long double ld,\
+void				ft_printf_round_flt(t_block *b, long double ld, \
 						unsigned long long *num, unsigned long long *f_num);
 void				ft_printf_trimzeros_e(t_block *b);
 void				ft_printf_trimzeros_f(t_block *b);
