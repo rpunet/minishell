@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/15 00:04:26 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 21:36:48 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/11 22:35:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,9 +96,9 @@ void	ft_printf_prtint(t_block *b)
 		if (temp == LONG_MIN || temp == LLONG_MIN)
 			b->s = ft_strdup("-9223372036854775808");
 		else if (b->flags.len_l)
-			b->s = ft_ltoa((long)temp);
+			b->s = ft_itoa((long)temp);
 		else
-			b->s = ft_lltoa(temp);
+			b->s = ft_itoa(temp);
 	}
 	else
 	{

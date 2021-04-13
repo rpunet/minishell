@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/29 18:31:05 by jcarrete          #+#    #+#              #
-#    Updated: 2021/04/08 00:29:34 by jcarrete         ###   ########.fr        #
+#    Updated: 2021/04/13 22:08:55 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -rf
 
-HDIR = ../../minishell
+HDIR = ../.
 SDIR = src
 ODIR = obj
 
@@ -110,7 +110,8 @@ FTSTR = ft_atoi \
 	ft_swap \
 	ft_tolower \
 	ft_toupper \
-	ft_uitoa
+	ft_uitoa \
+	ft_uitoa_base
 
 FILES = ft_get_next_line
 

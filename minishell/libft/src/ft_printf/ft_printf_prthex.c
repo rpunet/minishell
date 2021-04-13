@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 13:05:54 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 21:47:28 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/11 22:31:53 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void	ft_printf_prthex(t_block *b, char c)
 		else
 			ul = (unsigned int)temp;
 	}
-	b->s = ft_ultoa_base(ul, 16);
+	b->s = ft_utoa_base(ul, 16);
 	ft_printf_basepre(b);
 	ft_printf_prtbase(b, (long)ul);
 }

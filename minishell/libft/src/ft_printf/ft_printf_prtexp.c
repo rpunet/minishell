@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/19 11:45:18 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/07 19:30:07 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/11 22:29:53 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	ft_printf_expstr(t_block *b, unsigned long long num, \
 		exp = ft_memfree(exp, temp);
 	}
 	ft_printf_check_pre(b, &exp);
-	nb = ft_ulltoa(num);
+	nb = ft_utoa(num);
 	if (b->flags.pre == 0)
 	{
 		if (b->flags.f_pad)

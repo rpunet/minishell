@@ -6,11 +6,16 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 21:54:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/09 22:07:21 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/13 22:15:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	do_nothing(void)
+{
+	return ;
+}
 
 void	free_char_array(char **arr, int size)
 {

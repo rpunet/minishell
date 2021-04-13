@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 11:58:16 by jcarrete          #+#    #+#             */
-/*   Updated: 2020/11/07 21:54:16 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/11 22:30:27 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,19 @@ void	ft_printf_prtuint(t_block *b)
 	{
 		temp = va_arg(b->ap, unsigned long long);
 		if (b->flags.len_l)
-			b->s = ft_ultoa((unsigned long)temp);
+			b->s = ft_utoa((unsigned long)temp);
 		else
-			b->s = ft_ulltoa(temp);
+			b->s = ft_utoa(temp);
 	}
 	else
 	{
 		temp = va_arg(b->ap, unsigned int);
 		if (b->flags.len_h)
-			b->s = ft_uitoa((unsigned short)temp);
+			b->s = ft_utoa((unsigned short)temp);
 		else if (b->flags.len_hh)
-			b->s = ft_uitoa((unsigned char)temp);
+			b->s = ft_utoa((unsigned char)temp);
 		else
-			b->s = ft_uitoa((unsigned int)temp);
+			b->s = ft_utoa((unsigned int)temp);
 	}
 	ft_printf_prtdig(b);
 }

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/17 12:34:32 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 21:39:21 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/11 22:32:31 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_printf_prtpoint(t_block *b)
 	if (b->flags.pre == 0 && temp == 0)
 		b->s = ft_strdup("\0");
 	else
-		b->s = ft_ultoa_base(addr, 16);
+		b->s = ft_utoa_base(addr, 16);
 	if (b->flags.f_zero && b->flags.pre < 0)
 		b->flags.pre = b->flags.width - 2;
 	else if (b->flags.pre == 0 && temp != 0)

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/09 23:35:50 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/13 21:39:24 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_get_input(char **line)
 {
 	ft_printf("MINIsh > ");
-	if (get_next_line(0, line) == -1)
+	if (ft_get_next_line(0, line) == -1)
 		return (1);
 	return (0);
 }

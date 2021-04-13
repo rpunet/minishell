@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/18 21:32:06 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/05 21:58:39 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/11 22:27:05 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,8 @@ void	ft_printf_flopoint(t_block *b, long double ld)
 	f_num = ((double)((ft_float_power(b->flags.pre, 10)) * ft_absld(ld)) \
 				- ((ft_float_power(b->flags.pre, 10)) * num));
 	ft_printf_round_flt(b, ft_absld(ld), &num, &f_num);
-	nb = ft_ulltoa(num);
-	flo = ft_ulltoa(f_num);
+	nb = ft_utoa(num);
+	flo = ft_utoa(f_num);
 	ft_printf_check_pre(b, &flo);
 	if (b->flags.pre == 0)
 	{

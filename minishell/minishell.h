@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/09 23:40:16 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/13 21:43:06 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <errno.h>
 # include <sys/wait.h>
 # include "libft.h"
+# include "ft_printf.h"
 
 # define READ		0
 # define WRITE		1
@@ -102,7 +103,7 @@ t_ASTnode	*GR_seq(void);
 t_ASTnode	*gr_seq_1(void);
 t_ASTnode	*gr_seq_2(void);
 t_ASTnode	*gr_seq_3(void);
-t_ASTnode	*GR_jobvoid(void);
+t_ASTnode	*GR_job(void);
 t_ASTnode	*gr_job_1(void);
 t_ASTnode	*gr_job_2(void);
 t_ASTnode	*GR_instr(void);
@@ -121,6 +122,8 @@ void		execute_JOB(t_ASTnode *job);
 void		execute_SEQ(t_ASTnode *seq);
 void		ft_execute(t_ASTnode *syntax_tree);
 
+void		free_char_array(char **arr, int size);
 int			exit_failure(char *format, ...);
+void		do_nothing(void);
 
 #endif

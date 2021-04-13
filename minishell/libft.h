@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/08 00:36:25 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/11 22:35:37 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,8 +130,6 @@ int					ft_is_prime(int nb);
 int					ft_isspace(int c);
 char				*ft_itoa_base(long long n, int base);
 long long			ft_llpow(long long x, unsigned long long y);
-char				*ft_lltoa(long long n);
-char				*ft_ltoa(long n);
 char				*ft_ltoa_base(long n, int base);
 int					ft_max(int a, int b);
 void				*ft_memalloc(size_t size);
@@ -171,10 +169,7 @@ char				*ft_strtrim_start(char const *s1, char const *set);
 void				ft_swap(void *a, void *b, size_t len);
 void				ft_swap_array_elem(void **array, int a, int b);
 void				ft_swap_int(int *p, int *q);
-char				*ft_uitoa(unsigned int n);
-char				*ft_uitoa_base(unsigned int n, int base);
-char				*ft_ulltoa(unsigned long long n);
-char				*ft_ultoa(unsigned long n);
-char				*ft_ultoa_base(unsigned long n, int base);
+char				*ft_utoa(size_t n);
+char				*ft_utoa_base(size_t n, int base);
 int					ft_wstrlen(wchar_t *wstr);
 #endif
