@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 17:46:37 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 12:47:32 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/21 18:42:03 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,11 @@ static int	found_eof(char **buff, char **line)
 {
 	int		cut;
 
-	cut = ft_strchr_pos(*buff, '\n');
-	if (*buff && cut >= 0)
-		return (complete_line(buff, cut, line));
 	if (*buff)
 	{
+		cut = ft_strchr_pos(*buff, '\n');
+		if (cut >= 0)
+			return (complete_line(buff, cut, line));
 		*line = *buff;
 		*buff = NULL;
 		return (0);
