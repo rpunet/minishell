@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 15:03:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 15:34:49 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/18 13:52:52 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_abs(int a)
 {
-	if (a > 0 && a < INT_MIN)
+	if (a > 0)
 		return (a);
 	return (-a);
 }

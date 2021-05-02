@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/29 18:31:05 by jcarrete          #+#    #+#              #
-#    Updated: 2021/04/13 22:08:55 by jcarrete         ###   ########.fr        #
+#    Updated: 2021/05/02 15:56:39 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -rf
 
-HDIR = ../.
+HDIR = ../../include
 SDIR = src
 ODIR = obj
 

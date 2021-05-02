@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 17:46:37 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/21 18:42:03 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/21 18:36:46 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	found_eof(char **buff, char **line)
 
 static int	gnl_loop(char *stack, int fd, char **line)
 {
-	static char	*buff[32];
+	static char	*buff[OPEN_MAX];
 	int			bytes;
 	int			cut;
 

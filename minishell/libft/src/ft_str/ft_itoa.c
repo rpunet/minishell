@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 16:47:04 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/08 00:36:02 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/04/30 00:03:16 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static size_t	add_len(long long n, int base)
 {
 	size_t	len;
 
-	len = 1 + (n < 0);
+	len = 2 + (n < 0);
+	n = n / base;
 	while (n)
 	{
 		n = n / base;
@@ -40,16 +41,15 @@ char	*ft_itoa(long long n)
 
 	s = s_value(n);
 	len = add_len(n, 10);
-	r = (char *)malloc(sizeof(char) * --len);
+	r = (char *)malloc(sizeof(char) * len--);
 	if (r == NULL)
 		return (NULL);
 	r[len--] = '\0';
+	r[len--] = s * (n % 10) + 48;
+	n = n / 10;
 	while (n)
 	{
-		if (s * (n % 10) < 10)
-			r[len--] = s * (n % 10) + 48;
-		else
-			r[len--] = s * (n % 10) + 87;
+		r[len--] = s * (n % 10) + 48;
 		n = n / 10;
 	}
 	if (s < 0)

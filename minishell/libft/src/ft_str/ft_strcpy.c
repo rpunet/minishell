@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:19:25 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 19:46:50 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/02 15:49:11 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,10 @@ char	*ft_strncpy(char *dest, char *src, unsigned int n)
 		dest[i] = src[i];
 		i++;
 	}
-	dest[i] = '\0';
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
 	return (dest);
 }

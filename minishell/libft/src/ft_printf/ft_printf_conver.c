@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/10 20:18:26 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/07 19:11:52 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/02 21:21:17 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,15 +62,25 @@ static void	flag_width(t_block *b)
 	}
 }
 
+static void	basic_flags(const char *format, t_block *b)
+{
+	if (format[b->i] == '0')
+		b->flags.f_zero = 1;
+	else if (format[b->i] == '+')
+		b->flags.f_plus = 1;
+	else if (format[b->i] == '-')
+		b->flags.f_minus = 1;
+	else if (format[b->i] == '#')
+		b->flags.f_pad = 1;
+	else if (format[b->i] == ' ')
+		b->flags.f_blank = 1;
+}
+
 void	ft_printf_conv_flag(const char *format, t_block *b)
 {
 	while (ft_strchr(PRINTF_FLAG, format[b->i]) && format[b->i] != '\0')
 	{
-		b->flags.f_zero = (format[b->i] == '0');
-		b->flags.f_plus = (format[b->i] == '+');
-		b->flags.f_minus = (format[b->i] == '-');
-		b->flags.f_pad = (format[b->i] == '#');
-		b->flags.f_blank = (format[b->i] == ' ');
+		basic_flags(format, b);
 		if (format[b->i] == '*')
 			flag_width(b);
 		if (format[b->i] == 'l' || format[b->i] == 'h')
