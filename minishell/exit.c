@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 21:54:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/13 22:15:40 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/26 22:08:43 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,10 @@ int	exit_failure(char *format, ...)
 	ft_dprintf(STDERR_FILENO, format);
 	exit(EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+void	*return_null(char *ptr)
+{
+	ptr = ft_memfree(ptr, NULL);
+	return (NULL);
 }

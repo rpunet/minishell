@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/09 23:41:16 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/26 22:06:46 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,17 @@
 ** SEQUENCE		:=		JOB		;	SEQUENCE
 ** 						JOB		;
 ** 						JOB
-** 
+**
 ** JOB				:=		INSTR
 ** 						INSTR	|	JOB
-** 
+**
 ** INSTR			:=		CMD
 ** 						CMD		>	filename
 ** 						CMD		<	filename
 ** 						CMD		>>	filename
-** 
+**
 ** CMD				:=		cmdname	TOKENLIST
-** 
+**
 ** TOKENLIST		:=		token	TOKENLIST
 ** 						(empty)
 */
@@ -37,7 +37,7 @@ void	ASTdelete(t_ASTnode *node)
 {
 	if (node == NULL)
 		return ;
-	if (node->type == DATA)
+	if (node->type >= REDIR_NODE)
 		node->data = ft_memfree(node->data, NULL);
 	ASTdelete(node->left);
 	ASTdelete(node->right);
@@ -248,7 +248,7 @@ t_ASTnode	*gr_instr_2(void)
 	if (!terminal(TOKEN))
 	{
 		ASTdelete(cmd);
-		return (NULL);
+		return (return_null(filename));
 	}
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
@@ -279,7 +279,7 @@ t_ASTnode	*gr_instr_3(void)
 	if (!terminal(TOKEN))
 	{
 		ASTdelete(cmd);
-		return (NULL);
+		return (return_null(filename));
 	}
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
@@ -313,7 +313,7 @@ t_ASTnode	*gr_cmd_1(void)
 	if (g_current_tok != NULL)
 		dataname = ft_strdup(g_current_tok->data);
 	if (!terminal(TOKEN))
-		return (NULL);
+		return (return_null(dataname));
 	tokenlist = GR_tokenlist();
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)
@@ -353,7 +353,7 @@ t_ASTnode	*gr_tokenlist_1(void)
 	if (g_current_tok != NULL)
 		dataarg = ft_strdup(g_current_tok->data);
 	if (!terminal(TOKEN))
-		return (NULL);
+		return (return_null(dataarg));
 	tokenlist = GR_tokenlist();
 	parent = malloc(sizeof(t_ASTnode));
 	if (parent == NULL)

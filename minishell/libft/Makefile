@@ -18,7 +18,7 @@ CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -rf
 
-HDIR = ../../include
+HDIR = ../.
 SDIR = src
 ODIR = obj
 

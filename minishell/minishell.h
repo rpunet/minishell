@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/13 21:43:06 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/26 22:08:50 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ enum				e_node
 	APPEND_NODE,
 	CMDNAME_NODE,
 	TOKEN_NODE,
-	DATA,
+	//DATA,
 };
 /*
-** tipo general para comprobaciones de free, etc  
+** tipo general para comprobaciones de free, etc
 ** de los tipos terminales que guardan datos en node->data.
 ** los demás solo tienen node->type
 */
@@ -125,5 +125,6 @@ void		ft_execute(t_ASTnode *syntax_tree);
 void		free_char_array(char **arr, int size);
 int			exit_failure(char *format, ...);
 void		do_nothing(void);
+void		*return_null(char *ptr);
 
 #endif
