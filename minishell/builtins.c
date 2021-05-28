@@ -6,18 +6,22 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 12:51:55 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/28 14:18:21 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 char	*builtins[] = {
-	"pwd"
+	"echo",
+	"pwd",
+	"cd"
 };
 
 int		(*ft_builtins[])(char **) = {
-	&ft_pwd
+	&ft_echo,
+	&ft_pwd,
+	&ft_cd
 };
 
 int	double_len(char **arr)
@@ -28,6 +32,24 @@ int	double_len(char **arr)
 	while (arr[i])
 		i++;
 	return (i);
+}
+
+int		ft_echo(char **args)
+{
+	int	i;
+
+	if (!args[1])
+		write(1, "\n", 1);
+	else
+	{
+		i = ft_strcmp(args[1], "-n") ? 1 : 2;
+		while (args[i + 1])
+			ft_printf("%s ", args[i++]);
+		ft_printf("%s", args[i]);
+		if (ft_strcmp(args[1], "-n"))
+			write(1, "\n", 1);
+	}
+	return (0);
 }
 
 int		ft_pwd(char **args)
@@ -41,7 +63,14 @@ int		ft_pwd(char **args)
 		free(ret);
 	}
 	else
-		ft_printf("BUILTINpwd: too many arguments\n");
+		ft_printf("BUILTINpwd: too many arguments\n");  // revisar mensaje de error
+	return (0);
+}
+
+int		ft_cd(char **args)
+{
+	if (chdir(args[1]) == -1)
+		ft_printf("BUILTINcd: error\n");  // revisar mensaje de error
 	return (0);
 }
 
