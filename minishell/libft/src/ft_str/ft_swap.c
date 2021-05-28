@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/08/05 16:10:55 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/01/30 11:21:51 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:43:45 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,15 @@ void	ft_swap_array_elem(void **array, int a, int b)
 	temp = array[a];
 	array[a] = array[b];
 	array[b] = temp;
+}
+
+void	ft_swap_str(char **a, char **b)
+{
+	char	*t;
+
+	if (!(*a) || !(*b))
+		return ;
+	t = *a;
+	*a = *b;
+	*b = t;
 }

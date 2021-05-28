@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/11 22:35:37 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/28 23:44:14 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,7 @@ char				*ft_strtrim_start(char const *s1, char const *set);
 void				ft_swap(void *a, void *b, size_t len);
 void				ft_swap_array_elem(void **array, int a, int b);
 void				ft_swap_int(int *p, int *q);
+void				ft_swap_str(char **a, char **b);
 char				*ft_utoa(size_t n);
 char				*ft_utoa_base(size_t n, int base);
 int					ft_wstrlen(wchar_t *wstr);
