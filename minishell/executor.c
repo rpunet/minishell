@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 12:45:54 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/28 21:20:14 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,31 +45,44 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 		args[i] = NULL;
 		if (i > 0)
 		{
-			pid = fork();
-			if (pid == 0)
+
+			if (!ft_strcmp(args[0], "cd"))
 			{
-				if (in != 0)
-					dup2(in, STDIN_FILENO);
-				if (out != 1)
-					dup2(out, STDOUT_FILENO);
-				if (check_builtins(args))
+				if (in == 0 && out == 1)
+					ft_cd(args);
+			}
+			// {											// o repetir esto o el ELSE de abajo
+			// 	free_char_array(args, i);
+			// 	return ;
+			// }
+			else
+			{
+				pid = fork();
+				if (pid == 0)
+				{
+					if (in != 0)
+						dup2(in, STDIN_FILENO);
+					if (out != 1)
+						dup2(out, STDOUT_FILENO);
+					if (check_builtins(args))
+					{
+						free_char_array(args, i);
+						exit(0);
+					}
+					if (execvp(args[0], args) == -1)		// hay que usar EXECVE
+					{
+						free_char_array(args, i);
+						exit_failure("Error de exec");
+					}
+				}
+				else if (pid < 0)
 				{
 					free_char_array(args, i);
-					exit(0);
+					exit_failure("CMD PID < 0");
 				}
-				if (execvp(args[0], args) == -1)		// hay que usar EXECVE
-				{
-					free_char_array(args, i);
-					exit_failure("Error de exec");
-				}
+				while (waitpid(pid, NULL, 0) <= 0)
+					do_nothing();
 			}
-			else if (pid < 0)
-			{
-				free_char_array(args, i);
-				exit_failure("CMD PID < 0");
-			}
-			while (waitpid(pid, NULL, 0) <= 0)
-				do_nothing();
 		}
 		free_char_array(args, i);
 	}

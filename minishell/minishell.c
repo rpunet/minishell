@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 12:27:15 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/28 18:28:37 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int argc, char **argv)
 			ft_execute(syntax_tree);
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);
-		free(line);
+		ft_memfree(line, NULL);
 		if (argc > 1)
 			break ;
 	}
