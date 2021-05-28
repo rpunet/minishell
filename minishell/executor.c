@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 21:20:14 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/28 21:23:05 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 
 			if (!ft_strcmp(args[0], "cd"))
 			{
-				if (in == 0 && out == 1)
+				if (in == STDIN_FILENO && out == STDOUT_FILENO)
 					ft_cd(args);
 			}
 			// {											// o repetir esto o el ELSE de abajo
