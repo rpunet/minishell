@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 14:18:21 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/28 15:02:49 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,22 @@ int		ft_echo(char **args)
 		write(1, "\n", 1);
 	else
 	{
-		i = ft_strcmp(args[1], "-n") ? 1 : 2;
-		while (args[i + 1])
-			ft_printf("%s ", args[i++]);
-		ft_printf("%s", args[i]);
-		if (ft_strcmp(args[1], "-n"))
-			write(1, "\n", 1);
+		//i = ft_strcmp(args[1], "-n") ? 1 : 2;		// como ponemos este ternario ?
+		i = 1;
+		if (!ft_strcmp(args[1], "-n"))
+			i = 2;
+		if ((i == 2 && args[2]) || i == 1)
+		{
+			while (args[i + 1])
+			{
+				ft_printf("%s ", args[i]);
+				i++;
+			}
+			if (args[i])
+				ft_printf("%s", args[i]);
+			if (ft_strcmp(args[1], "-n"))
+				write(1, "\n", 1);
+		}
 	}
 	return (0);
 }
