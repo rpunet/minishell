@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/13 21:42:07 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:45:54 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 {
 	int			i;
+
 	char		**args;
 	t_ASTnode	*curr;
 	pid_t		pid;
@@ -51,7 +52,12 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 					dup2(in, STDIN_FILENO);
 				if (out != 1)
 					dup2(out, STDOUT_FILENO);
-				if (execvp(args[0], args) == -1)
+				if (check_builtins(args))
+				{
+					free_char_array(args, i);
+					exit(0);
+				}
+				if (execvp(args[0], args) == -1)		// hay que usar EXECVE
 				{
 					free_char_array(args, i);
 					exit_failure("Error de exec");

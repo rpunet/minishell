@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/09 22:58:32 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:51:55 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	doublelen(char **arr)
+char	*builtins[] = {
+	"pwd"
+};
+
+int		(*ft_builtins[])(char **) = {
+	&ft_pwd
+};
+
+int	double_len(char **arr)
 {
 	int	i;
 
@@ -22,76 +30,55 @@ int	doublelen(char **arr)
 	return (i);
 }
 
-void	ft_echo2(t_job *job, int j)
-{
-	int		i;
-	char	**args;
-	pid_t	pid;
-
-	args = job->cmds[j].args;
-	pid = fork();
-	if (pid == 0)
-	{
-		if (job->cmds[j].io[WRITE] != -1)
-			dup2(job->cmds[j].io[WRITE], STDOUT_FILENO);
-		ft_close_fds(job);
-		if (!args[1])
-		{
-			write(1, "\n", 1);
-			exit(0);
-		}
-		if (ft_strcmp(args[1], "-n"))
-			i = 1;
-		else
-			i = 2;
-		while (args[i + 1])
-		{
-			ft_printf("%s ", args[i]);
-			i++;
-		}
-		ft_printf("%s", args[i]);
-		if (ft_strcmp(args[1], "-n"))
-			write(1, "\n", 1);
-		exit(0);
-	}
-}
-
-void	ft_pwd2(t_job *job, int j)
-{
-	char	*ret;
-	pid_t	pid;
-
-	pid = fork();
-	if (pid == 0)
-	{
-		if (job->cmds[j].io[WRITE] != -1)
-			dup2(job->cmds[j].io[WRITE], STDOUT_FILENO);
-		ft_close_fds(job);
-		if (doublelen(job->cmds[j].args) == 1)
-		{
-			ret = getcwd(NULL, 0);
-			ft_printf("builtIN-%s\n", ret);
-			ret = ft_memfree(ret, NULL);
-			exit(0);
-		}
-		else
-			exit_failure("pwd: too many arguments\n");
-	}
-}
-
-int	ft_cd(char **args)
+int		ft_pwd(char **args)
 {
 	char	*ret;
 
-	ret = args[1];
-	if (chdir(ret) == -1)
-		exit_failure("CD error\n");
+	if (double_len(args) == 1)
+	{
+		ret = getcwd(NULL, 0);
+		ft_printf("builtIN-%s\n", ret);
+		free(ret);
+	}
+	else
+		ft_printf("BUILTINpwd: too many arguments\n");
 	return (0);
 }
 
-int	ft_exit(char **args)
+int		check_builtins(char **args)
 {
-	if (args[0])
-		exit(EXIT_SUCCESS);
+	int	i;
+
+	i = 0;
+	while ( i < BUILTINS)
+	{
+		if (!ft_strcmp(args[0], builtins[i]))
+		{
+			(*ft_builtins[i])(args);
+			return (1);
+		}
+		i++;
+	}
 	return (0);
 }
+
+
+
+
+
+// int	ft_cd(char **args)
+// {
+// 	char	*ret;
+
+// 	ret = args[1];
+// 	if (chdir(ret) == -1)
+// 		exit_failure("CD error\n");
+// 	return (0);
+// }
+
+// int	ft_exit(char **args)
+// {
+// 	if (args[0])
+// 		exit(EXIT_SUCCESS);
+// 	return (0);
+// }

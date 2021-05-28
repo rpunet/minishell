@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/26 22:08:50 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/28 12:50:10 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define READ		0
 # define WRITE		1
-# define BUILTINS	2 // 4
+# define BUILTINS	1 // 4
 
 /*
 ** STRUCTS ---------------------------------
@@ -126,5 +126,9 @@ void		free_char_array(char **arr, int size);
 int			exit_failure(char *format, ...);
 void		do_nothing(void);
 void		*return_null(char *ptr);
+
+int		check_builtins(char **args);
+int		ft_pwd(char **args);
+int		double_len(char **arr);
 
 #endif

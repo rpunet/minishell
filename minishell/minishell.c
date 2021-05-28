@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/13 21:39:24 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/28 12:27:15 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,9 @@ void	tok_delete(t_tok *token)
 	}
 }
 
-/* 	
+/*
 ** 	ESTA PARTE IRIA EN LA LINEA 81
-** 	
+**
 ** 	t_lex	aux = lexer;
 ** 	while (aux.list_token !=  NULL)
 ** 	{
@@ -80,6 +80,7 @@ int	main(int argc, char **argv)
 			ft_execute(syntax_tree);
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);
+		free(line);
 		if (argc > 1)
 			break ;
 	}
