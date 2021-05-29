@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 13:50:41 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/29 02:14:40 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,22 +116,24 @@ t_ASTnode	*GR_tokenlist(void);
 t_ASTnode	*gr_tokenlist_1(void);
 t_ASTnode	*gr_tokenlist_2(void);
 
-void		execute_CMD(t_ASTnode *cmd_node, int in, int out);
-void		execute_INSTR(t_ASTnode *instr);
-void		execute_JOB(t_ASTnode *job);
-void		execute_SEQ(t_ASTnode *seq);
-void		ft_execute(t_ASTnode *syntax_tree);
+void		execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp);
+void		execute_INSTR(t_ASTnode *instr, char **envp);
+void		execute_JOB(t_ASTnode *job, char **envp);
+void		execute_SEQ(t_ASTnode *seq, char **envp);
+void		ft_execute(t_ASTnode *syntax_tree, char **envp);
 
 void		free_char_array(char **arr, int size);
 int			exit_failure(char *format, ...);
 void		do_nothing(void);
 void		*return_null(char *ptr);
 
-int		check_builtins(char **args);
+int		check_builtins(char **args, char **envp);
 int		ft_pwd(char **args);
 int		ft_cd(char **args);
 int		ft_echo(char **args);
+int		ft_exit(void);
 
 int		double_len(char **arr);
+
 
 #endif

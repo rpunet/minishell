@@ -6,13 +6,13 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 21:23:05 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/29 02:24:31 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
+void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp)
 {
 	int			i;
 
@@ -45,8 +45,11 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 		args[i] = NULL;
 		if (i > 0)
 		{
-
-			if (!ft_strcmp(args[0], "cd"))
+			if (!ft_strcmp(args[0], "exit"))			//	EXIT TMB TIENE QUE IR EN PARENT
+			{
+				ft_exit();
+			}
+			else if (!ft_strcmp(args[0], "cd"))			// EN PÀRENT... ALGUNO MAŚ?
 			{
 				if (in == STDIN_FILENO && out == STDOUT_FILENO)
 					ft_cd(args);
@@ -64,7 +67,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 						dup2(in, STDIN_FILENO);
 					if (out != 1)
 						dup2(out, STDOUT_FILENO);
-					if (check_builtins(args))
+					if (check_builtins(args, envp))
 					{
 						free_char_array(args, i);
 						exit(0);
@@ -88,7 +91,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out)
 	}
 }
 
-void	execute_INSTR(t_ASTnode *instr)
+void	execute_INSTR(t_ASTnode *instr, char **envp)
 {
 	t_ASTnode	*curr;
 	int			fds[2];
@@ -97,50 +100,50 @@ void	execute_INSTR(t_ASTnode *instr)
 	pipe(fds);
 	pipe_ends[1] = fds[WRITE];
 	pipe_ends[0] = fds[READ];
-	execute_CMD(instr->left, STDIN_FILENO, fds[WRITE]);
+	execute_CMD(instr->left, STDIN_FILENO, fds[WRITE], envp);
 	curr = instr->right;
 	while (curr != NULL && curr->type == PIPE_NODE)
 	{
 		close(fds[WRITE]);
 		pipe(fds);
-		execute_CMD(curr->left, pipe_ends[0], fds[WRITE]);
+		execute_CMD(curr->left, pipe_ends[0], fds[WRITE], envp);
 		close(pipe_ends[0]);
 		pipe_ends[0] = fds[READ];
 		curr = curr->right;
 	}
 	close(fds[WRITE]);
-	execute_CMD(curr, fds[READ], STDOUT_FILENO);
+	execute_CMD(curr, fds[READ], STDOUT_FILENO, envp);
 	close(fds[READ]);
 }
 
-void	execute_JOB(t_ASTnode *job)
+void	execute_JOB(t_ASTnode *job, char **envp)
 {
 	if (job == NULL)
 		return ;
 	if (job->type == PIPE_NODE)
 	{
-		execute_INSTR(job);
+		execute_INSTR(job, envp);
 	}
 	else
 	{
-		execute_CMD(job, STDIN_FILENO, STDOUT_FILENO);
+		execute_CMD(job, STDIN_FILENO, STDOUT_FILENO, envp);
 	}
 }
 
-void	execute_SEQ(t_ASTnode *seq)
+void	execute_SEQ(t_ASTnode *seq, char **envp)
 {
 	if (seq == NULL)
 		return ;
 	if (seq->type == SEQ_NODE)
 	{
-		execute_JOB(seq->left);
-		execute_SEQ(seq->right);
+		execute_JOB(seq->left, envp);
+		execute_SEQ(seq->right, envp);
 	}
 	else
-		execute_JOB(seq);
+		execute_JOB(seq, envp);
 }
 
-void	ft_execute(t_ASTnode *syntax_tree)
+void	ft_execute(t_ASTnode *syntax_tree, char **envp)
 {
-	execute_SEQ(syntax_tree);
+	execute_SEQ(syntax_tree, envp);
 }

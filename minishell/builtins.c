@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 18:48:47 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/29 02:03:55 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,15 @@
 char	*builtins[] = {
 	"echo",
 	"pwd",
-	"cd"
+	"cd",
+	// "exit"
 };
 
 int		(*ft_builtins[])(char **) = {
 	&ft_echo,
 	&ft_pwd,
-	&ft_cd
+	&ft_cd,
+	// &ft_exit
 };
 
 int	double_len(char **arr)
@@ -75,16 +77,38 @@ int		ft_pwd(char **args)
 
 int		ft_cd(char **args)
 {
-	if (chdir(args[1]) == -1)
-		ft_printf("BUILTINcd: error\n");  // revisar mensaje de error
+	if (double_len(args) <= 2)
+	{													//AÑADIR EL cd ()(HOME)
+		if (chdir(args[1]) == -1)
+			ft_printf("BUILTINcd: No such file or directory\n");  // revisar mensaje de error
+	//ft_printf("builtIN-cd\n");
+	}
+	else
+		ft_printf("BUILTINcd: too many arguments\n");  // revisar mensaje de error
 	return (0);
 }
 
-int		check_builtins(char **args)
+int		ft_exit(void)
+{
+	exit(EXIT_SUCCESS);
+	return (0);
+}
+
+
+int		check_builtins(char **args, char **envp)
 {
 	int	i;
 
 	i = 0;
+	if (!ft_strcmp(args[0], "env"))		// pasamos envp a todas para usar la función-tipo del puntero?
+	{
+		while (*envp)
+		{
+			ft_printf("%s\n", *envp);
+			envp++;
+		}
+		return (1);
+	}
 	while ( i < BUILTINS)
 	{
 		if (!ft_strcmp(args[0], builtins[i]))
@@ -111,9 +135,3 @@ int		check_builtins(char **args)
 // 	return (0);
 // }
 
-// int	ft_exit(char **args)
-// {
-// 	if (args[0])
-// 		exit(EXIT_SUCCESS);
-// 	return (0);
-// }

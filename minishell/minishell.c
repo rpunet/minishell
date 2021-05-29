@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/28 18:28:37 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/29 01:37:12 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	tok_delete(t_tok *token)
 ** 	ft_printf("este es el input:  %s\n\n", line                            );
 */
 
-int	main(int argc, char **argv)
+int	main(int argc, char **argv, char **envp)
 {
 	char		*line;
 	t_lex		lexer;
@@ -77,7 +77,7 @@ int	main(int argc, char **argv)
 		if (ft_lexer(line, &lexer, ft_strlen(line)))
 			ft_printf("error");
 		if (!ft_parser(&lexer, &syntax_tree))
-			ft_execute(syntax_tree);
+			ft_execute(syntax_tree, envp);
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);
 		ft_memfree(line, NULL);
