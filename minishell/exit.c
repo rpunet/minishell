@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 21:54:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/05/26 22:08:43 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/30 22:53:41 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	do_nothing(void)
+void	do_nothing(void *vd)
 {
+	(void)vd;
 	return ;
 }
 

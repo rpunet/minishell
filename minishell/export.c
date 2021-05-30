@@ -6,40 +6,38 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/05/29 00:40:13 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/05/30 22:54:43 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	no_args_export(char **env)
+static int	no_args_export(char **envp)
 {
 	char	**print_exp;
 	int		i;
 	int		j;
+	int		len;
 
-	if (!env)
+	if (!envp)
 		return (NULL);
-	print_exp = ft_memalloc(sizeof(char *)/* * env.count*/);
+	len = double_len(envp);
+	print_exp = ft_memalloc(sizeof(char *) * len);
 	if (print_exp == NULL)
 		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
-	
-	//COPIAR VARIABLES ENV
 	i = 0;
 	j = 0;
-	while (i /*< env.count*/)
+	while (i < len)
 	{
-		if (env[i] && ft_strcmp(env[i], ""))
-			print_exp[j++] = ft_strdup(env[i]);
+		if (envp[i] && ft_strcmp(envp[i], ""))
+			print_exp[j++] = ft_strdup(envp[i]);
 		i++;
 	}
-
-	//SORT VARIABLES
 	i = 0;
 	while (print_exp[i])
 	{
 		j = 0;
-		while(print_exp[j])
+		while (print_exp[j])
 		{
 			if (ft_strcmp(print_exp[i], print_exp[j]) < 0)
 				ft_swap_str(&(print_exp[i]), &(print_exp[j]));
@@ -47,8 +45,6 @@ static int	no_args_export(char **env)
 		}
 		i++;
 	}
-
-	//PRINT VARIABLES
 	i = 0;
 	while (print_exp[i])
 	{
@@ -56,16 +52,15 @@ static int	no_args_export(char **env)
 			ft_printf("declare -x %s\n", print_exp[i]);
 		i++;
 	}
-	/*GESTIONAR POSIBLE ERROR EN EL PROCESO??*/
 	return (EXIT_FAILURE);
 }
 
-int	ft_export(char **args, char **env)
+int	ft_export(char **args, char **envp)
 {
 	int	i;
 
 	i = 1;
 	if (!args[i])
-		return (no_args_export(env));
+		return (no_args_export(envp));
 	return (EXIT_SUCCESS);
 }

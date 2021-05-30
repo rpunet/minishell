@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/29 02:03:55 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/05/30 22:54:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,15 @@ char	*builtins[] = {
 	"echo",
 	"pwd",
 	"cd",
+	"export",
 	// "exit"
 };
 
-int		(*ft_builtins[])(char **) = {
+int		(*ft_builtins[])(char **, char **) = {
 	&ft_echo,
 	&ft_pwd,
 	&ft_cd,
+	&ft_export,
 	// &ft_exit
 };
 
@@ -36,10 +38,11 @@ int	double_len(char **arr)
 	return (i);
 }
 
-int		ft_echo(char **args)
+int	ft_echo(char **args, char **envp)
 {
 	int	i;
 
+	do_nothing(envp);
 	if (!args[1])
 		write(1, "\n", 1);
 	else
@@ -60,10 +63,11 @@ int		ft_echo(char **args)
 	return (0);
 }
 
-int		ft_pwd(char **args)
+int	ft_pwd(char **args, char **envp)
 {
 	char	*ret;
 
+	do_nothing(envp);
 	if (double_len(args) == 1)
 	{
 		ret = getcwd(NULL, 0);
@@ -75,8 +79,9 @@ int		ft_pwd(char **args)
 	return (0);
 }
 
-int		ft_cd(char **args)
+int		ft_cd(char **args, char **envp)
 {
+	do_nothing(envp);
 	if (double_len(args) <= 2)
 	{													//AÑADIR EL cd ()(HOME)
 		if (chdir(args[1]) == -1)
@@ -113,7 +118,7 @@ int		check_builtins(char **args, char **envp)
 	{
 		if (!ft_strcmp(args[0], builtins[i]))
 		{
-			(*ft_builtins[i])(args);
+			(*ft_builtins[i])(args, envp);
 			return (1);
 		}
 		i++;
