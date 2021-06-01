@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/30 22:54:28 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/06/01 11:53:47 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ char	*builtins[] = {
 	"echo",
 	"pwd",
 	"cd",
-	"export",
+	//"export",
 	// "exit"
 };
 
@@ -24,7 +24,7 @@ int		(*ft_builtins[])(char **, char **) = {
 	&ft_echo,
 	&ft_pwd,
 	&ft_cd,
-	&ft_export,
+//	&ft_export,
 	// &ft_exit
 };
 

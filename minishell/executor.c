@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/29 02:24:31 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/02 01:13:56 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp)
 			i++;
 		}
 		args[i] = NULL;
-		if (i > 0)
+		if (i > 0)			//	if (!check_builtin())  ...
 		{
 			if (!ft_strcmp(args[0], "exit"))			//	EXIT TMB TIENE QUE IR EN PARENT
 			{
@@ -52,7 +52,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp)
 			else if (!ft_strcmp(args[0], "cd"))			// EN PÀRENT... ALGUNO MAŚ?
 			{
 				if (in == STDIN_FILENO && out == STDOUT_FILENO)
-					ft_cd(args);
+					ft_cd(args, envp);
 			}
 			// {											// o repetir esto o el ELSE de abajo
 			// 	free_char_array(args, i);
@@ -72,10 +72,10 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp)
 						free_char_array(args, i);
 						exit(0);
 					}
-					if (execvp(args[0], args) == -1)		// hay que usar EXECVE
+					if (exec_process(args, envp) == -1)
 					{
 						free_char_array(args, i);
-						exit_failure("Error de exec");
+						exit_failure("");
 					}
 				}
 				else if (pid < 0)
@@ -83,12 +83,72 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp)
 					free_char_array(args, i);
 					exit_failure("CMD PID < 0");
 				}
-				while (waitpid(pid, NULL, 0) <= 0)
-					do_nothing();
+				while (waitpid(pid, NULL, 0) <= 0)  // wait(&STTUS)
+					do_nothing(envp);
+				// int status;
+				// while (wait(&status) < 0){}
 			}
 		}
 		free_char_array(args, i);
 	}
+}
+
+int		exec_process(char **args, char **envp)
+{
+	char	*directory;
+	char	*path;
+
+	directory = find_directory(args);
+	if (!directory)
+	{
+		ft_printf("%s: Command not found\n", args[0], 1);
+		return (-1);
+	}
+	path = ft_strjoin(directory, args[0]);
+	// ft_printf("%s\n", path);
+	if (execve(path, args, envp) == -1)
+		exit_failure("Error de execve");
+	return (0);
+}
+
+char	*find_directory(char **args)
+{
+	char	*path_var;
+	char	**paths;
+	char	*path;
+	int		i;
+	DIR		*dir;
+	struct dirent	*d;
+
+	path_var = getenv("PATH");
+	paths = ft_split(path_var, ':');
+	i = 0;
+	// while (paths[i])
+	// {
+	// 	ft_printf("%s\n", paths[i]);
+	// 	i++;
+	// }
+	// i = 0;
+	while (paths[i])
+	{
+		dir = opendir(paths[i]);
+		errno = 0;
+		while (dir && errno == 0 && (d = readdir(dir)))
+		{
+			if (!ft_strncmp(d->d_name, args[0], ft_strlen(args[0]) + 1))
+			{
+				// ft_printf("dirent dNAME %s\n", d->d_name);
+				path = ft_strjoin(paths[i], "/");
+				free_char_array(paths, double_len(paths));
+				// ft_printf("path completo %s\n", path);
+				return (path);
+			}
+		}
+		closedir(dir);
+		i++;
+	}
+	free_char_array(paths, double_len(paths));
+	return (NULL);
 }
 
 void	execute_INSTR(t_ASTnode *instr, char **envp)
@@ -114,6 +174,7 @@ void	execute_INSTR(t_ASTnode *instr, char **envp)
 	close(fds[WRITE]);
 	execute_CMD(curr, fds[READ], STDOUT_FILENO, envp);
 	close(fds[READ]);
+
 }
 
 void	execute_JOB(t_ASTnode *job, char **envp)
@@ -146,4 +207,6 @@ void	execute_SEQ(t_ASTnode *seq, char **envp)
 void	ft_execute(t_ASTnode *syntax_tree, char **envp)
 {
 	execute_SEQ(syntax_tree, envp);
+
+
 }

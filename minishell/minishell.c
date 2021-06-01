@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/29 01:37:12 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/01 15:48:17 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("error");
 		if (!ft_parser(&lexer, &syntax_tree))
 			ft_execute(syntax_tree, envp);
+
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);
 		ft_memfree(line, NULL);

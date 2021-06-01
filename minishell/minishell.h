@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/30 22:53:32 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/06/02 00:30:39 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <dirent.h>
 # include "libft.h"
 # include "ft_printf.h"
 
@@ -128,12 +129,15 @@ void		do_nothing(void *vd);
 void		*return_null(char *ptr);
 
 int			check_builtins(char **args, char **envp);
-int			ft_pwd(char **arg, char **envps);
+int			ft_pwd(char **arg, char **envp);
 int			ft_cd(char **args, char **envp);
 int			ft_echo(char **args, char **envp);
 int			ft_exit(void);
 int			ft_export(char **args, char **envp);
 
 int			double_len(char **arr);
+
+int		exec_process(char **args, char **envp);
+char	*find_directory(char **args);
 
 #endif
