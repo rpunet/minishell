@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/02 00:30:39 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/03 12:00:12 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,8 @@ t_ASTnode	*GR_tokenlist(void);
 t_ASTnode	*gr_tokenlist_1(void);
 t_ASTnode	*gr_tokenlist_2(void);
 
-void		execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp);
-void		execute_INSTR(t_ASTnode *instr, char **envp);
+void		execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds);
+void		execute_INSTR(t_ASTnode *instr, char **envp, int *fds);
 void		execute_JOB(t_ASTnode *job, char **envp);
 void		execute_SEQ(t_ASTnode *seq, char **envp);
 void		ft_execute(t_ASTnode *syntax_tree, char **envp);
@@ -137,7 +137,7 @@ int			ft_export(char **args, char **envp);
 
 int			double_len(char **arr);
 
-int		exec_process(char **args, char **envp);
-char	*find_directory(char **args);
+int		exec_process(char **args, char **envp, int i);
+char	*find_directory(DIR **dir, char **args);
 
 #endif
