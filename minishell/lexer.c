@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/04/04 11:07:52 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/06/05 21:34:12 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 					j = 0;
 				}
 			}
-			else if (c == ';' || c == '>' || c == '<' || c == 66 || c == '|')
+			else if (c == ';' || c == '>' || c == '<' || c == 66 || c == '|')	//	 (el 66 seria el >> que hay que detallar)
 			{
 				if (j > 0)
 				{
@@ -71,6 +71,13 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 				token->next = tok_init(size - i);
 				token = token->next;
 			}
+			// else if (c == '$')
+			// {
+			// 	if (j > 0)
+			// 	state = VAR;
+			// 	token->type = TOKEN;
+			// 	token->data
+			// }
 			else
 			{
 				token->data[j] = (char)c;
@@ -92,6 +99,13 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 			else
 				token->data[j++] = (char)c;
 		}
+		// else if (state == VAR)
+		// {
+		// 	if (c == ' ')
+		// 		state = GENERAL;
+		// 	else
+		// 		token->data[j++] = (char)c;
+		// }
 		i++;
 	}
 	token->data[j] = 0;

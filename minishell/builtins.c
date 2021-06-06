@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/01 11:53:47 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/06 02:59:56 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int	ft_pwd(char **args, char **envp)
 	if (double_len(args) == 1)
 	{
 		ret = getcwd(NULL, 0);
-		ft_printf("builtIN-%s\n", ret);
+		ft_printf("%s\n", ret);
 		free(ret);
 	}
 	else
@@ -86,6 +86,20 @@ int		ft_cd(char **args, char **envp)
 	{													//AÑADIR EL cd ()(HOME)
 		if (chdir(args[1]) == -1)
 			ft_printf("BUILTINcd: No such file or directory\n");  // revisar mensaje de error
+		// else
+		// {
+		// 	while (envp)
+		// 	{
+		// 		if(!strcmp(*envp, "PATH"))
+		// 		{
+		// 			char *value = getcwd(NULL, 0);
+		// 			*envp = strcpy(*envp, value);
+		// 			free(value);
+		// 			break;
+		// 		}
+		// 		envp++;
+		// 	}
+		// }
 	//ft_printf("builtIN-cd\n");
 	}
 	else

@@ -6,11 +6,47 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/05 17:41:49 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/06 02:11:57 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+
+void	expand_vars(char **cmd)
+{
+	char	*var_value;
+	char	*new_cmd;
+	char	*aux;
+	int		i;
+
+	char *find = ft_strchr(*cmd, '$');
+	if (find)
+	{
+		find++;
+		if (find)
+		{
+			var_value = getenv(find);
+			i = ft_strlen(*cmd) - ft_strlen(find) - 1;
+			if (var_value)
+			{
+				if (!(new_cmd = malloc(i + ft_strlen(var_value))))
+					return ;
+				new_cmd = ft_memmove(new_cmd, *cmd, i);
+				aux = new_cmd;
+				new_cmd = ft_memmove(new_cmd + (i), var_value, ft_strlen(var_value));
+				free(*cmd);
+				*cmd = aux;
+			}
+			else
+			{
+				aux = ft_substr(*cmd, 0, i);
+				free(*cmd);
+				*cmd = aux;
+			}
+		}
+	}
+}
 
 void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 {
@@ -40,6 +76,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 			(curr->type == CMDNAME_NODE || curr->type == TOKEN_NODE))
 		{
 			args[i] = ft_strdup(curr->data);
+			expand_vars(&args[i]);
 			curr = curr->right;
 			i++;
 		}
@@ -78,7 +115,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 					if (check_builtins(args, envp))
 					{
 						free_char_array(args, i);
-						ft_putstr_fd("vemos esto aqui\n", 1);
+						// ft_putstr_fd("vemos esto aqui\n", 1);
 						exit(0);
 					}
 					if (exec_process(args, envp, i) == -1)
@@ -133,7 +170,7 @@ char	*find_directory(DIR **dir, char **args)  // DIR ** para poder pasar DIR* ar
 		errno = 0;
 		while (*dir && errno == 0 && (d = readdir(*dir)))
 		{
-			if (!ft_strncmp(d->d_name, args[0], ft_strlen(args[0]) + 1))
+			if (!ft_strcmp(d->d_name, args[0]))
 			{
 				path = ft_strjoin(paths[i], "/");
 				free_char_array(paths, double_len(paths));
@@ -205,6 +242,4 @@ void	execute_SEQ(t_ASTnode *seq, char **envp)
 void	ft_execute(t_ASTnode *syntax_tree, char **envp)
 {
 	execute_SEQ(syntax_tree, envp);
-
-
 }
