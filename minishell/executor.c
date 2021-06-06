@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/06 02:11:57 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/06 14:02:33 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 			(curr->type == CMDNAME_NODE || curr->type == TOKEN_NODE))
 		{
 			args[i] = ft_strdup(curr->data);
-			expand_vars(&args[i]);
+			// expand_vars(&args[i]);
 			curr = curr->right;
 			i++;
 		}

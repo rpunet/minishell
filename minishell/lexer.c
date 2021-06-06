@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/05 21:34:12 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/06 14:14:57 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 	int		i;
 	int		j;
 	int		state;
+	int		last_quoted = 0;
 
 	token = tok_init(size);
 	lexer->list_token = token;
@@ -51,8 +52,11 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 				if (j > 0)
 				{
 					token->data[j] = 0;
+					if (!last_quoted)
+						expand_vars(&token->data);
 					token->next = tok_init(size - i);
 					token = token->next;
+					last_quoted = 0;
 					j = 0;
 				}
 			}
@@ -61,8 +65,11 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 				if (j > 0)
 				{
 					token->data[j] = 0;
+					if (!last_quoted)
+						expand_vars(&token->data);
 					token->next = tok_init(1);
 					token = token->next;
+					last_quoted = 0;
 					j = 0;
 				}
 				token->data[0] = (char)c;
@@ -88,7 +95,10 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 		else if (state == QUOTED)
 		{
 			if (c == '\'')
+			{
+				last_quoted = 1;
 				state = GENERAL;
+			}
 			else
 				token->data[j++] = (char)c;
 		}
@@ -109,5 +119,7 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 		i++;
 	}
 	token->data[j] = 0;
+	if (!last_quoted)
+		expand_vars(&token->data);
 	return (0);
 }

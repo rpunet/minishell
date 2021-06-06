@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/03 12:00:12 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/06 13:48:37 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ enum				e_tok{
 	QUOTE = '\'',
 	DQUOTE = '\"',
 	ESCAPE = '\\',
+	VARIABLE = '$',
 	NULTOK = 0,
 };
 
@@ -58,6 +59,7 @@ enum				e_seq{
 	GENERAL,
 	QUOTED,
 	DQUOTED,
+	VAR,
 	SCAPED,
 };
 
@@ -139,5 +141,7 @@ int			double_len(char **arr);
 
 int		exec_process(char **args, char **envp, int i);
 char	*find_directory(DIR **dir, char **args);
+
+void	expand_vars(char **cmd);
 
 #endif
