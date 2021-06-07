@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/06 13:48:37 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/07 23:56:36 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define READ		0
 # define WRITE		1
-# define BUILTINS	3 // 4
+# define BUILTINS	4
 
 /*
 ** STRUCTS ---------------------------------

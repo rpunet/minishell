@@ -6,11 +6,71 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/06 14:14:57 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/07 02:10:44 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	expand_vars(char **cmd)
+{
+	char	*var_value;
+	char	*new_cmd;
+	char	*aux;
+	int		i;
+
+	char *find = ft_strchr(*cmd, '$');
+	if (find)
+	{
+		find++;
+		if (find)
+		{
+			var_value = getenv(find);
+			i = ft_strlen(*cmd) - ft_strlen(find) - 1;
+			if (var_value)
+			{
+				if (!(new_cmd = malloc(i + ft_strlen(var_value))))
+					return ;
+				new_cmd = ft_memmove(new_cmd, *cmd, i);
+				aux = new_cmd;
+				new_cmd = ft_memmove(new_cmd + (i), var_value, ft_strlen(var_value));
+				free(*cmd);
+				*cmd = aux;
+			}
+			else
+			{
+				aux = ft_substr(*cmd, 0, i);
+				free(*cmd);
+				*cmd = aux;
+			}
+		}
+	}
+}
+
+t_tok	*tok_init(int datasize)
+{
+	t_tok	*token;
+
+	token = malloc(sizeof(t_tok));
+	if (token == NULL)
+		return (NULL);
+	token->data = malloc(datasize + 1);
+	if (token->data == NULL)
+		return (NULL);
+	token->type = NULTOK;
+	token->next = NULL;
+	return (token);
+}
+
+void	tok_delete(t_tok *token)
+{
+	if (token != NULL)
+	{
+		token->data = ft_memfree(token->data, NULL);
+		tok_delete(token->next);
+		token = ft_memfree(token, NULL);
+	}
+}
 
 int	ft_lexer(char *line, t_lex *lexer, int size)
 {
@@ -78,13 +138,6 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 				token->next = tok_init(size - i);
 				token = token->next;
 			}
-			// else if (c == '$')
-			// {
-			// 	if (j > 0)
-			// 	state = VAR;
-			// 	token->type = TOKEN;
-			// 	token->data
-			// }
 			else
 			{
 				token->data[j] = (char)c;

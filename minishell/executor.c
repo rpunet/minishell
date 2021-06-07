@@ -6,47 +6,11 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/06 14:02:33 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/07 02:34:58 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-
-void	expand_vars(char **cmd)
-{
-	char	*var_value;
-	char	*new_cmd;
-	char	*aux;
-	int		i;
-
-	char *find = ft_strchr(*cmd, '$');
-	if (find)
-	{
-		find++;
-		if (find)
-		{
-			var_value = getenv(find);
-			i = ft_strlen(*cmd) - ft_strlen(find) - 1;
-			if (var_value)
-			{
-				if (!(new_cmd = malloc(i + ft_strlen(var_value))))
-					return ;
-				new_cmd = ft_memmove(new_cmd, *cmd, i);
-				aux = new_cmd;
-				new_cmd = ft_memmove(new_cmd + (i), var_value, ft_strlen(var_value));
-				free(*cmd);
-				*cmd = aux;
-			}
-			else
-			{
-				aux = ft_substr(*cmd, 0, i);
-				free(*cmd);
-				*cmd = aux;
-			}
-		}
-	}
-}
 
 void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 {
@@ -92,6 +56,9 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 				if (in == STDIN_FILENO && out == STDOUT_FILENO)
 					ft_cd(args, envp);
 			}
+			else if (!ft_strcmp(args[0], "minishell"))
+				execve("./minishell", args, envp);
+
 			// {											// o repetir esto o el ELSE de abajo
 			// 	free_char_array(args, i);
 			// 	return ;

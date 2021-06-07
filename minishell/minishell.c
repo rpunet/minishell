@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/01 15:48:17 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/07 02:10:47 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,31 +18,6 @@ int	ft_get_input(char **line)
 	if (ft_get_next_line(0, line) == -1)
 		return (1);
 	return (0);
-}
-
-t_tok	*tok_init(int datasize)
-{
-	t_tok	*token;
-
-	token = malloc(sizeof(t_tok));
-	if (token == NULL)
-		return (NULL);
-	token->data = malloc(datasize + 1);
-	if (token->data == NULL)
-		return (NULL);
-	token->type = NULTOK;
-	token->next = NULL;
-	return (token);
-}
-
-void	tok_delete(t_tok *token)
-{
-	if (token != NULL)
-	{
-		token->data = ft_memfree(token->data, NULL);
-		tok_delete(token->next);
-		token = ft_memfree(token, NULL);
-	}
 }
 
 /*
