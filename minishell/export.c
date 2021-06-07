@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/07 23:00:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/06/07 23:22:00 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	**replace_envp(char **origin, char **new)
 	return (new);
 }
 
-static char	**ft_envdup(char **envp, size_t len)
+static char	**ft_envdup(char **envp, int len)
 {
 	char	**res;
 	int		i;
@@ -55,7 +55,7 @@ static int	no_args_export(char **envp)
 	int		len;
 
 	if (!envp)
-		return (NULL);
+		return (EXIT_SUCCESS);
 	len = double_len(envp);
 	print_exp = ft_envdup(envp, len);
 	i = 0;
@@ -73,7 +73,7 @@ static int	no_args_export(char **envp)
 	i = 0;
 	while (print_exp[i])
 	{
-		if (!ft_strchr(print_exp[i], "="))
+		if (!ft_strchr(print_exp[i], '='))
 			ft_printf("declare -x %s\n", print_exp[i]);
 		i++;
 	}
@@ -100,7 +100,6 @@ static int	check_syntax(char *arg)
 static void	add_single_exp(char **envp, char *arg)
 {
 	int		i;
-	int		j;
 	int		len;
 	char	**print_exp;
 
@@ -108,8 +107,8 @@ static void	add_single_exp(char **envp, char *arg)
 	while (envp[i])
 	{
 		len = 0;
-		while (ft_isdigit(envp[0]) == 0 && \
-			((ft_isalnum(envp[len])) || (envp[len] == '_')))
+		while (ft_isdigit(envp[i][0]) == 0 && \
+			((ft_isalnum(envp[i][len])) || (envp[i][len] == '_')))
 			len++;
 		if (!ft_strncmp(envp[i], arg, len))
 			return ;
@@ -139,8 +138,8 @@ int	ft_export(char **args, char **envp)
 		valid = ft_strchr(args[i], '=');
 		if (!valid)
 			add_single_exp(envp, args[i]);
-		else
-			add_comp_exp(args[i]);
+		// else
+		// 	add_comp_exp(args[i]);
 		i++;
 	}
 	return (EXIT_SUCCESS);
