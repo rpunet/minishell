@@ -6,12 +6,12 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/07 23:22:00 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/06/09 23:55:19 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 static char	**replace_envp(char **origin, char **new)
 {
 	int	i;
@@ -26,14 +26,14 @@ static char	**replace_envp(char **origin, char **new)
 		free(origin);
 	return (new);
 }
-
-static char	**ft_envdup(char **envp, int len)
+*/
+static char	**ft_envdup(char **envp, int len, int add)
 {
 	char	**res;
 	int		i;
 	int		j;
 
-	res = ft_memalloc(sizeof(char *) * len);
+	res = ft_memalloc(sizeof(char *) * (len + add));
 	if (res == NULL)
 		exit_failure("Unable to allocate memory: %s\n", strerror(errno));
 	i = 0;
@@ -41,7 +41,10 @@ static char	**ft_envdup(char **envp, int len)
 	while (i < len)
 	{
 		if (envp[i] && ft_strcmp(envp[i], ""))
-			res[j++] = ft_strdup(envp[i]);
+		{
+			res[j] = ft_strdup(envp[i]);
+			j++;
+		}
 		i++;
 	}
 	return (res);
@@ -57,7 +60,7 @@ static int	no_args_export(char **envp)
 	if (!envp)
 		return (EXIT_SUCCESS);
 	len = double_len(envp);
-	print_exp = ft_envdup(envp, len);
+	print_exp = ft_envdup(envp, len, 1);
 	i = 0;
 	while (print_exp[i])
 	{
@@ -73,7 +76,7 @@ static int	no_args_export(char **envp)
 	i = 0;
 	while (print_exp[i])
 	{
-		if (!ft_strchr(print_exp[i], '='))
+		if (!ft_strchr((print_exp[i]), '='))
 			ft_printf("declare -x %s\n", print_exp[i]);
 		i++;
 	}
@@ -90,7 +93,7 @@ static int	check_syntax(char *arg)
 		return (EXIT_FAILURE);
 	while (arg[i] && arg[i] != '=')
 	{
-		if (ft_isalnum(arg[i]) != 0 && arg[i] != '_')
+		if ((ft_isalnum(arg[i]) == 0) && (arg[i] != '_'))
 			return (EXIT_FAILURE);
 		i++;
 	}
@@ -115,9 +118,10 @@ static void	add_single_exp(char **envp, char *arg)
 		i++;
 	}
 	len = double_len(envp);
-	print_exp = ft_envdup(envp, len);
+	print_exp = ft_envdup(envp, len, 2);
 	print_exp[len] = ft_strdup(arg);
-	envp = replace_envp(envp, print_exp);
+	//envp = replace_envp(envp, print_exp);
+	envp = print_exp;
 }
 
 int	ft_export(char **args, char **envp)
@@ -129,12 +133,12 @@ int	ft_export(char **args, char **envp)
 	if (!args[i])
 		return (no_args_export(envp));
 	if (args[1][0] == '-')
-		exit_failure("Export doesn't handle any options");
+		exit_failure("Export doesn't handle any options\n");
 	while (args[i])
 	{
 		if (check_syntax(args[i]) == EXIT_FAILURE)
-			exit_failure("Minishell: export: `%s': \
-				not a valid identifier\n", args[i]);
+			exit_failure("Minishell: export: `%s': not a valid identifier\n", \
+				args[i]);
 		valid = ft_strchr(args[i], '=');
 		if (!valid)
 			add_single_exp(envp, args[i]);
@@ -142,5 +146,6 @@ int	ft_export(char **args, char **envp)
 		// 	add_comp_exp(args[i]);
 		i++;
 	}
+	
 	return (EXIT_SUCCESS);
 }
