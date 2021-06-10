@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/10 21:46:23 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/10 22:38:36 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ static int	check_syntax(char *arg)
 	return (EXIT_SUCCESS);
 }
 
-static void	add_single_exp(char **envp, char *arg)
+static void	add_single_exp(char ***envp, char *arg)
 {
 	// int		i;
 	int		len;
@@ -128,24 +128,24 @@ static void	add_single_exp(char **envp, char *arg)
 	// 		return ;
 	// 	i++;
 	// }
-	len = double_len(envp);
-	print_exp = ft_envdup(envp, len, 2);
+	len = double_len(*envp);
+	print_exp = ft_envdup(*envp, len, 2);
 	print_exp[len] = ft_strdup(arg);			// copia todo de momento, en realidad caracteres especiaes no tiene que copiar
 	//envp = replace_envp(envp, print_exp);
-	envp = print_exp;
+	*envp = print_exp;
 	// while (*envp)
 	// {
 	// 	ft_printf("%s\n", *envp);
 	// 	envp++;
 	// }
-	while (*print_exp)
-	{
-		ft_printf("%s\n", *print_exp);
-		print_exp++;
-	}
+	// while (*print_exp)
+	// {
+	// 	ft_printf("%s\n", *print_exp);
+	// 	print_exp++;
+	// }
 }
 
-int	ft_export(char **args, char **envp)
+int	ft_export(char **args, char ***envp)
 {
 	int		i;
 	// char	*valid;
@@ -153,7 +153,7 @@ int	ft_export(char **args, char **envp)
 
 	i = 1;
 	if (!args[i])
-		return (no_args_export(envp));
+		return (no_args_export(*envp));
 	if (args[1][0] == '-')
 		exit_failure("Export doesn't handle any options\n");
 	exit = 0;

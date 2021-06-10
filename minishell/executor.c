@@ -6,13 +6,13 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/10 21:10:14 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/10 22:37:47 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
+void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 {
 	int			i;
 	do_nothing(fds);
@@ -54,7 +54,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 			else if (!ft_strcmp(args[0], "cd"))			// EN PÀRENT... ALGUNO MAŚ?
 			{
 				if (in == STDIN_FILENO && out == STDOUT_FILENO)
-					ft_cd(args, envp);
+					ft_cd(args, *envp);
 			}
 			else if (!ft_strcmp(args[0], "export"))
 			{
@@ -72,7 +72,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 				}
 			}
 			else if (!ft_strcmp(args[0], "minishell"))
-				execve("./minishell", args, envp);
+				execve("./minishell", args, *envp);
 
 			// {											// o repetir esto o el ELSE de abajo
 			// 	free_char_array(args, i);
@@ -94,13 +94,13 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 						dup2(out, STDOUT_FILENO);
 						close(out);
 					}
-					if (check_builtins(args, envp))
+					if (check_builtins(args, *envp))
 					{
 						free_char_array(args, i);
 						// ft_putstr_fd("vemos esto aqui\n", 1);
 						exit(0);
 					}
-					if (exec_process(args, envp, i) == -1)
+					if (exec_process(args, *envp, i) == -1)
 					{
 						free_char_array(args, i);
 						exit_failure("Error de execve");   // salir sin mensaje, o devolver distintos errores para distinos mensajes
@@ -166,7 +166,7 @@ char	*find_directory(DIR **dir, char **args)  // DIR ** para poder pasar DIR* ar
 	return (NULL);
 }
 
-void	execute_INSTR(t_ASTnode *instr, char **envp, int *fds)
+void	execute_INSTR(t_ASTnode *instr, char ***envp, int *fds)
 {
 	t_ASTnode	*curr;
 
@@ -191,7 +191,7 @@ void	execute_INSTR(t_ASTnode *instr, char **envp, int *fds)
 	close(fds[READ]);
 }
 
-void	execute_JOB(t_ASTnode *job, char **envp)
+void	execute_JOB(t_ASTnode *job, char ***envp)
 {
 	int			fds[2];
 
@@ -208,7 +208,7 @@ void	execute_JOB(t_ASTnode *job, char **envp)
 	while (waitpid(-1, NULL, 0) > 0) {}
 }
 
-void	execute_SEQ(t_ASTnode *seq, char **envp)
+void	execute_SEQ(t_ASTnode *seq, char ***envp)
 {
 	if (seq == NULL)
 		return ;
@@ -221,7 +221,7 @@ void	execute_SEQ(t_ASTnode *seq, char **envp)
 		execute_JOB(seq, envp);
 }
 
-void	ft_execute(t_ASTnode *syntax_tree, char **envp)
+void	ft_execute(t_ASTnode *syntax_tree, char ***envp)
 {
 	execute_SEQ(syntax_tree, envp);
 }

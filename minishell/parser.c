@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/05/26 22:06:46 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/10 22:36:15 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -299,7 +299,8 @@ t_ASTnode	*GR_cmd(void)
 	t_ASTnode	*node;
 
 	node = gr_cmd_1();
-	if (node != NULL)
+	if (node != NULL)				// dar vuelta a esto?!?!?
+
 		return (node);
 	return (NULL);
 }

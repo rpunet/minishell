@@ -3,15 +3,15 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
+#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/06/07 23:09:52 by jcarrete         ###   ########.fr        #
+#    Updated: 2021/06/10 22:33:27 by rpunet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME 		= minishell
-SRCS		= minishell.c lexer.c parser.c executor.c exit.c builtins.c export.c
+SRCS		= minishell.c lexer.c parser.c executor.c exit.c builtins.c export2.c
 LIBFT_PATH	= ./libft/
 
 
