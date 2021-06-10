@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/07 02:34:58 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/10 21:10:14 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,21 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char **envp, int *fds)
 			{
 				if (in == STDIN_FILENO && out == STDOUT_FILENO)
 					ft_cd(args, envp);
+			}
+			else if (!ft_strcmp(args[0], "export"))
+			{
+				int save = dup(STDOUT_FILENO);
+
+				if (out == 1)
+					ft_export(args, envp);
+				else
+				{
+					dup2(out, STDOUT_FILENO);
+					close(out);
+					ft_export(args, envp);
+					dup2(save, STDOUT_FILENO);
+					close(save);
+				}
 			}
 			else if (!ft_strcmp(args[0], "minishell"))
 				execve("./minishell", args, envp);

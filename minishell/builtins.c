@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/07 23:57:26 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/10 20:45:52 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,16 @@
 char	*builtins[] = {
 	"echo",
 	"pwd",
-	"cd",
-	"export",
+	"cd"
+	// "export",
 	// "exit"
 };
 
 int		(*ft_builtins[])(char **, char **) = {
 	&ft_echo,
 	&ft_pwd,
-	&ft_cd,
-	&ft_export,
+	&ft_cd
+	// &ft_export,
 	// &ft_exit
 };
 
