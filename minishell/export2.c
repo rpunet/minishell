@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/10 22:38:36 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/10 23:00:30 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,7 @@ static void	add_single_exp(char ***envp, char *arg)
 	print_exp = ft_envdup(*envp, len, 2);
 	print_exp[len] = ft_strdup(arg);			// copia todo de momento, en realidad caracteres especiaes no tiene que copiar
 	//envp = replace_envp(envp, print_exp);
+
 	*envp = print_exp;
 	// while (*envp)
 	// {

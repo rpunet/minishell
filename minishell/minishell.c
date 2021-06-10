@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/10 22:34:11 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/10 23:17:09 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	main(int argc, char **argv, char **envp)
 	t_lex		lexer;
 	t_ASTnode	*syntax_tree;
 
-	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
+	if (argc > 1 && !ft_strcmp(argv[1], "-c"))				//  FALTA comprobacion argumentos para que no pete
 		line = argv[2];
 	while (1)
 	{
