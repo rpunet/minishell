@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/09 23:55:19 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/06/10 20:04:36 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,10 +74,19 @@ static int	no_args_export(char **envp)
 		i++;
 	}
 	i = 0;
-	while (print_exp[i])
+	while (i < len - 1)						// la ultima variable _ no se imprime en export por lo que veo
 	{
-		if (!ft_strchr((print_exp[i]), '='))
-			ft_printf("declare -x %s\n", print_exp[i]);
+		j = 0;
+		if (ft_strchr((print_exp[i]), '='))
+		{
+			ft_putstr_fd("declare -x ", 1);					// todo esto es porque export saca formato con comillas: key="value"
+			while (print_exp[i][j] != '=')
+				j++;
+			write(1, print_exp[i], j + 1);
+			write(1, "\"", 1);
+			ft_printf("%s", &print_exp[i][j + 1]);
+			write(1, "\"\n", 2);
+		}
 		i++;
 	}
 	free_char_array(print_exp, len);
@@ -146,6 +155,6 @@ int	ft_export(char **args, char **envp)
 		// 	add_comp_exp(args[i]);
 		i++;
 	}
-	
+
 	return (EXIT_SUCCESS);
 }
