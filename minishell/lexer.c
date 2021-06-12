@@ -6,26 +6,29 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/13 01:28:27 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 01:44:25 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*find_value(char **envp, char *key)
+char	*find_value(char **envp, char *key)		 		//esto esta sin probar aun
 {
 	char	*find;
+	int		len;
 
 	while (*envp)
 	{
 		find = read_key(*envp);
+		len = ft_strlen(find);
 		if (!ft_strcmp(find, key))
 		{
-			return (ft_substr(*envp, ft_strlen(find) + 1, ft_strlen(*envp)));
+			free (find);
+			return (ft_substr(*envp, len + 1, ft_strlen(*envp)));
 		}
+		free(find);
 		envp++;
 	}
-	free(find);
 	return (NULL);
 }
 
