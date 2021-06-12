@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/10 20:45:52 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/12 04:52:22 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ int	double_len(char **arr)
 	int	i;
 
 	i = 0;
+	if (!*arr || !arr)
+		return 0;
 	while (arr[i])
 		i++;
 	return (i);
@@ -86,20 +88,23 @@ int		ft_cd(char **args, char **envp)
 	{													//AÑADIR EL cd ()(HOME)
 		if (chdir(args[1]) == -1)
 			ft_printf("BUILTINcd: No such file or directory\n");  // revisar mensaje de error
-		// else
-		// {
-		// 	while (envp)
-		// 	{
-		// 		if(!strcmp(*envp, "PATH"))
-		// 		{
-		// 			char *value = getcwd(NULL, 0);
-		// 			*envp = strcpy(value, *envp);
-		// 			free(value);
-		// 			break;
-		// 		}
-		// 		envp++;
-		// 	}
-		// }
+		else
+		{
+			// while (envp)
+			// {
+			// 	if(!strcmp(*envp, "PATH"))
+			// 	{
+			// 		char *value = getcwd(NULL, 0);
+			// 		*envp = strcpy(value, *envp);
+			// 		free(value);
+			// 		break;
+			// 	}
+			// 	envp++;
+			// }
+			// delete_var(&envp, ft_strdup("PWD"));
+			// add_single_exp(&envp, ft_strdup("ZZZZZ=0000"));
+			// delete_var(&envp, ft_strdup("OLDPWD"));
+		}
 	//ft_printf("builtIN-cd\n");
 	}
 	else

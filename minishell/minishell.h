@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/10 22:37:16 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/12 04:49:34 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,11 @@ int			ft_cd(char **args, char **envp);
 int			ft_echo(char **args, char **envp);
 int			ft_exit(void);
 int			ft_export(char **args, char ***envp);
+char	**ft_envdup(char **envp, int len, int add, char *ignore);
+int		ft_unset(char **args, char ***envp);
+char	*read_key(char *var);
+void	delete_var(char ***envp, char *del);
+void	add_single_exp(char ***envp, char *arg);
 
 int			double_len(char **arr);
 

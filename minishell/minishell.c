@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/10 23:17:09 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/12 01:53:40 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,11 @@ int	main(int argc, char **argv, char **envp)
 	char		*line;
 	t_lex		lexer;
 	t_ASTnode	*syntax_tree;
+	char		**envp_dup;
 
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))				//  FALTA comprobacion argumentos para que no pete
 		line = argv[2];
+	envp_dup = ft_envdup(envp, double_len(envp), 1, NULL);
 	while (1)
 	{
 		if (argc == 1)
@@ -52,7 +54,7 @@ int	main(int argc, char **argv, char **envp)
 		if (ft_lexer(line, &lexer, ft_strlen(line)))
 			ft_printf("error");
 		if (!ft_parser(&lexer, &syntax_tree))
-			ft_execute(syntax_tree, &envp);
+			ft_execute(syntax_tree, &envp_dup);
 
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);

@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/10 22:37:47 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/12 02:23:17 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,8 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 					close(save);
 				}
 			}
+			else if (!ft_strcmp(args[0], "unset"))
+				ft_unset(&args[1], envp);
 			else if (!ft_strcmp(args[0], "minishell"))
 				execve("./minishell", args, *envp);
 
