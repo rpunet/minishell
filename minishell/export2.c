@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/12 04:53:06 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 01:36:29 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int		check_ignore(char *envp, char *ignore)
 			return (1);
 		}
 	}
+	free(key);
 	return (0);
 }
 
@@ -67,14 +68,16 @@ char	**ft_envdup(char **envp, int len, int add, char *ignore)
 	return (res);
 }
 
-static int	no_args_export(char **envp)
+static int	no_args_export(char **envp_dup)
 {
 	int		i;
 	int		j;
 	int		len;
+	char	**envp;
 
-	if (!envp)
-		return (EXIT_SUCCESS);
+	if (!envp_dup)
+		return (EXIT_FAILURE);
+	envp = ft_envdup(envp_dup, double_len(envp_dup), 1, NULL);		//hacemos copia para que no ordene el original, por si luego lo sacamos con env
 	len = double_len(envp);
 	i = 0;
 	while (envp[i])
@@ -110,7 +113,8 @@ static int	no_args_export(char **envp)
 		}
 		i++;
 	}
-	return (EXIT_FAILURE);
+	free_char_array(envp, len);
+	return (EXIT_SUCCESS);
 }
 
 static int	check_syntax(char *arg)
@@ -158,6 +162,7 @@ void	delete_var(char ***envp, char *del)
 	aux = *envp;
 	*envp = new_envp;
 	free_char_array(aux, len);
+	// free(del);
 }
 
 char	*read_key(char *var)
@@ -170,7 +175,7 @@ char	*read_key(char *var)
 	return (ft_substr(var, 0, len));
 }
 
-char	*find_variable(char **envp, char *arg, int *no_add, int del_on)
+char	*find_variable(char **envp, char *arg, int *no_del)   // cuando se llama a esta funcion se puede pasar como argumento en lugar de igualar a find=, que lo hago para poder liberar el ft_substr()
 {
 	int		len;
 	char	*find;
@@ -179,19 +184,19 @@ char	*find_variable(char **envp, char *arg, int *no_add, int del_on)
 	len = 0;
 	while (arg[len] && arg[len] != '=')
 		len++;
-	find = ft_substr(arg, 0, len);			//falta liberarlo al final porque esta metida la funcion find variable directamente como argumento. Para probarlo, ejecutar un export x y luego un comando fallido
+	find = ft_substr(arg, 0, len);
 	while (*envp)
 	{
 		key = read_key(*envp);
 		if (!ft_strcmp(key, find))
 		{
-			if (!((*envp)[len] == '=' && !arg[len] && !del_on))			// esto es para que si la variable que sustituye es solo x (sin x=3), no sustituya nada.
+			if (!((*envp)[len] == '=' && !arg[len] && no_del))			// esto es para que si la variable que sustituye es solo x (sin x=3), no sustituya nada.
 			{
 				free(find);
 				return (key);
 			}
-			if (no_add)
-				*no_add = 1;
+			if (no_del)
+				*no_del = 1;
 		}
 		free(key);
 		envp++;
@@ -204,7 +209,8 @@ int	ft_export(char **args, char ***envp)
 {
 	int		i;
 	int		exit;
-	int		no_add = 0;
+	int		no_deleted = 0;
+	char	*find;
 
 	i = 1;
 	if (!args[i])
@@ -218,18 +224,23 @@ int	ft_export(char **args, char ***envp)
 			exit = 1;
 		else
 		{
-			delete_var(envp, find_variable(*envp, args[i], &no_add, 0));
-			if (!no_add)
+			delete_var(envp, find = find_variable(*envp, args[i], &no_deleted));
+			if (!no_deleted)
 				add_single_exp(envp, args[i]);
 		}
 		i++;
+		no_deleted = 0;
+		free (find);
 	}
 	return (exit);
 }
 
 int	ft_unset(char **args, char ***envp)
 {
-	if (*args && find_variable(*envp, *args, NULL, 1))		//solo va con un unset, FALTA añadir que haga varias a la vez
+	char	*find;
+
+	if (*args && (find = find_variable(*envp, *args, NULL)))	//solo va con un unset, FALTA añadir que haga varias a la vez
 		delete_var(envp, *args);
+	free(find);
 	return 0;
 }

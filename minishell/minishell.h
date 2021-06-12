@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/12 04:49:34 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 00:25:37 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 # define READ		0
 # define WRITE		1
-# define BUILTINS	3
+# define BUILTINS	2
 
 /*
 ** STRUCTS ---------------------------------
@@ -132,7 +132,7 @@ void		*return_null(char *ptr);
 
 int			check_builtins(char **args, char **envp);
 int			ft_pwd(char **arg, char **envp);
-int			ft_cd(char **args, char **envp);
+int			ft_cd(char **args, char ***envp);
 int			ft_echo(char **args, char **envp);
 int			ft_exit(void);
 int			ft_export(char **args, char ***envp);
@@ -141,6 +141,8 @@ int		ft_unset(char **args, char ***envp);
 char	*read_key(char *var);
 void	delete_var(char ***envp, char *del);
 void	add_single_exp(char ***envp, char *arg);
+char	*find_variable(char **envp, char *arg, int *no_del);
+void	delete_var(char ***envp, char *del);
 
 int			double_len(char **arr);
 

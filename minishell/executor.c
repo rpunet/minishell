@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/12 02:23:17 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/12 20:51:47 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 			else if (!ft_strcmp(args[0], "cd"))			// EN PÀRENT... ALGUNO MAŚ?
 			{
 				if (in == STDIN_FILENO && out == STDOUT_FILENO)
-					ft_cd(args, *envp);
+					ft_cd(args, envp);
 			}
 			else if (!ft_strcmp(args[0], "export"))
 			{

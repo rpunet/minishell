@@ -6,11 +6,28 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/07 02:10:44 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 01:28:27 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+char	*find_value(char **envp, char *key)
+{
+	char	*find;
+
+	while (*envp)
+	{
+		find = read_key(*envp);
+		if (!ft_strcmp(find, key))
+		{
+			return (ft_substr(*envp, ft_strlen(find) + 1, ft_strlen(*envp)));
+		}
+		envp++;
+	}
+	free(find);
+	return (NULL);
+}
 
 void	expand_vars(char **cmd)
 {
@@ -25,7 +42,8 @@ void	expand_vars(char **cmd)
 		find++;
 		if (find)
 		{
-			var_value = getenv(find);
+			var_value = getenv(find);		//find_value
+			// var_value = find_value(envp, find);
 			i = ft_strlen(*cmd) - ft_strlen(find) - 1;
 			if (var_value)
 			{

@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/12 04:52:22 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/12 20:54:30 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*builtins[] = {
 	"echo",
-	"pwd",
-	"cd"
+	"pwd"
+	// "cd"
 	// "export",
 	// "exit"
 };
@@ -23,7 +23,7 @@ char	*builtins[] = {
 int		(*ft_builtins[])(char **, char **) = {
 	&ft_echo,
 	&ft_pwd,
-	&ft_cd
+	// &ft_cd
 	// &ft_export,
 	// &ft_exit
 };
@@ -81,9 +81,10 @@ int	ft_pwd(char **args, char **envp)
 	return (0);
 }
 
-int		ft_cd(char **args, char **envp)
+int		ft_cd(char **args, char ***envp)
 {
-	do_nothing(envp);
+	char	*find;
+
 	if (double_len(args) <= 2)
 	{													//AÑADIR EL cd ()(HOME)
 		if (chdir(args[1]) == -1)
@@ -101,8 +102,9 @@ int		ft_cd(char **args, char **envp)
 			// 	}
 			// 	envp++;
 			// }
-			// delete_var(&envp, ft_strdup("PWD"));
-			// add_single_exp(&envp, ft_strdup("ZZZZZ=0000"));
+			delete_var(envp, find = find_variable(*envp, "PWD", NULL));
+			free (find);
+			// add_single_exp(&envp, ft_strdup("PWD=0000"));
 			// delete_var(&envp, ft_strdup("OLDPWD"));
 		}
 	//ft_printf("builtIN-cd\n");
