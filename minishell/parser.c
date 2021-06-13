@@ -6,29 +6,29 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/10 22:36:15 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 23:07:52 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 /*
 ** ----------shell grammar rules:---------------
-** SEQUENCE		:=		JOB		;	SEQUENCE
-** 						JOB		;
-** 						JOB
+** SEQUENCE			:=		JOB		;	SEQUENCE
+** 							JOB		;
+** 							JOB
 **
 ** JOB				:=		INSTR
-** 						INSTR	|	JOB
+** 							INSTR	|	JOB
 **
 ** INSTR			:=		CMD
-** 						CMD		>	filename
-** 						CMD		<	filename
-** 						CMD		>>	filename
+** 							CMD		>	filename
+** 							CMD		<	filename
+** 							CMD		>>	filename
 **
 ** CMD				:=		cmdname	TOKENLIST
 **
 ** TOKENLIST		:=		token	TOKENLIST
-** 						(empty)
+** 							(empty)
 */
 
 t_tok	*g_current_tok;
@@ -94,6 +94,7 @@ t_ASTnode	*GR_seq(void)
 
 t_ASTnode	*gr_seq_1(void)
 {
+	// ft_printf("numerrrr--------\n");				//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	return (GR_job());
 }
 
@@ -233,7 +234,7 @@ t_ASTnode	*gr_instr_2(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*cmd;
-	char		*filename;
+	char		*filename = NULL;
 
 	cmd = GR_cmd();
 	if (cmd == NULL)
@@ -264,7 +265,7 @@ t_ASTnode	*gr_instr_3(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*cmd;
-	char		*filename;
+	char		*filename = NULL;
 
 	cmd = GR_cmd();
 	if (cmd == NULL)
@@ -309,7 +310,7 @@ t_ASTnode	*gr_cmd_1(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*tokenlist;
-	char		*dataname;
+	char		*dataname = NULL;
 
 	if (g_current_tok != NULL)
 		dataname = ft_strdup(g_current_tok->data);
@@ -349,10 +350,13 @@ t_ASTnode	*gr_tokenlist_1(void)
 {
 	t_ASTnode	*parent;
 	t_ASTnode	*tokenlist;
-	char		*dataarg;
+	char		*dataarg = NULL;
 
 	if (g_current_tok != NULL)
+	{
 		dataarg = ft_strdup(g_current_tok->data);
+		// ft_printf("---AST[[[%s]]]]---\n", dataarg);				//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+	}
 	if (!terminal(TOKEN))
 		return (return_null(dataarg));
 	tokenlist = GR_tokenlist();

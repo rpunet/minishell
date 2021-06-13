@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/13 01:36:29 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 22:10:51 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,7 +172,9 @@ char	*read_key(char *var)
 	len = 0;
 	while (var[len] && var[len] != '=')
 		len++;
-	return (ft_substr(var, 0, len));
+	if (len > 0)
+		return (ft_substr(var, 0, len));
+	return (NULL);
 }
 
 char	*find_variable(char **envp, char *arg, int *no_del)   // cuando se llama a esta funcion se puede pasar como argumento en lugar de igualar a find=, que lo hago para poder liberar el ft_substr()
@@ -221,7 +223,10 @@ int	ft_export(char **args, char ***envp)
 	while (args[i])
 	{
 		if (check_syntax(args[i]) == EXIT_FAILURE)		// no retornamos aqui, aunqu haya errores sintacticos, las que estan bien si que se exportan
+		{
+			ft_printf("MINIsh: export:`%s': not a valid identifier\n", args[i]);
 			exit = 1;
+		}
 		else
 		{
 			delete_var(envp, find = find_variable(*envp, args[i], &no_deleted));
@@ -244,3 +249,4 @@ int	ft_unset(char **args, char ***envp)
 	free(find);
 	return 0;
 }
+

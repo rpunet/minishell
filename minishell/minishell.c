@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/13 01:28:07 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 23:14:28 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,24 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))				//  FALTA comprobacion argumentos para que no pete
 		line = argv[2];
 	envp_dup = ft_envdup(envp, double_len(envp), 1, NULL);
+	// for (int i = 0; envp_dup[i]; i++)
+	// 	ft_printf("%s\n", envp_dup[i]);
+	// free_char_array(envp, double_len(envp));
+	// free_char_array(envp_dup, double_len(envp_dup));
+	envp = envp_dup;														// ??????
+	// for (int i = 0; envp[i]; i++)
+	// 	ft_printf("%s\n", envp[i]);
 	while (1)
 	{
 		if (argc == 1)
 			if (ft_get_input(&line))
 				return (0);
-		if (ft_lexer(line, &lexer, ft_strlen(line)))
+		if (ft_lexer(line, &lexer, ft_strlen(line), envp_dup))
 			ft_printf("error");
 		if (!ft_parser(&lexer, &syntax_tree))
 			ft_execute(syntax_tree, &envp_dup);
+		else
+			ft_putstr_fd("MINIsh: syntax error near unexpected token `;'\n", 1);
 
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);

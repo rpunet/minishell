@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/13 00:25:37 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 22:57:55 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ int			ft_get_input(char **line);
 t_tok		*tok_init(int datasize);
 void		tok_delete(t_tok *token);
 
-int			ft_lexer(char *line, t_lex *lexer, int size);
+int			ft_lexer(char *line, t_lex *lexer, int size, char **envp);
 
 int			ft_parser(t_lex *lexer, t_ASTnode **syntax_tree);
 void		ASTdelete(t_ASTnode *node);
@@ -149,6 +149,7 @@ int			double_len(char **arr);
 int		exec_process(char **args, char **envp, int i);
 char	*find_directory(DIR **dir, char **args);
 
-void	expand_vars(char **cmd);
+void	expand_vars(char **cmd, char **envp);
+char	*find_value(char **envp, char *key);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/13 01:44:25 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 22:58:05 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ char	*find_value(char **envp, char *key)		 		//esto esta sin probar aun
 		len = ft_strlen(find);
 		if (!ft_strcmp(find, key))
 		{
+			// ft_printf("---KEEEEYYYYYYY[[[%s]]]]---\n", find);
+			// ft_printf("---VARRRRRRRRR[[[%s]]]]---\n", key);
 			free (find);
 			return (ft_substr(*envp, len + 1, ft_strlen(*envp)));
 		}
@@ -32,26 +34,29 @@ char	*find_value(char **envp, char *key)		 		//esto esta sin probar aun
 	return (NULL);
 }
 
-void	expand_vars(char **cmd)
+void	expand_vars(char **cmd, char **envp)
 {
 	char	*var_value;
 	char	*new_cmd;
 	char	*aux;
 	int		i;
 
+
+	// do_nothing(envp);
 	char *find = ft_strchr(*cmd, '$');
 	if (find)
 	{
 		find++;
 		if (find)
 		{
-			var_value = getenv(find);		//find_value
-			// var_value = find_value(envp, find);
+			// var_value = getenv(find);		//find_value
+			var_value = find_value(envp, find);
+			// ft_printf("---[[[%s]]]]---\n", var_value);
 			i = ft_strlen(*cmd) - ft_strlen(find) - 1;
 			if (var_value)
 			{
 				if (!(new_cmd = malloc(i + ft_strlen(var_value))))
-					return ;
+					return (free(var_value));
 				new_cmd = ft_memmove(new_cmd, *cmd, i);
 				aux = new_cmd;
 				new_cmd = ft_memmove(new_cmd + (i), var_value, ft_strlen(var_value));
@@ -64,6 +69,7 @@ void	expand_vars(char **cmd)
 				free(*cmd);
 				*cmd = aux;
 			}
+			free(var_value);
 		}
 	}
 }
@@ -93,7 +99,7 @@ void	tok_delete(t_tok *token)
 	}
 }
 
-int	ft_lexer(char *line, t_lex *lexer, int size)
+int	ft_lexer(char *line, t_lex *lexer, int size, char **envp)
 {
 	t_tok	*token;
 	int		c;
@@ -134,7 +140,7 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 				{
 					token->data[j] = 0;
 					if (!last_quoted)
-						expand_vars(&token->data);
+						expand_vars(&token->data, envp);
 					token->next = tok_init(size - i);
 					token = token->next;
 					last_quoted = 0;
@@ -147,7 +153,7 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 				{
 					token->data[j] = 0;
 					if (!last_quoted)
-						expand_vars(&token->data);
+						expand_vars(&token->data, envp);
 					token->next = tok_init(1);
 					token = token->next;
 					last_quoted = 0;
@@ -194,6 +200,6 @@ int	ft_lexer(char *line, t_lex *lexer, int size)
 	}
 	token->data[j] = 0;
 	if (!last_quoted)
-		expand_vars(&token->data);
+		expand_vars(&token->data, envp);
 	return (0);
 }
