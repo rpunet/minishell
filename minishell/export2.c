@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/13 01:36:29 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/10/10 13:19:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ char	**ft_envdup(char **envp, int len, int add, char *ignore)
 	{
 		if (envp[i] && ft_strcmp(envp[i], "") && !check_ignore(envp[i], ignore))
 		{
-
 			res[j] = ft_strdup(envp[i]);
 			j++;
 		}

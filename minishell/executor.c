@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/12 20:51:47 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/11/25 16:48:49 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,7 +207,7 @@ void	execute_JOB(t_ASTnode *job, char ***envp)
 	{
 		execute_CMD(job, STDIN_FILENO, STDOUT_FILENO, envp, fds);
 	}
-	while (waitpid(-1, NULL, 0) > 0) {}
+	while (waitpid(-1, NULL, 0) > 0){ }
 }
 
 void	execute_SEQ(t_ASTnode *seq, char ***envp)

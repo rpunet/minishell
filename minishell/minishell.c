@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/13 01:28:07 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/11/25 16:49:13 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("error");
 		if (!ft_parser(&lexer, &syntax_tree))
 			ft_execute(syntax_tree, &envp_dup);
-
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);
 		ft_memfree(line, NULL);
