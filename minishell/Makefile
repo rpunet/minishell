@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
+#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/06/13 21:10:57 by rpunet           ###   ########.fr        #
+#    Updated: 2021/11/27 20:42:13 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ LIBFT_PATH	= ./libft/
 
 
 all: clean
-	gcc -Wall -Wextra -Werror -g -fsanitize=address -L $(LIBFT_PATH) -I . ${SRCS} -lft -o ${NAME}
+	gcc -Wall -Wextra -Werror -g -fsanitize=address -L $(LIBFT_PATH) -I . ${SRCS} -lft -lreadline -o ${NAME}
 
 clean:
 		@rm -f $(NAME)

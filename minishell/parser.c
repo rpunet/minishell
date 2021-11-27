@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/27 19:00:02 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/27 20:38:14 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	ft_parser(t_lex *lexer, t_ASTnode **syntax_tree)
 {
 	g_current_tok = lexer->list_token;
 	*syntax_tree = GR_seq();
-	if (g_current_tok != NULL && g_current_tok->type != NULTOK)
+	if (g_current_tok != NULL && g_current_tok->type != T_NULTOK)
 		return (1);
 	return (0);
 }
@@ -106,7 +106,7 @@ t_ASTnode	*gr_seq_2(void)
 	job = GR_job();
 	if (job == NULL)
 		return (NULL);
-	if (!terminal(SEMICOLON))
+	if (!terminal(T_SEMICOLON))
 	{
 		ASTdelete(job);
 		return (NULL);
@@ -129,7 +129,7 @@ t_ASTnode	*gr_seq_3(void)
 	job = GR_job();
 	if (job == NULL)
 		return (NULL);
-	if (!terminal(SEMICOLON))
+	if (!terminal(T_SEMICOLON))
 	{
 		ASTdelete(job);
 		return (NULL);
@@ -182,7 +182,7 @@ t_ASTnode	*gr_job_2(void)
 	instr = GR_instr();
 	if (instr == NULL)
 		return (NULL);
-	if (!terminal(PIPE))
+	if (!terminal(T_PIPE))
 	{
 		ASTdelete(instr);
 		return (NULL);
@@ -239,14 +239,14 @@ t_ASTnode	*gr_instr_2(void)
 	cmd = GR_cmd();
 	if (cmd == NULL)
 		return (NULL);
-	if (!terminal(REDIR))
+	if (!terminal(T_REDIR))
 	{
 		ASTdelete(cmd);
 		return (NULL);
 	}
 	if (g_current_tok->data != NULL)
 		filename = ft_strdup(g_current_tok->data);
-	if (!terminal(TOKEN))
+	if (!terminal(T_TOKEN))
 	{
 		ASTdelete(cmd);
 		return (return_null(filename));
@@ -270,14 +270,14 @@ t_ASTnode	*gr_instr_3(void)
 	cmd = GR_cmd();
 	if (cmd == NULL)
 		return (NULL);
-	if (!terminal(INDIR))
+	if (!terminal(T_INDIR))
 	{
 		ASTdelete(cmd);
 		return (NULL);
 	}
 	if (g_current_tok->data != NULL)
 		filename = ft_strdup(g_current_tok->data);
-	if (!terminal(TOKEN))
+	if (!terminal(T_TOKEN))
 	{
 		ASTdelete(cmd);
 		return (return_null(filename));
@@ -314,7 +314,7 @@ t_ASTnode	*gr_cmd_1(void)
 
 	if (g_current_tok != NULL)
 		dataname = ft_strdup(g_current_tok->data);
-	if (!terminal(TOKEN))
+	if (!terminal(T_TOKEN))
 		return (return_null(dataname));
 	tokenlist = GR_tokenlist();
 	parent = malloc(sizeof(t_ASTnode));
@@ -357,7 +357,7 @@ t_ASTnode	*gr_tokenlist_1(void)
 		dataarg = ft_strdup(g_current_tok->data);
 		// ft_printf("---AST[[[%s]]]]---\n", dataarg);				//xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 	}
-	if (!terminal(TOKEN))
+	if (!terminal(T_TOKEN))
 		return (return_null(dataarg));
 	tokenlist = GR_tokenlist();
 	parent = malloc(sizeof(t_ASTnode));

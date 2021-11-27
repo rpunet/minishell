@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/27 18:59:44 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/27 20:48:33 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,16 @@
 
 int	ft_get_input(char **line)
 {
-	ft_printf("MINIsh > ");
-	if (ft_get_next_line(0, line) == -1)
-		return (1);
-	return (0);
+	char	*prompt;
+
+	prompt = ft_strjoin("", "MINIsh > ");
+	*line = readline(prompt);
+	if (!line)
+		return (EXIT_FAILURE);
+	if (**line)
+		add_history(*line);
+	prompt = ft_memfree(prompt, NULL);
+	return (EXIT_SUCCESS);
 }
 
 /*
@@ -66,7 +72,7 @@ int	main(int argc, char **argv, char **envp)
 			ft_putstr_fd("MINIsh: syntax error near unexpected token `;'\n", 1);
 		ASTdelete(syntax_tree);
 		tok_delete(lexer.list_token);
-		ft_memfree(line, NULL);
+		line = ft_memfree(line, NULL);
 		if (argc > 1)
 			break ;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/13 22:58:05 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/11/27 20:39:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_tok	*tok_init(int datasize)
 	token->data = malloc(datasize + 1);
 	if (token->data == NULL)
 		return (NULL);
-	token->type = NULTOK;
+	token->type = T_NULTOK;
 	token->next = NULL;
 	return (token);
 }
@@ -110,29 +110,29 @@ int	ft_lexer(char *line, t_lex *lexer, int size, char **envp)
 
 	token = tok_init(size);
 	lexer->list_token = token;
-	state = GENERAL;
+	state = S_GENERAL;
 	i = 0;
 	j = 0;
 	while (line[i] != 0)
 	{
 		c = (line[i]);
-		if (state == GENERAL)
+		if (state == S_GENERAL)
 		{
 			if (c == '\'')
 			{
-				state = QUOTED;
-				token->type = TOKEN;
+				state = S_QUOTED;
+				token->type = T_TOKEN;
 			}
 			else if (c == '\"')
 			{
-				state = DQUOTED;
-				token->type = TOKEN;
+				state = S_DQUOTED;
+				token->type = T_TOKEN;
 			}
 			else if (c == '\\')
 			{
 				token->data[j] = line[++i];
 				j++;
-				token->type = TOKEN;
+				token->type = T_TOKEN;
 			}
 			else if (c == ' ')
 			{
@@ -169,30 +169,30 @@ int	ft_lexer(char *line, t_lex *lexer, int size, char **envp)
 			{
 				token->data[j] = (char)c;
 				j++;
-				token->type = TOKEN;
+				token->type = T_TOKEN;
 			}
 		}
-		else if (state == QUOTED)
+		else if (state == S_QUOTED)
 		{
 			if (c == '\'')
 			{
 				last_quoted = 1;
-				state = GENERAL;
+				state = S_GENERAL;
 			}
 			else
 				token->data[j++] = (char)c;
 		}
-		else if (state == DQUOTED)
+		else if (state == S_DQUOTED)
 		{
 			if (c == '\"')
-				state = GENERAL;
+				state = S_GENERAL;
 			else
 				token->data[j++] = (char)c;
 		}
-		// else if (state == VAR)
+		// else if (state == S_VAR)
 		// {
 		// 	if (c == ' ')
-		// 		state = GENERAL;
+		// 		state = S_GENERAL;
 		// 	else
 		// 		token->data[j++] = (char)c;
 		// }
