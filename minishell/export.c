@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/06/10 20:04:36 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 22:10:52 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,18 +74,21 @@ static int	no_args_export(char **envp)
 		i++;
 	}
 	i = 0;
-	while (i < len - 1)						// la ultima variable _ no se imprime en export por lo que veo
+	while (i < len)
 	{
-		j = 0;
-		if (ft_strchr((print_exp[i]), '='))
+		if (print_exp[i][0] != '_')					// la ultima variable _ no se imprime en export por lo que veo
 		{
-			ft_putstr_fd("declare -x ", 1);					// todo esto es porque export saca formato con comillas: key="value"
-			while (print_exp[i][j] != '=')
-				j++;
-			write(1, print_exp[i], j + 1);
-			write(1, "\"", 1);
-			ft_printf("%s", &print_exp[i][j + 1]);
-			write(1, "\"\n", 2);
+			j = 0;
+			if (ft_strchr((print_exp[i]), '='))
+			{
+				ft_putstr_fd("declare -x ", 1);					// todo esto es porque export saca formato con comillas: key="value"
+				while (print_exp[i][j] != '=')
+					j++;
+				write(1, print_exp[i], j + 1);
+				write(1, "\"", 1);
+				ft_printf("%s", &print_exp[i][j + 1]);
+				write(1, "\"\n", 2);
+			}
 		}
 		i++;
 	}
@@ -98,7 +101,7 @@ static int	check_syntax(char *arg)
 	int	i;
 
 	i = 0;
-	if (arg[0] == '=' || ft_isdigit(arg[0]))
+	if (arg[0] == '=' || ft_isdigit(arg[0]))			// mas bien seria que sea solo alfabetico, tmpoco valen signos
 		return (EXIT_FAILURE);
 	while (arg[i] && arg[i] != '=')
 	{
@@ -111,7 +114,7 @@ static int	check_syntax(char *arg)
 
 static void	add_single_exp(char **envp, char *arg)
 {
-	int		i;
+	// int		i;
 	int		len;
 	char	**print_exp;
 
@@ -119,8 +122,7 @@ static void	add_single_exp(char **envp, char *arg)
 	while (envp[i])
 	{
 		len = 0;
-		while (ft_isdigit(envp[i][0]) == 0 && \
-			((ft_isalnum(envp[i][len])) || (envp[i][len] == '_')))
+		while (ft_isdigit(envp[i][0]) == 0 && ((ft_isalnum(envp[i][len])) || (envp[i][len] == '_')))
 			len++;
 		if (!ft_strncmp(envp[i], arg, len))
 			return ;
@@ -128,33 +130,44 @@ static void	add_single_exp(char **envp, char *arg)
 	}
 	len = double_len(envp);
 	print_exp = ft_envdup(envp, len, 2);
-	print_exp[len] = ft_strdup(arg);
+	print_exp[len] = ft_strdup(arg);			// copia todo de momento, en realidad caracteres especiaes no tiene que copiar
 	//envp = replace_envp(envp, print_exp);
 	envp = print_exp;
+	// while (*envp)
+	// {
+	// 	ft_printf("%s\n", *envp);
+	// 	envp++;
+	// }
+	while (*print_exp)
+	{
+		ft_printf("%s\n", *print_exp);
+		print_exp++;
+	}
 }
 
 int	ft_export(char **args, char **envp)
 {
 	int		i;
-	char	*valid;
+	// char	*valid;
+	int		exit;
 
 	i = 1;
 	if (!args[i])
 		return (no_args_export(envp));
 	if (args[1][0] == '-')
 		exit_failure("Export doesn't handle any options\n");
+	exit = 0;
 	while (args[i])
 	{
-		if (check_syntax(args[i]) == EXIT_FAILURE)
-			exit_failure("Minishell: export: `%s': not a valid identifier\n", \
-				args[i]);
-		valid = ft_strchr(args[i], '=');
-		if (!valid)
+		if (check_syntax(args[i]) == EXIT_FAILURE)		// no retornamos aqui, aunqu haya errores sintacticos, las que estan bien si que se exportan
+			exit = 1;
+		// valid = ft_strchr(args[i], '=');
+		// if (!valid)
+		else
 			add_single_exp(envp, args[i]);
 		// else
 		// 	add_comp_exp(args[i]);
 		i++;
 	}
-
-	return (EXIT_SUCCESS);
+	return (exit);
 }

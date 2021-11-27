@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/10/10 13:19:40 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/27 18:59:25 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,9 @@ char	*read_key(char *var)
 	len = 0;
 	while (var[len] && var[len] != '=')
 		len++;
-	return (ft_substr(var, 0, len));
+	if (len > 0)
+		return (ft_substr(var, 0, len));
+	return (NULL);
 }
 
 char	*find_variable(char **envp, char *arg, int *no_del)   // cuando se llama a esta funcion se puede pasar como argumento en lugar de igualar a find=, que lo hago para poder liberar el ft_substr()
@@ -220,7 +222,10 @@ int	ft_export(char **args, char ***envp)
 	while (args[i])
 	{
 		if (check_syntax(args[i]) == EXIT_FAILURE)		// no retornamos aqui, aunqu haya errores sintacticos, las que estan bien si que se exportan
+		{
+			ft_printf("MINIsh: export:`%s': not a valid identifier\n", args[i]);
 			exit = 1;
+		}
 		else
 		{
 			delete_var(envp, find = find_variable(*envp, args[i], &no_deleted));
@@ -243,3 +248,4 @@ int	ft_unset(char **args, char ***envp)
 	free(find);
 	return 0;
 }
+

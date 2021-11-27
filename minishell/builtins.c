@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/06/12 20:54:30 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/06/13 22:58:28 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*builtins[] = {
 
 int		(*ft_builtins[])(char **, char **) = {
 	&ft_echo,
-	&ft_pwd,
+	&ft_pwd
 	// &ft_cd
 	// &ft_export,
 	// &ft_exit
@@ -84,6 +84,9 @@ int	ft_pwd(char **args, char **envp)
 int		ft_cd(char **args, char ***envp)
 {
 	char	*find;
+	char	*save;
+	char	*dir;
+
 
 	if (double_len(args) <= 2)
 	{													//AÑADIR EL cd ()(HOME)
@@ -91,19 +94,22 @@ int		ft_cd(char **args, char ***envp)
 			ft_printf("BUILTINcd: No such file or directory\n");  // revisar mensaje de error
 		else
 		{
-			// while (envp)
-			// {
-			// 	if(!strcmp(*envp, "PATH"))
-			// 	{
-			// 		char *value = getcwd(NULL, 0);
-			// 		*envp = strcpy(value, *envp);
-			// 		free(value);
-			// 		break;
-			// 	}
-			// 	envp++;
-			// }
+			save = find_value(*envp, "PWD");
+			delete_var(envp, find = find_variable(*envp, "OLDPWD", NULL));
+			free (find);
+			dir = ft_strjoin("OLDPWD=", save);
+			free(save);
+			add_single_exp(envp, dir);
+			free(dir);
+			save = getcwd(NULL, 0);
 			delete_var(envp, find = find_variable(*envp, "PWD", NULL));
 			free (find);
+			dir = ft_strjoin("PWD=", save);
+			free(save);
+			add_single_exp(envp, dir);
+			free(dir);
+
+
 			// add_single_exp(&envp, ft_strdup("PWD=0000"));
 			// delete_var(&envp, ft_strdup("OLDPWD"));
 		}
