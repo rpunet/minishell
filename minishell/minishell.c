@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/27 20:48:33 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/28 13:28:49 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,35 @@ int	ft_get_input(char **line)
 		add_history(*line);
 	prompt = ft_memfree(prompt, NULL);
 	return (EXIT_SUCCESS);
+}
+
+static void	sign_handler_nel(int signal)
+{
+	int		exit_code;
+	t_pipe	std;
+
+	exit_code = SIGINT + EXIT_STATUS;
+	ft_dprintf(STDIN_FILENO, "\n");
+	if (signal == SIGINT)
+	{
+		std.in = dup(STDIN_FILENO);
+		if (std.in == -1)
+			exit_failure("");
+		close(STDIN_FILENO);
+	}
+}
+
+static void	sign_handler_null(int signal)
+{
+	
+}
+
+static void	set_shell_signals(void)
+{
+	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+		exit_failure("Error");
+	if (signal(SIGINT, sign_handler_nel) == SIG_ERR)
+		exit_failure("Error");
 }
 
 /*
@@ -59,6 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	envp = envp_dup;														// ??????
 	// for (int i = 0; envp[i]; i++)
 	// 	ft_printf("%s\n", envp[i]);
+	set_shell_signals();
 	while (1)
 	{
 		if (argc == 1)

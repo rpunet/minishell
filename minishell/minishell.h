@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/27 20:40:16 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/28 13:08:24 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@
 # include "libft.h"
 # include "ft_printf.h"
 
-# define READ		0
-# define WRITE		1
-# define BUILTINS	2
+# define READ			0
+# define WRITE			1
+# define BUILTINS		2
 
+# define EXIT_STATUS	128
 /*
 ** STRUCTS ---------------------------------
 */
@@ -42,6 +43,12 @@ typedef struct s_lex
 {
 	t_tok			*list_token;
 }					t_lex;
+
+typedef struct s_pipe
+{
+	int				in;
+	int				out;
+}					t_pipe;
 
 enum				e_tok{
 	T_TOKEN = -1,
@@ -64,6 +71,12 @@ enum				e_seq{
 	S_DQUOTED,
 	S_VAR,
 	S_SCAPED,
+};
+
+enum e_pipe
+{
+	P_IN,
+	P_OUT
 };
 
 typedef struct s_ASTnode

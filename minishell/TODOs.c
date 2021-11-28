@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 16:52:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/11/25 17:10:43 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/27 20:56:26 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 //*		No usar más de una variable global, piensa por qué y prepárate para explicar el uso que le das.
 //*		Mostrar una entrada que espere introducir un comando nuevo.
 
-//TODO	Tener un historial funcional.
+//*		Tener un historial funcional.
 
 //*		Busca y ejecuta el ejecutable correcto (basado en la variable PATH o mediante el uso de rutas relativas o absolutas).
 //*		Implantar los builtins
