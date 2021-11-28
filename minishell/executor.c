@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/28 17:52:39 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/11/28 21:00:01 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,18 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 			}
 			else if (!ft_strcmp(args[0], "echo"))
 			{
-				ft_echo(args, *envp);
+				int save = dup(STDOUT_FILENO);
+
+				if (out == 1)
+					ft_echo(args, *envp);
+				else
+				{
+					dup2(out, STDOUT_FILENO);
+					close(out);
+					ft_echo(args, *envp);
+					dup2(save, STDOUT_FILENO);
+					close(save);
+				}					 // dup2 y close, copiar fds, como en pwd y export
 			}
 
 			else if (!ft_strcmp(args[0], "exit"))			//	EXIT TMB TIENE QUE IR EN PARENT
