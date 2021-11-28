@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/28 17:15:43 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/11/28 17:52:39 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,18 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 		{
 			if (!ft_strcmp(args[0], "pwd"))
 			{
-				ft_pwd(args, *envp);
+				int save = dup(STDOUT_FILENO);
+
+				if (out == 1)
+					ft_pwd(args, *envp);
+				else
+				{
+					dup2(out, STDOUT_FILENO);
+					close(out);
+					ft_pwd(args, *envp);
+					dup2(save, STDOUT_FILENO);
+					close(save);
+				}
 			}
 			else if (!ft_strcmp(args[0], "echo"))
 			{
@@ -105,7 +116,7 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 						dup2(out, STDOUT_FILENO);
 						close(out);
 					}
-	/*				if (check_builtins(args, *envp))
+	/*				if (check_builtins(args, *envp))			// al sacar los builtins de aqui, hay que añadir los fds a los argumentos de las funciones ft_pwd y ft_echo, para poder copiarles las las entradas/salidas a los pipes
 					{
 						free_char_array(args, i);
 						// ft_putstr_fd("vemos esto aqui\n", 1);
