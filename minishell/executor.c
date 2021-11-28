@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/25 16:48:49 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/28 17:52:39 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,27 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 		args[i] = NULL;
 		if (i > 0)			//	if (!check_builtin())  ...
 		{
-			if (!ft_strcmp(args[0], "exit"))			//	EXIT TMB TIENE QUE IR EN PARENT
+			if (!ft_strcmp(args[0], "pwd"))
+			{
+				int save = dup(STDOUT_FILENO);
+
+				if (out == 1)
+					ft_pwd(args, *envp);
+				else
+				{
+					dup2(out, STDOUT_FILENO);
+					close(out);
+					ft_pwd(args, *envp);
+					dup2(save, STDOUT_FILENO);
+					close(save);
+				}
+			}
+			else if (!ft_strcmp(args[0], "echo"))
+			{
+				ft_echo(args, *envp);
+			}
+
+			else if (!ft_strcmp(args[0], "exit"))			//	EXIT TMB TIENE QUE IR EN PARENT
 			{
 				ft_exit();
 			}
@@ -96,13 +116,13 @@ void	execute_CMD(t_ASTnode *cmd_node, int in, int out, char ***envp, int *fds)
 						dup2(out, STDOUT_FILENO);
 						close(out);
 					}
-					if (check_builtins(args, *envp))
+	/*				if (check_builtins(args, *envp))			// al sacar los builtins de aqui, hay que añadir los fds a los argumentos de las funciones ft_pwd y ft_echo, para poder copiarles las las entradas/salidas a los pipes
 					{
 						free_char_array(args, i);
 						// ft_putstr_fd("vemos esto aqui\n", 1);
 						exit(0);
 					}
-					if (exec_process(args, *envp, i) == -1)
+	*/				if (exec_process(args, *envp, i) == -1)
 					{
 						free_char_array(args, i);
 						exit_failure("Error de execve");   // salir sin mensaje, o devolver distintos errores para distinos mensajes
@@ -128,7 +148,7 @@ int		exec_process(char **args, char **envp, int i)
 	directory = find_directory(&dir, args);  // pasa como &dir (**DIR) porque no esta inicializado
 	if (!directory)
 	{
-		ft_printf("%s: Command not found\n", args[0]);  // va en un print y no puede ir en exit failure por el args[0]
+		ft_printf("%s: Command nottttttt found\n", args[0]);  // va en un print y no puede ir en exit failure por el args[0]
 		free_char_array(args, i);
 		exit_failure("");
 	}
