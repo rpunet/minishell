@@ -3,21 +3,131 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
+#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/11/28 17:19:34 by rpunet           ###   ########.fr        #
+#    Updated: 2021/12/06 20:57:15 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME 		= minishell
-SRCS		= minishell.c lexer.c parser.c executor.c exit.c builtins.c export2.c
-LIBFT_PATH	= ./libft/
+NAME = minishell
+
+CC = gcc
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+
+AR = ar rcs
+RM = rm -rf
+
+#################### Directories ####################
+
+LDIR = lib
+LIBFT = libft
+LIBFT_A = libft.a
+LIBS = -lreadline
+HDIR = include
+HEAD = minishell.h
+SDIR = src
+ODIR = obj
+
+#################### Files for Minishell ####################
+
+FILES =	exit \
+		free \
+		minishell \
+		signs \
+		utils \
+		executor/builtins \
+		executor/executor \
+		executor/export2 \
+		lexer/expander \
+		lexer/lexer \
+		lexer/token_utils \
+		parser/command \
+		parser/instruction \
+		parser/job \
+		parser/parser \
+		parser/sequence \
+
+SRCS = $(addsuffix .c, $(FILES))
+
+OBJS = $(addprefix $(ODIR)/,$(SRCS:.c=.o))
+
+FILES_B = 
+
+SRCS_B = $(addsuffix .c, $(FILES_B))
+
+OBJS_B = $(addprefix $(ODIR)/,$(SRCS_B:.c=.o))
+
+########################## Colors ##########################
+
+R = \033[31;1m
+G = \033[32;1m
+Y = \033[33;1m
+B = \033[34;1m
+P = \033[35;1m
+GR = \033[30;1m
+END = \033[0m
+
+########################## Rules ##########################
+
+all: $(NAME)
+
+$(NAME): $(OBJS)
+	@echo "\n$(GR)[Compiling $(B)'$(NAME)'$(GR). Please, wait a few seconds...]${END}\n"
+	make -C $(LDIR)/$(LIBFT)
+	cp $(LDIR)/$(LIBFT)/$(LIBFT_A) ./$(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS) -I/$(HDIR) ./$(LIBFT_A) $(LIBS) -o ${NAME}
+	$(RM) ./$(LIBFT_A)
+	@echo "\n$(G)[Compiled $(B)'$(NAME)' $(G)successfully]${END}\n"
+
+$(ODIR)/%.o: $(SDIR)/%.c $(HDIR)/$(HEAD) | $(ODIR)
+	$(CC) $(CFLAGS) -I $(HDIR) -o $@ -c $<
+
+$(ODIR):
+	mkdir -p $(ODIR)
+	mkdir -p $(ODIR)/executor
+	mkdir -p $(ODIR)/lexer
+	mkdir -p $(ODIR)/parser
 
 
-all: clean
-	gcc -Wall -Wextra -Werror -g -fsanitize=address -L $(LIBFT_PATH) -I . ${SRCS} -lft -lreadline -o ${NAME}
+bonus: $(OBJS_B)
+	@echo "\n$(GR)[Compiling $(B)'$(BONUS)'$(GR). Please, wait a few seconds...]${END}\n"
+	make -C $(LDIR)/$(LIBFT)
+	cp $(LDIR)/$(LIBFT)/$(LIBFT_A) ./$(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS_B) -I/$(HDIR) ./$(LIBFT_A) $(LIBS) -o ${BONUS}
+	$(RM) ./$(LIBFT_A)
+	@echo "\n$(G)[Compiled $(B)'$(BONUS)' $(G)successfully]${END}\n"
 
 clean:
-		@rm -f $(NAME)
+	$(RM) $(OBJS) $(ODIR) $(OBDIR)
+	make fclean -C $(LDIR)/$(LIBFT)
+	@echo "\n$(R)[Cleaned $(B) $(NAME) objects $(R)successfully]$(END)\n"
+
+fclean: clean
+	$(RM) $(NAME) $(BONUS)
+	@echo "$(R)[Removed $(B)'$(NAME)' $(R)successfully]$(END)\n"
+
+re: fclean all
+
+re_bonus: fclean bonus
+
+norme:
+	norminette $(LIB)/ $(SDIR)/ $(HDIR)
+	@echo "\n$(Y)[Checked norminette in $(B)'$(NAME)' $(Y)successfully]$(END)\n"
+	norminette $(SBDIR)/ $(HBDIR)
+	@echo "\n$(Y)[Checked norminette in $(B)'$(NAME) BONUS' $(Y)successfully]$(END)\n"
+
+debug: CFLAGS += -g3 -fsanitize=address
+debug: fclean $(OBJS)
+	@echo "\n$(GR)[Compiling $(B)'$(NAME)'$(GR). Please, wait a few seconds...]${END}\n"
+	make Debug -C $(LDIR)/$(LIBFT)
+	cp $(LDIR)/$(LIBFT)/$(LIBFT_A) ./$(LIBFT_A)
+	$(CC) $(CFLAGS) $(OBJS) -I/$(HDIR) ./$(LIBFT_A) $(LIBS) -o ${NAME}
+	$(RM) ./$(LIBFT_A)
+	@echo "\n$(G)[Compiled $(B)'$(NAME)' $(G)successfully]${END}\n"
+	@echo "\n$(Y)[Mode debug activated for $(B)'$(NAME)']$(END)\n"
+
+.PHONY: all clean fclean re bonus Norme Debug
+
+$(V).SILENT:
 
