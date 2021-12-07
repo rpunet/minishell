@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/11/28 13:28:49 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/11/28 21:22:22 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_get_input(char **line)
 	prompt = ft_memfree(prompt, NULL);
 	return (EXIT_SUCCESS);
 }
-
+/*
 static void	sign_handler_nel(int signal)
 {
 	int		exit_code;
@@ -44,7 +44,7 @@ static void	sign_handler_nel(int signal)
 
 static void	sign_handler_null(int signal)
 {
-	
+
 }
 
 static void	set_shell_signals(void)
@@ -54,7 +54,7 @@ static void	set_shell_signals(void)
 	if (signal(SIGINT, sign_handler_nel) == SIG_ERR)
 		exit_failure("Error");
 }
-
+*/
 /*
 ** 	ESTA PARTE IRIA EN LA LINEA 81
 **
@@ -88,7 +88,7 @@ int	main(int argc, char **argv, char **envp)
 	envp = envp_dup;														// ??????
 	// for (int i = 0; envp[i]; i++)
 	// 	ft_printf("%s\n", envp[i]);
-	set_shell_signals();
+	//set_shell_signals();
 	while (1)
 	{
 		if (argc == 1)
