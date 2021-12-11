@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
+#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/12/06 20:57:15 by jcarrete         ###   ########.fr        #
+#    Updated: 2021/12/11 18:58:20 by rpunet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ FILES =	exit \
 		utils \
 		executor/builtins \
 		executor/executor \
-		executor/export2 \
+		executor/export \
 		lexer/expander \
 		lexer/lexer \
 		lexer/token_utils \
@@ -52,7 +52,7 @@ SRCS = $(addsuffix .c, $(FILES))
 
 OBJS = $(addprefix $(ODIR)/,$(SRCS:.c=.o))
 
-FILES_B = 
+FILES_B =
 
 SRCS_B = $(addsuffix .c, $(FILES_B))
 

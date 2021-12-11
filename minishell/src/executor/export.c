@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   export2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/06 20:33:42 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/06 20:36:32 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,24 @@ static char	**replace_envp(char **origin, char **new)
 	return (new);
 }
 */
-static char	**ft_export_envdup(char **envp, int len, int add)
+
+int		check_ignore(char *envp, char *ignore)
+{
+	char	*key = read_key(envp);
+
+	if (ignore)
+	{
+		if (!ft_strcmp(key, ignore))
+		{
+			free(key);
+			return (1);
+		}
+	}
+	free(key);
+	return (0);
+}
+
+char	**ft_envdup(char **envp, int len, int add, char *ignore)
 {
 	char	**res;
 	int		i;
@@ -40,7 +57,7 @@ static char	**ft_export_envdup(char **envp, int len, int add)
 	j = 0;
 	while (i < len)
 	{
-		if (envp[i] && ft_strcmp(envp[i], ""))
+		if (envp[i] && ft_strcmp(envp[i], "") && !check_ignore(envp[i], ignore))
 		{
 			res[j] = ft_strdup(envp[i]);
 			j++;
@@ -50,25 +67,25 @@ static char	**ft_export_envdup(char **envp, int len, int add)
 	return (res);
 }
 
-static int	no_args_export(char **envp)
+static int	no_args_export(char **envp_dup)
 {
-	char	**print_exp;
 	int		i;
 	int		j;
 	int		len;
+	char	**envp;
 
-	if (!envp)
-		return (EXIT_SUCCESS);
+	if (!envp_dup)
+		return (EXIT_FAILURE);
+	envp = ft_envdup(envp_dup, double_len(envp_dup), 1, NULL);		//hacemos copia para que no ordene el original, por si luego lo sacamos con env
 	len = double_len(envp);
-	print_exp = ft_export_envdup(envp, len, 1);
 	i = 0;
-	while (print_exp[i])
+	while (envp[i])
 	{
 		j = 0;
-		while (print_exp[j])
+		while (envp[j])
 		{
-			if (ft_strcmp(print_exp[i], print_exp[j]) < 0)
-				ft_swap_str(&(print_exp[i]), &(print_exp[j]));
+			if (ft_strcmp(envp[i], envp[j]) < 0)
+				ft_swap_str(&(envp[i]), &(envp[j]));
 			j++;
 		}
 		i++;
@@ -76,24 +93,27 @@ static int	no_args_export(char **envp)
 	i = 0;
 	while (i < len)
 	{
-		if (print_exp[i][0] != '_')					// la ultima variable _ no se imprime en export por lo que veo
+		if (envp[i][0] != '_')					// la ultima variable _ no se imprime en export por lo que veo
 		{
 			j = 0;
-			if (ft_strchr((print_exp[i]), '='))
 			{
 				ft_putstr_fd("declare -x ", 1);					// todo esto es porque export saca formato con comillas: key="value"
-				while (print_exp[i][j] != '=')
-					j++;
-				write(1, print_exp[i], j + 1);
-				write(1, "\"", 1);
-				ft_printf("%s", &print_exp[i][j + 1]);
-				write(1, "\"\n", 2);
+				if (ft_strchr((envp[i]), '='))
+				{
+					while (envp[i][j] != '=')
+						j++;
+					write(1, envp[i], j + 1);
+					ft_printf("\"%s\"\n", &envp[i][j + 1]);			// A VER SI METES TODO EN UN PRINT, NO SE COMO DELIMITAR LA LONGITUD A IMPRIMIR DEL PUNTERO
+				}
+				else
+				ft_printf("%s\n", envp[i]);
+
 			}
 		}
 		i++;
 	}
-	free_char_array(print_exp, len);
-	return (EXIT_FAILURE);
+	free_char_array(envp, len);
+	return (EXIT_SUCCESS);
 }
 
 static int	check_syntax(char *arg)
@@ -112,62 +132,120 @@ static int	check_syntax(char *arg)
 	return (EXIT_SUCCESS);
 }
 
-static void	export_add_single_exp(char **envp, char *arg)
+
+
+void	add_single_exp(char ***envp, char *arg)
 {
-	int		i;
 	int		len;
 	char	**print_exp;
+	char	**aux;
 
-	i = 0;
-	while (envp[i])
-	{
-		len = 0;
-		while (ft_isdigit(envp[i][0]) == 0 && ((ft_isalnum(envp[i][len])) || (envp[i][len] == '_')))
-			len++;
-		if (!ft_strncmp(envp[i], arg, len))
-			return ;
-		i++;
-	}
-	len = double_len(envp);
-	print_exp = ft_export_envdup(envp, len, 2);
+	len = double_len(*envp);
+	print_exp = ft_envdup(*envp, len, 2, NULL);
 	print_exp[len] = ft_strdup(arg);			// copia todo de momento, en realidad caracteres especiaes no tiene que copiar
-	//envp = replace_envp(envp, print_exp);
-	envp = print_exp;
-	// while (*envp)
-	// {
-	// 	ft_printf("%s\n", *envp);
-	// 	envp++;
-	// }
-	while (*print_exp)
-	{
-		ft_printf("%s\n", *print_exp);
-		print_exp++;
-	}
+	aux = *envp;
+	*envp = print_exp;
+	free_char_array(aux, len);
 }
 
-int	ft_export(char **args, char **envp)
+void	delete_var(char ***envp, char *del)
+{
+	char	**new_envp;
+	char	**aux;
+	int		len;
+
+	if (del == NULL)
+		return ;
+	len = double_len(*envp);
+	new_envp = ft_envdup(*envp, len, 0, del);
+	aux = *envp;
+	*envp = new_envp;
+	free_char_array(aux, len);
+	// free(del);
+}
+
+char	*read_key(char *var)
+{
+	int	len;
+
+	len = 0;
+	while (var[len] && var[len] != '=')
+		len++;
+	if (len > 0)
+		return (ft_substr(var, 0, len));
+	return (NULL);
+}
+
+char	*find_variable(char **envp, char *arg, int *no_del)   // cuando se llama a esta funcion se puede pasar como argumento en lugar de igualar a find=, que lo hago para poder liberar el ft_substr()
+{
+	int		len;
+	char	*find;
+	char	*key;
+
+	len = 0;
+	while (arg[len] && arg[len] != '=')
+		len++;
+	find = ft_substr(arg, 0, len);
+	while (*envp)
+	{
+		key = read_key(*envp);
+		if (!ft_strcmp(key, find))
+		{
+			if (!((*envp)[len] == '=' && !arg[len] && no_del))			// esto es para que si la variable que sustituye es solo x (sin x=3), no sustituya nada.
+			{
+				free(find);
+				return (key);
+			}
+			if (no_del)
+				*no_del = 1;
+		}
+		free(key);
+		envp++;
+	}
+	free(find);
+	return (NULL);
+}
+
+int	ft_export(char **args, char ***envp)
 {
 	int		i;
-	// char	*valid;
 	int		exit;
+	int		no_deleted = 0;
+	char	*find;
 
 	i = 1;
 	if (!args[i])
-		return (no_args_export(envp));
+		return (no_args_export(*envp));
 	if (args[1][0] == '-')
-		exit_failure("Export doesn't handle any options\n");
+		exit_program(NULL, 0, 0, "Export doesn't handle any options\n");
 	exit = 0;
 	while (args[i])
 	{
 		if (check_syntax(args[i]) == EXIT_FAILURE)		// no retornamos aqui, aunqu haya errores sintacticos, las que estan bien si que se exportan
+		{
+			ft_printf("MINIsh: export:`%s': not a valid identifier\n", args[i]);
 			exit = 1;
-		// valid = ft_strchr(args[i], '=');
-		// if (!valid)
+		}
 		else
-			export_add_single_exp(envp, args[i]);
-		// else
-		// 	add_comp_exp(args[i]);
+		{
+			delete_var(envp, find = find_variable(*envp, args[i], &no_deleted));
+			if (!no_deleted)
+				add_single_exp(envp, args[i]);
+		}
 		i++;
+		no_deleted = 0;
+		free (find);
 	}
 	return (exit);
 }
+
+int	ft_unset(char **args, char ***envp)
+{
+	char	*find;
+
+	if (*args && (find = find_variable(*envp, *args, NULL)))	//solo va con un unset, FALTA añadir que haga varias a la vez
+		delete_var(envp, *args);
+	free(find);
+	return 0;
+}
+
