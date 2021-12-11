@@ -1,0 +1,8 @@
+----- invalid path -----
+minishell: cd: nonopath: No such file or directory
+->
+1
+----- invalid home path -----
+minishell: cd: HOME not set
+->
+1
