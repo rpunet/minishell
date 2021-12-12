@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/11 18:23:44 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/12/12 17:34:35 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,8 @@ enum	e_error
 /*
 ** STRUCTS ---------------------------------
 */
+
+typedef int	(*t_ft_builtins)(char **, char **);
 
 typedef struct s_tok
 {
@@ -226,8 +228,8 @@ void		add_single_exp(char ***envp, char *arg);
 int			check_builtins(char **args, char **envp);
 void		delete_var(char ***envp, char *del);
 int			exec_process(char **args, char **envp, int i);
-void		execute_CMD(t_ast_node *cmd_node, int in, \
-							int out, char ***envp, int *fds);
+void		execute_CMD(t_ast_node *cmd_node, t_pipe fd_pipe, \
+						char ***envp, int *fds);
 void		execute_INSTR(t_ast_node *instr, char ***envp, int *fds);
 void		execute_JOB(t_ast_node *job, char ***envp);
 void		execute_SEQ(t_ast_node *seq, char ***envp);
@@ -239,5 +241,4 @@ int			ft_exit(void);
 int			ft_export(char **args, char ***envp);
 int			ft_unset(char **args, char ***envp);
 int			ft_pwd(char **arg, char **envp);
-char		*read_key(char *var);
 #endif
