@@ -1,36 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free.c                                             :+:      :+:    :+:   */
+/*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/04 21:18:27 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/13 22:47:37 by jcarrete         ###   ########.fr       */
+/*   Created: 2021/12/13 23:03:12 by jcarrete          #+#    #+#             */
+/*   Updated: 2021/12/13 23:38:55 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	free_char_array(char **arr, int size)
+char	*set_prompt(char *sep)
 {
-	int	i;
+	t_minishell	*shell;
+	char		*ret;
+	char		*tmp;
 
-	i = 0;
-	while (i < size)
-	{
-		arr[i] = ft_memfree(arr[i], NULL);
-		i++;
-	}
-	arr = ft_memfree(arr, NULL);
-}
-
-void	free_program(t_minishell *shell, int status)
-{
-	if (status >= F_SHELL)
-	{
-		if (shell->line != NULL)
-			shell->line = ft_memfree(shell->line, NULL);
-		shell = ft_memfree(shell, NULL);
-	}
+	shell = get_minishell(NULL);
+	tmp = find_value(shell->envp_dup, "USER");
+	ret = ft_strjoin(tmp, "@MINIsh ");
+	tmp = ft_memfree(tmp, ft_strjoin(ret, "("));
+	ret = ft_memfree(ret, ft_strjoin(tmp, ft_itoa(shell->exit_code)));
+	tmp = ft_memfree(tmp, ft_strjoin(ret, ")"));
+	ret = ft_memfree(ret, ft_strjoin(tmp, sep));
+	return (ret);
 }

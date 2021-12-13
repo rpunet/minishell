@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/11 18:21:15 by rpunet           ###   ########.fr       */
+/*   Updated: 2021/12/13 23:50:21 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,15 +31,18 @@ static t_minishell	*init_struct(void)
 
 static int	ft_get_input(char **line)
 {
-	char	*prompt;
+	t_minishell	*shell;
 
-	prompt = ft_strdup("MINIsh > ");
-	*line = readline(prompt);
-	if (!line)
+	shell = get_minishell(NULL);
+	shell->prompt = set_prompt("$");
+	*line = readline(shell->prompt);
+	if (*line == NULL)
+	{
+		null_line();
 		return (EXIT_FAILURE);
-	if (**line)
-		add_history(*line);
-	prompt = ft_memfree(prompt, NULL);
+	}
+	add_history(*line);
+	shell->prompt = ft_memfree(shell->prompt, NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -52,7 +55,7 @@ static void	initialize_minishell(t_minishell *shell, int argc)
 	{
 		if (argc == 1)
 			if (ft_get_input(&(shell->line)))
-				return ;
+				continue ;
 		if (ft_lexer(shell))
 			ft_printf("error");
 		if (!ft_parser(&(shell->lexer), &(shell->syntax_tree)))

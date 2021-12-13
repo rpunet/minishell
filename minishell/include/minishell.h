@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/13 20:45:00 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/13 23:33:08 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@
 
 # define EXIT_STATUS	128
 
+# define WHOAMI			"/usr/bin/whoami"
 # define OPERATORS		";><|()"
 # define SPECIAL_CHARS	"\'\"\\ "
 
@@ -163,6 +164,7 @@ typedef struct s_cmd
 typedef struct s_minishell
 {
 	int				state;
+	char			*prompt;
 	int				exit_code;
 	char			*line;
 	t_pipe			std;
@@ -191,8 +193,10 @@ void		free_program(t_minishell *shell, int status);
 void		free_char_array(char **arr, int size);
 char		**ft_envdup(char **envp, int len, int add, char *ignore);
 t_minishell	*get_minishell(t_minishell *minishell);
+void		null_line(void);
 char		*read_key(char *var);
 void		*return_null(char *ptr);
+char		*set_prompt(char *sep);
 void		set_shell_signals(t_minishell *shell);
 
 /*

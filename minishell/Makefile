@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/12/12 23:31:02 by jcarrete         ###   ########.fr        #
+#    Updated: 2021/12/13 23:40:24 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,7 @@ ODIR = obj
 FILES =	exit \
 		free \
 		minishell \
+		prompt \
 		signs \
 		utils \
 		executor/builtins/builtins \
