@@ -6,13 +6,13 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:47:08 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 15:47:37 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:44:42 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_echo(char **args, char **envp)
+int	ft_echo(char **args, char ***envp)
 {
 	int	i;
 

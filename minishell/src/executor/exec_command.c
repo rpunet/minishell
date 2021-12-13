@@ -6,25 +6,25 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 18:21:25 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:46:49 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	manage_fds(t_ft_builtins *ptr, t_pipe fd_pipe, \
+static void	manage_fds(t_ft_builtins ptr, t_pipe fd_pipe, \
 						char ***envp, char **args)
 {
 	int	save;
 
 	save = dup(STDOUT_FILENO);
 	if (fd_pipe.out == 1)
-		(*ptr)(args, *envp);
+		ptr(args, envp);
 	else
 	{
 		dup2(fd_pipe.out, STDOUT_FILENO);
 		close(fd_pipe.out);
-		ft_pwd(args, *envp);
+		ptr(args, envp);
 		dup2(save, STDOUT_FILENO);
 		close(save);
 	}
@@ -64,12 +64,12 @@ static void	create_child(t_exec *exec, char ***envp, int i)
 	}
 }
 
-static int	count_curr(t_exec *exec, char ***envp)
+static int	count_curr(t_exec *exec)
 {
 	int			i;
 	t_ast_node	*curr;
 
-	i = count_commands(exec->cmd_node, curr);
+	i = count_commands(exec->cmd_node);
 	exec->args = malloc(sizeof(char *) * (i + 1));
 	if (exec->args == NULL)
 		exit_program(NULL, 0, 0, "CMD Malloc is NULL");
@@ -90,7 +90,7 @@ void	execute_cmd(t_exec *exec, char ***envp)
 {
 	int			i;
 
-	i = count_curr(exec, envp);
+	i = count_curr(exec);
 	if ((exec->cmd_node != NULL || exec->cmd_node->type == CMDNAME_NODE) \
 		&& i > 0)
 	{

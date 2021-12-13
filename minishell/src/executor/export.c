@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 16:08:40 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:44:09 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,24 @@ static int	check_syntax(char *arg)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_export(t_minishell *shell, char **args, char ***envp)
+static void	export_variable(char **args, char ***envp, int i)
 {
-	int		i;
 	int		no_deleted;
 	char	*find;
 
+	no_deleted = 0;
+	delete_var(envp, find = find_variable(*envp, args[i], &no_deleted));
+	if (!no_deleted)
+		add_single_exp(envp, args[i]);
+	find = ft_memfree(find, NULL);
+}
+
+int	ft_export(char **args, char ***envp)
+{
+	int			i;
+	t_minishell	*shell;
+
+	shell = get_minishell(NULL);
 	i = 1;
 	if (args[i] == NULL)
 		return (no_args_export(*envp));
@@ -41,18 +53,12 @@ int	ft_export(t_minishell *shell, char **args, char ***envp)
 		exit_program(NULL, 0, 0, "Export doesn't handle any options\n");
 	while (args[i])
 	{
-		no_deleted = 0;
 		shell->exit_code = check_syntax(args[i]);
 		if (shell->exit_code == EXIT_FAILURE)
 			ft_printf("MINIsh: export:`%s': not a valid identifier\n", args[i]);
 		else
-		{
-			delete_var(envp, find = find_variable(*envp, args[i], &no_deleted));
-			if (!no_deleted)
-				add_single_exp(envp, args[i]);
-		}
+			export_variable(args, envp, i);
 		i++;
-		find = ft_memfree(find, NULL);
 	}
 	return (shell->exit_code);
 }

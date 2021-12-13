@@ -6,13 +6,13 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:10:20 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 16:07:35 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:28:25 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*read_key(char *var)
+char	*read_key(char *var)
 {
 	int	len;
 

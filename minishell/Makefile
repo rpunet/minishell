@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
+#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/12/11 18:58:20 by rpunet           ###   ########.fr        #
+#    Updated: 2021/12/12 23:31:02 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,18 @@ FILES =	exit \
 		minishell \
 		signs \
 		utils \
-		executor/builtins \
+		executor/builtins/builtins \
+		executor/builtins/cd \
+		executor/builtins/echo \
+		executor/builtins/exit \
+		executor/builtins/pwd \
+		executor/builtins/unset \
+		executor/exec_command \
+		executor/exec_utils \
 		executor/executor \
+		executor/export_envp \
+		executor/export_no_args \
+		executor/export_utils \
 		executor/export \
 		lexer/expander \
 		lexer/lexer \
@@ -86,6 +96,7 @@ $(ODIR)/%.o: $(SDIR)/%.c $(HDIR)/$(HEAD) | $(ODIR)
 $(ODIR):
 	mkdir -p $(ODIR)
 	mkdir -p $(ODIR)/executor
+	mkdir -p $(ODIR)/executor/builtins
 	mkdir -p $(ODIR)/lexer
 	mkdir -p $(ODIR)/parser
 

@@ -6,13 +6,13 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:47:59 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 15:48:24 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:44:58 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_pwd(char **args, char **envp)
+int	ft_pwd(char **args, char ***envp)
 {
 	char	*ret;
 

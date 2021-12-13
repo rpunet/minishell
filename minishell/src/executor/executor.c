@@ -6,52 +6,57 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/12 00:34:06 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:37:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_instr(t_ast_node *instr, char ***envp, int *fds)
+void	execute_instr(t_exec *exec, char ***envp)
 {
 	t_ast_node	*curr;
-	t_pipe		fd_pipe;
 
-	pipe(fds);
-	fd_pipe.in = STDIN_FILENO;
-	fd_pipe.out = fds[WRITE];
-	execute_cmd(instr->left, fd_pipe, envp, fds);
-	fd_pipe.in = fds[READ];
-	curr = instr->right;
+	pipe(exec->fds);
+	exec->fd_pipe.in = STDIN_FILENO;
+	exec->fd_pipe.out = exec->fds[WRITE];
+	curr = exec->cmd_node->right;
+	exec->cmd_node = exec->cmd_node->left;
+	execute_cmd(exec, envp);
+	exec->fd_pipe.in = exec->fds[READ];
 	while (curr != NULL && curr->type == PIPE_NODE)
 	{
-		close(fds[WRITE]);
-		pipe(fds);
-		fd_pipe.out = fds[WRITE];
-		execute_cmd(curr->left, fd_pipe, envp, fds);
-		close(fd_pipe.in);
-		fd_pipe.in = fds[READ];
+		close(exec->fds[WRITE]);
+		pipe(exec->fds);
+		exec->fd_pipe.out = exec->fds[WRITE];
+		exec->cmd_node = curr->left;
+		execute_cmd(exec, envp);
+		close(exec->fd_pipe.in);
+		exec->fd_pipe.in = exec->fds[READ];
 		curr = curr->right;
 	}
-	close(fds[WRITE]);
-	fd_pipe.out = STDOUT_FILENO;
-	execute_cmd(curr, fd_pipe, envp, fds);
-	close(fds[READ]);
+	close(exec->fds[WRITE]);
+	exec->fd_pipe.out = STDOUT_FILENO;
+	exec->cmd_node = curr;
+	execute_cmd(exec, envp);
+	close(exec->fds[READ]);
 }
 
 void	execute_job(t_ast_node *job, char ***envp)
 {
-	int	fds[2];
+	t_exec	exec;
 
 	if (job == NULL)
 		return ;
+	exec.cmd_node = job;
 	if (job->type == PIPE_NODE)
 	{
-		execute_instr(job, envp, fds);
+		execute_instr(&exec, envp);
 	}
 	else
 	{
-		execute_cmd(job, STDIN_FILENO, STDOUT_FILENO, envp, fds);
+		exec.fd_pipe.in = STDIN_FILENO;
+		exec.fd_pipe.out = STDOUT_FILENO;
+		execute_cmd(&exec, envp);
 	}
 	while (waitpid(-1, NULL, 0) > 0)
 	{

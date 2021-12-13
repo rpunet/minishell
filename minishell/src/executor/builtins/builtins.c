@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/12 17:29:15 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/12 23:44:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,6 @@ int	double_len(char **arr)
 
 int	check_builtins(char **args, char **envp)
 {
-	int				i;
-
-	i = 0;
 	if (!ft_strcmp(args[0], "env"))
 	{
 		while (*envp)
@@ -39,8 +36,8 @@ int	check_builtins(char **args, char **envp)
 		return (TRUE);
 	}
 	else if (!ft_strcmp(args[0], "echo"))
-		ft_echo(args, envp);
+		ft_echo(args, &envp);
 	else if (!ft_strcmp(args[0], "pwd"))
-		ft_pwd(args, envp);
+		ft_pwd(args, &envp);
 	return (FALSE);
 }

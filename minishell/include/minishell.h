@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/12 17:34:35 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/13 20:45:00 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,29 @@ enum	e_error
 ** STRUCTS ---------------------------------
 */
 
-typedef int	(*t_ft_builtins)(char **, char **);
+typedef int	(*t_ft_builtins)(char **, char ***);
+
+typedef struct s_ast_node
+{
+	int					type;
+	char				*data;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+}					t_ast_node;
+
+typedef struct s_pipe
+{
+	int				in;
+	int				out;
+}					t_pipe;
+
+typedef struct s_exec
+{
+	t_ast_node	*cmd_node;
+	t_pipe		fd_pipe;
+	int			*fds;
+	char		**args;
+}					t_exec;
 
 typedef struct s_tok
 {
@@ -132,20 +154,6 @@ typedef struct s_lex
 	t_tok			*current_tok;
 	t_tok			*list_token;
 }					t_lex;
-
-typedef struct s_pipe
-{
-	int				in;
-	int				out;
-}					t_pipe;
-
-typedef struct s_ast_node
-{
-	int					type;
-	char				*data;
-	struct s_ast_node	*left;
-	struct s_ast_node	*right;
-}					t_ast_node;
 
 typedef struct s_cmd
 {
@@ -175,6 +183,7 @@ t_tok		*g_current_tok;
 ** MINISHELL ---------------------------------
 */
 
+void		do_nothing(void *vd);
 int			double_len(char **arr);
 void		exit_program(t_minishell *shell, int status, int err, char *extra);
 char		*find_directory(DIR **dir, char **args);
@@ -182,7 +191,7 @@ void		free_program(t_minishell *shell, int status);
 void		free_char_array(char **arr, int size);
 char		**ft_envdup(char **envp, int len, int add, char *ignore);
 t_minishell	*get_minishell(t_minishell *minishell);
-void		do_nothing(void *vd);
+char		*read_key(char *var);
 void		*return_null(char *ptr);
 void		set_shell_signals(t_minishell *shell);
 
@@ -226,19 +235,20 @@ void		tok_delete(t_tok *token);
 
 void		add_single_exp(char ***envp, char *arg);
 int			check_builtins(char **args, char **envp);
+int			count_commands(t_ast_node *cmd_node);
 void		delete_var(char ***envp, char *del);
 int			exec_process(char **args, char **envp, int i);
-void		execute_CMD(t_ast_node *cmd_node, t_pipe fd_pipe, \
-						char ***envp, int *fds);
-void		execute_INSTR(t_ast_node *instr, char ***envp, int *fds);
-void		execute_JOB(t_ast_node *job, char ***envp);
-void		execute_SEQ(t_ast_node *seq, char ***envp);
+void		execute_cmd(t_exec *exec, char ***envp);
+void		execute_instr(t_exec *exec, char ***envp);
+void		execute_job(t_ast_node *job, char ***envp);
+void		execute_seq(t_ast_node *seq, char ***envp);
 char		*find_variable(char **envp, char *arg, int *no_del);
 int			ft_cd(char **args, char ***envp);
-int			ft_echo(char **args, char **envp);
+int			ft_echo(char **args, char ***envp);
 void		ft_execute(t_ast_node *syntax_tree, char ***envp);
 int			ft_exit(void);
 int			ft_export(char **args, char ***envp);
 int			ft_unset(char **args, char ***envp);
-int			ft_pwd(char **arg, char **envp);
+int			ft_pwd(char **arg, char ***envp);
+int			no_args_export(char **envp_dup);
 #endif
