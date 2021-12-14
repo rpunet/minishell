@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 21:54:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/06 10:11:37 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/15 00:24:24 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,19 @@ static void	error_str(int status)
 
 void	exit_program(t_minishell *shell, int status, int err, char *extra)
 {
+	int	ex;
+
+	ex = shell->exit_code;
 	free_program(shell, status);
 	if (status == EXIT_SUCCESS)
-		exit (EXIT_SUCCESS);
-	ft_dprintf(STDERR_FILENO, "ERROR:\n");
+		exit (ex);
 	if (err != E_NONE)
+	{
+		ft_dprintf(STDERR_FILENO, "ERROR:\n");
 		error_str(err);
+	}
 	if (extra != NULL)
 		ft_dprintf(STDERR_FILENO, extra);
 	ft_dprintf(STDERR_FILENO, "\n");
-	exit(EXIT_FAILURE);
+	exit(ex);
 }

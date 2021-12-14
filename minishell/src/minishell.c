@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/13 23:50:21 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/15 00:12:26 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static int	ft_get_input(char **line)
 	shell = get_minishell(NULL);
 	shell->prompt = set_prompt("$");
 	*line = readline(shell->prompt);
+	shell->prompt = ft_memfree(shell->prompt, NULL);
 	if (*line == NULL)
 	{
 		null_line();
 		return (EXIT_FAILURE);
 	}
 	add_history(*line);
-	shell->prompt = ft_memfree(shell->prompt, NULL);
 	return (EXIT_SUCCESS);
 }
 
@@ -56,6 +56,7 @@ static void	initialize_minishell(t_minishell *shell, int argc)
 		if (argc == 1)
 			if (ft_get_input(&(shell->line)))
 				continue ;
+		printf("holahola\n");
 		if (ft_lexer(shell))
 			ft_printf("error");
 		if (!ft_parser(&(shell->lexer), &(shell->syntax_tree)))

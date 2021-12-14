@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 20:36:58 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/14 00:40:24 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/15 00:22:56 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	null_line(void)
 		close(shell->std.in);
 	}
 	else
-		exit_program(shell, F_SHELL, E_EXIT, "");
+		ft_exit();
 }
 
 void	set_shell_signals(t_minishell *shell)
