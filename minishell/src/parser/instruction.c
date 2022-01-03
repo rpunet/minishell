@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   instruction.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:08 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 18:06:39 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 19:03:31 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@ static t_ast_node	*set_parent(t_ast_node	**parent, int type)
 	filename = NULL;
 	cmd = gr_cmd();
 	if (cmd == NULL)
+	{
+		*parent = ft_memfree(*parent, NULL);
 		return (NULL);
+	}
 	if (terminal(type))
 	{
+		*parent = ft_memfree(*parent, NULL);
 		ast_delete(&cmd);
 		return (NULL);
 	}

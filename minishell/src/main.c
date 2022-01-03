@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/02 21:21:33 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 20:48:33 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,10 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
 	{
 		shell->line = argv[2];
-		argc = 1;
+		//argc = 1;
+		interactive_shell(shell, argc);
 	}
-	if (argc == 1)
+	else if (argc == 1)
 		interactive_shell(shell, argc);
 	else
 		not_interactive_shell(shell, argv[1]);

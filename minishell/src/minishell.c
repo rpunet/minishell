@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 17:22:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 19:12:03 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ void	initialize_minishell(t_minishell *shell, int argc)
 			shell->state = ST_ERROR;
 			shell->exit_code = E_PARSER;
 		}
-		ft_printf("Reseting shell\n");
+		//ft_printf("Reseting shell\n");
 		reset_shell(shell);
-		condition = FALSE;
+		//condition = FALSE;
 		if (argc > 1)
 			condition = FALSE;
 	}

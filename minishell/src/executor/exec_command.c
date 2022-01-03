@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 23:46:49 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 20:38:16 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	execute_cmd(t_exec *exec, char ***envp)
 		else if (!ft_strcmp(exec->args[0], "unset"))
 			ft_unset(&exec->args[1], envp);
 		else if (!ft_strcmp(exec->args[0], "minishell"))
-			execve("./minishell", exec->args, *envp);
+			execve("./minishell", exec->args, *envp);			// lo tiene que crear en el hijo, no aqui
 		else
 			create_child(exec, envp, i);
 	}

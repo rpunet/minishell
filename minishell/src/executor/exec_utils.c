@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/31 13:13:58 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 20:10:09 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,11 @@ char	*check_directories(DIR **dir, char **args, char **paths, int i)
 	struct dirent	*d;
 
 	*dir = opendir(paths[i]);
+	if (!*dir)
+	{
+		closedir(*dir); // no se si hace falta cerrarlo o si es el open es erróneo y da NULL ya vale
+		return (NULL);
+	}
 	errno = 0;
 	d = readdir(*dir);
 	while (*dir && errno == 0 && d)
