@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/11 18:21:18 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/03 15:19:56 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ void	ast_delete(t_ast_node *node)
 {
 	if (node == NULL)
 		return ;
-	if (node->type >= REDIR_NODE)
+	ft_printf("Im deleting ast\n");
+	if (node->type >= REDIR_NODE && node->data != NULL)
 		node->data = ft_memfree(node->data, NULL);
 	ast_delete(node->left);
 	ast_delete(node->right);

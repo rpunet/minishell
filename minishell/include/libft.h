@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/06 20:58:33 by jcarrete         ###   ########.fr       */
+/*   Updated: 2021/12/31 13:55:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 
 # define FALSE 0
 # define TRUE 1
-# define ERROR 0
-# define SUCCESS 1
+# define ERROR -1
+# define SUCCESS 0
 
 /*
 ** Structs
@@ -129,6 +129,7 @@ long				ft_atol(const char *str);
 int					ft_digits_long(int nb);
 int					ft_find_next_prime(int nb);
 double				ft_float_pwr(int nb, int base);
+void				*ft_free_lst(t_list **lst, void (*del)(void *));
 char				*ft_ftoa(long double ld);
 int					ft_get_next_line(int fd, char **line);
 void				ft_insertion_sort(t_qsort_data *data);

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/13 23:33:08 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 13:29:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <stdio.h>
 # include <errno.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 # include <dirent.h>
 # include <signal.h>
 # include <readline/readline.h>
@@ -93,21 +94,36 @@ enum	e_node
 
 enum	e_state
 {
-	ST_INIT = 1,
+	ST_OK = 1,
 	ST_SIGINT,
+	ST_ERROR,
+	ST_SUCCESS
 };
 
 enum	e_free
 {
 	F_NONE,
 	F_SHELL,
+	F_SUCCESS
+};
+
+enum	e_bash_error
+{
+	EB_NONE,
+	EB_CATCHALL = 1,
+	EB_MISUSE_BUILTINS = 2,
+	EB_COMMAND_CANNOT_EXECUTE = 126,
+	EB_COMMAND_NOT_FOUND = 127,
+	EB_INVALID_ARG = 128,
+	EB_EXIT_OUT_RANGE = 255
 };
 
 enum	e_error
 {
 	E_NONE,
-	E_MEM,
+	E_MEM = 3,
 	E_SIG,
+	E_PARSER,
 	E_EXIT
 };
 
@@ -193,6 +209,7 @@ void		free_program(t_minishell *shell, int status);
 void		free_char_array(char **arr, int size);
 char		**ft_envdup(char **envp, int len, int add, char *ignore);
 t_minishell	*get_minishell(t_minishell *minishell);
+void		initialize_minishell(t_minishell *shell, int argc);
 void		null_line(void);
 char		*read_key(char *var);
 void		*return_null(char *ptr);

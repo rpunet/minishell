@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2021/12/13 23:40:24 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/03 13:28:55 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ ODIR = obj
 
 FILES =	exit \
 		free \
+		main \
 		minishell \
 		prompt \
 		signs \
