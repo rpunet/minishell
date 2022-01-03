@@ -3,17 +3,17 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
+#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/03 13:28:55 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/03 20:56:17 by rpunet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g
 
 AR = ar rcs
 RM = rm -rf

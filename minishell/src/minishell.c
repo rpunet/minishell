@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 19:12:03 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:57:34 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	ft_get_input(char **line)
 	t_minishell	*shell;
 
 	shell = get_minishell(NULL);
-	shell->prompt = set_prompt("$");
+	shell->prompt = set_prompt("$ ");
 	*line = readline(shell->prompt);
 	shell->prompt = ft_memfree(shell->prompt, NULL);
 	if (*line == NULL)

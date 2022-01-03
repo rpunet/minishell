@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 20:38:16 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/03 20:56:36 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,10 @@ static void	child_process(t_exec *exec, char ***envp, int i)
 static void	create_child(t_exec *exec, char ***envp, int i)
 {
 	pid_t	pid;
+	//int 	y;
 
 	pid = fork();
+	//scanf("%d", &y);
 	if (pid == 0)
 		child_process(exec, envp, i);
 	else if (pid < 0)

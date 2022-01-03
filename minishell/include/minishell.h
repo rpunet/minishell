@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/03 17:38:37 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 20:58:31 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ typedef struct s_exec
 {
 	t_ast_node	*cmd_node;
 	t_pipe		fd_pipe;
-	int			*fds;
+	int			fds[2];
 	char		**args;
 }					t_exec;
 
@@ -171,11 +171,6 @@ typedef struct s_lex
 	t_tok			*current_tok;
 	t_tok			*list_token;
 }					t_lex;
-
-typedef struct s_cmd
-{
-	int				io[2];
-}					t_cmd;
 
 typedef struct s_minishell
 {
