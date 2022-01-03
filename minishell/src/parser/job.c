@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:29:33 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/06 20:51:58 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:19:16 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,13 @@ t_ast_node	*gr_job_2(void)
 		return (NULL);
 	if (terminal(T_PIPE))
 	{
-		ast_delete(instr);
+		ast_delete(&instr);
 		return (NULL);
 	}
 	job = gr_job();
 	if (job == NULL)
 	{
-		ast_delete(instr);
+		ast_delete(&instr);
 		return (NULL);
 	}
 	parent = malloc(sizeof(t_ast_node));

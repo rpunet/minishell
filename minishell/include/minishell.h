@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/03 13:29:40 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:38:37 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,8 @@ void		set_shell_signals(t_minishell *shell);
 */
 
 int			ft_parser(t_lex *lexer, t_ast_node **syntax_tree);
-void		ast_delete(t_ast_node *node);
+void		ast_delete(t_ast_node **node);
+void		delete_single_ast(t_ast_node **node);
 int			terminal(int tokentype);
 t_ast_node	*gr_seq(void);
 t_ast_node	*gr_seq_1(void);
@@ -248,7 +249,7 @@ void		expand_vars(char **cmd, char **envp);
 char		*find_value(char **envp, char *key);
 int			ft_lexer(t_minishell *shell);
 t_tok		*tok_init(int datasize);
-void		tok_delete(t_tok *token);
+void		tok_delete(t_tok **token);
 
 /*
 ** EXECUTOR ----------------------------------

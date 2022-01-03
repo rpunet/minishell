@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 11:15:46 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/06 11:16:12 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:21:33 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,15 @@ t_tok	*tok_init(int datasize)
 	return (token);
 }
 
-void	tok_delete(t_tok *token)
+void	tok_delete(t_tok **token)
 {
-	if (token != NULL)
+	t_tok	*next;
+
+	if ((*token) != NULL)
 	{
-		token->data = ft_memfree(token->data, NULL);
-		tok_delete(token->next);
-		token = ft_memfree(token, NULL);
+		(*token)->data = ft_memfree((*token)->data, NULL);
+		next = (*token)->next;
+		(*token) = ft_memfree((*token), NULL);
+		tok_delete(&next);
 	}
 }

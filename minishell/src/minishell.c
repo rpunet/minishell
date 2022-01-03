@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 15:14:06 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:22:31 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 static void	reset_shell(t_minishell *shell)
 {
-	ast_delete(shell->syntax_tree);
-	tok_delete((shell->lexer).list_token);
+	ast_delete(&(shell->syntax_tree));
+	tok_delete(&((shell->lexer).list_token));
 	shell->line = ft_memfree(shell->line, NULL);
 }
 

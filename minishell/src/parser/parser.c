@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/03 15:19:56 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/03 17:37:41 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,33 @@
 ** 							(empty)
 */
 
-void	ast_delete(t_ast_node *node)
+void	ast_delete(t_ast_node **node)
 {
-	if (node == NULL)
+	t_ast_node	*right;
+	t_ast_node	*left;
+
+	if ((*node) == NULL)
 		return ;
-	ft_printf("Im deleting ast\n");
-	if (node->type >= REDIR_NODE && node->data != NULL)
-		node->data = ft_memfree(node->data, NULL);
-	ast_delete(node->left);
-	ast_delete(node->right);
-	node = ft_memfree(node, NULL);
+	if ((*node)->type >= REDIR_NODE && (*node)->data != NULL)
+		(*node)->data = ft_memfree((*node)->data, NULL);
+	right = (*node)->right;
+	left = (*node)->left;
+	(*node) = ft_memfree((*node), NULL);
+	ast_delete(&left);
+	ast_delete(&right);
+}
+
+void	delete_single_ast(t_ast_node **node)
+{
+	if ((*node) == NULL)
+		return ;
+	if ((*node)->type >= REDIR_NODE && (*node)->data != NULL)
+		(*node)->data = ft_memfree((*node)->data, NULL);
+	if ((*node)->right != NULL)
+		(*node)->right->left = NULL;
+	if ((*node)->left != NULL)
+		(*node)->left->right = NULL;
+	(*node) = ft_memfree((*node), NULL);
 }
 
 int	terminal(int tokentype)
