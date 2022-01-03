@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/03 20:48:33 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/03 21:20:47 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	main(int argc, char **argv, char **envp)
 	envp = shell->envp_dup;
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
 	{
-		shell->line = argv[2];
+		shell->line = ft_strdup(argv[2]);
 		//argc = 1;
 		interactive_shell(shell, argc);
 	}
