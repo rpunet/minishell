@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 21:07:22 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/04 20:53:59 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,40 @@ int	count_commands(t_ast_node *cmd_node)
 	return (ret);
 }
 
+// si la quieres meter en LIBFT, y por cierto tu strrchr esta mal (len >= 0)
+
+int	ft_strrchr_pos(char *str, int c)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	while (len >= 0)
+	{
+		if (str[len] == c)
+			return (len);
+		len--;
+	}
+	return (-1);
+}
+
+int	run_executable(char **args, char **envp)
+{
+	int		find;
+	char	*cwd;
+	char	*path;
+
+	// ft_printf("%s\n", cwd);
+	find = ft_strrchr_pos(args[0], '/');
+	cwd = ft_strjoin(getcwd(NULL, 0), "/");
+	path = ft_strjoin(cwd, args[0]);
+	//free(cwd);
+	args[0] = args[0] + find + 1;		// esto provoca un free() invalid pointer si es command not found, habrá que usar un duplicado de args
+	ft_printf("%i\n%s\n%s\n%s\n", find, path, args[0], args[1]);
+	return (execve(path, args, envp));
+	// si execve falla y retorna -1, como diferenciar error de execve, de command not found?
+}
+
+
 int	exec_process(char **args, char **envp, int i)
 {
 	char	*directory;
@@ -37,12 +71,14 @@ int	exec_process(char **args, char **envp, int i)
 	directory = find_directory(&dir, args);
 	if (!directory)
 	{
+		run_executable(args, envp);
 		ft_printf("%s: Command not found\n", args[0]);
 		free_char_array(args, i);
 		exit_program(NULL, 0, 0, "");
 	}
 	path = ft_strjoin(directory, args[0]);
-	return (execve(path, args, envp));
+	ft_printf("%s\n%s\n%s\n", path, args[0], args[1]);
+	return (execve(path, args, envp));   // si execve falla, retorna -1
 }
 
 char	*check_directories(DIR **dir, char **args, char **paths, int i)
