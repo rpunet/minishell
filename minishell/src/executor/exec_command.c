@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/04 18:54:12 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/04 21:18:15 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,28 @@ static void	child_process(t_exec *exec, char ***envp, int i)
 
 static void	create_child(t_exec *exec, char ***envp, int i)
 {
-	pid_t	pid;
-	//int 	y;
+	pid_t		pid;
+	int			status;
+	t_minishell	*shell;
 
+	shell = get_minishell(NULL);
 	pid = fork();
-	//scanf("%d", &y);
+	//scanf("%d", &status);
 	if (pid == 0)
 		child_process(exec, envp, i);
 	else if (pid < 0)
 	{
 		free_char_array(exec->args, i);
-		exit_program(NULL, 0, 0, "CMD PID < 0");
+		exit_program(NULL, 0, E_EXECUTE, "CMD PID < 0");
 	}
+	if (waitpid(pid, &status, 0) == -1)
+		exit_program(NULL, 0, E_EXECUTE, "");
+	if (WIFEXITED(status))
+		shell->exit_code = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		shell->exit_code = EXIT_STATUS + WTERMSIG(status);
+	else
+		shell->exit_code = EB_CATCHALL;
 }
 
 static int	count_curr(t_exec *exec)

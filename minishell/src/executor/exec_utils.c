@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/04 20:53:59 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/04 21:17:35 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,15 +64,21 @@ int	run_executable(char **args, char **envp)
 
 int	exec_process(char **args, char **envp, int i)
 {
-	char	*directory;
-	char	*path;
-	DIR		*dir;
+	char		*directory;
+	char		*path;
+	DIR			*dir;
+	t_minishell	*shell;
 
+	shell = get_minishell(NULL);
 	directory = find_directory(&dir, args);
+	ft_printf("args es %s\n", args[0]);
 	if (!directory)
 	{
 		run_executable(args, envp);
+		if (!ft_strcmp(args[0], "$?"))
+			ft_printf("%d", shell->exit_code);
 		ft_printf("%s: Command not found\n", args[0]);
+		shell->exit_code = EB_COMMAND_NOT_FOUND;
 		free_char_array(args, i);
 		exit_program(NULL, 0, 0, "");
 	}

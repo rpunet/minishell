@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 21:54:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 18:33:08 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/03 23:10:38 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,10 @@ static void	error_str(int status)
 
 void	exit_program(t_minishell *shell, int status, int err, char *extra)
 {
-	int	ex;
+	int			ex;
 	t_minishell	*tshell;
 
 	tshell = get_minishell(shell);
-
 	ex = tshell->exit_code;
 	free_program(tshell, status);
 	if (status == EXIT_SUCCESS)
