@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/03 23:10:13 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/04 23:01:39 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -264,7 +264,7 @@ char		*find_variable(char **envp, char *arg, int *no_del);
 int			ft_cd(char **args, char ***envp);
 int			ft_echo(char **args, char ***envp);
 void		ft_execute(t_ast_node *syntax_tree, char ***envp);
-int			ft_exit(void);
+int			ft_exit(char **argv);
 int			ft_export(char **args, char ***envp);
 int			ft_unset(char **args, char ***envp);
 int			ft_pwd(char **arg, char ***envp);

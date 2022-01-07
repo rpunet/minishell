@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 12:38:29 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/06 20:38:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/04 21:42:36 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,13 @@ void	expand_vars(char **cmd, char **envp)
 			i = ft_strlen(*cmd) - ft_strlen(find) - 1;
 			if (var_value)
 				new_command(&var_value, &(*cmd), i, &aux);
-			else
+			else if (!strcmp(*cmd, "$?"))
 			{
-				aux = ft_substr(*cmd, 0, i);
+				aux = ft_itoa(get_minishell(NULL)->exit_code);
 				*cmd = ft_memfree(*cmd, aux);
 			}
+			else
+				*cmd = ft_memfree(*cmd, ft_substr(*cmd, 0, i));
 			var_value = ft_memfree(var_value, NULL);
 		}
 	}

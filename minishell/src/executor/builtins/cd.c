@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:48:44 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 15:55:59 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/07 10:19:29 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,24 @@ static void	change_pwd(char ***envp)
 
 int	ft_cd(char **args, char ***envp)
 {
+	t_minishell	*shell;
+
+	shell = get_minishell(NULL);
+	shell->exit_code = EXIT_SUCCESS;
 	if (double_len(args) <= 2)
 	{
 		if (chdir(args[1]) == -1)
-			ft_printf("BUILTINcd: No such file or directory\n");
+		{
+			shell->exit_code = EXIT_FAILURE;
+			ft_printf("MINIshell: cd: No such file or directory\n");
+		}
 		else
 			change_pwd(envp);
 	}
 	else
-		ft_printf("BUILTINcd: too many arguments\n");
-	return (EXIT_SUCCESS);
+	{
+		shell->exit_code = EXIT_FAILURE;
+		ft_printf("MINIshell: cd: too many arguments\n");
+	}
+	return (shell->exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:47:59 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 23:44:58 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/07 10:22:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,22 @@
 
 int	ft_pwd(char **args, char ***envp)
 {
-	char	*ret;
+	char		*ret;
+	t_minishell	*shell;
 
+	shell = get_minishell(NULL);
+	shell->exit_code = EXIT_SUCCESS;
 	do_nothing(envp);
 	if (double_len(args) == 1)
 	{
 		ret = getcwd(NULL, 0);
 		ft_printf("%s\n", ret);
-		free(ret);
+		ret = ft_memfree(ret, NULL);
 	}
 	else
-		ft_printf("BUILTINpwd: too many arguments\n");
-	return (EXIT_SUCCESS);
+	{
+		shell->exit_code = EXIT_FAILURE;
+		ft_printf("MINIshell: pwd: too many arguments\n");
+	}
+	return (shell->exit_code);
 }

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/31 13:55:40 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/04 22:37:49 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,7 @@ void				*ft_free_lst(t_list **lst, void (*del)(void *));
 char				*ft_ftoa(long double ld);
 int					ft_get_next_line(int fd, char **line);
 void				ft_insertion_sort(t_qsort_data *data);
+int					ft_is_number(char *str);
 int					ft_is_prime(int nb);
 int					ft_isspace(int c);
 char				*ft_itoa_base(long long n, int base);

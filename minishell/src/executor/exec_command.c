@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/04 21:18:15 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/07 10:22:58 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	execute_cmd(t_exec *exec, char ***envp)
 		else if (!ft_strcmp(exec->args[0], "echo"))
 			manage_fds(&ft_echo, exec->fd_pipe, envp, exec->args);
 		else if (!ft_strcmp(exec->args[0], "exit"))
-			ft_exit();
+			ft_exit(exec->args);
 		else if (!ft_strcmp(exec->args[0], "cd") && exec->fd_pipe.in == \
 			STDIN_FILENO && exec->fd_pipe.out == STDOUT_FILENO)
 			ft_cd(exec->args, envp);
