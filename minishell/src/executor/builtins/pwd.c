@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:47:59 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/07 10:22:28 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/07 12:50:49 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,16 @@ int	ft_pwd(char **args, char ***envp)
 	shell = get_minishell(NULL);
 	shell->exit_code = EXIT_SUCCESS;
 	do_nothing(envp);
-	if (double_len(args) == 1)
+	ret = getcwd(NULL, 0);
+	if (ret)
 	{
-		ret = getcwd(NULL, 0);
 		ft_printf("%s\n", ret);
 		ret = ft_memfree(ret, NULL);
 	}
 	else
 	{
 		shell->exit_code = EXIT_FAILURE;
-		ft_printf("MINIshell: pwd: too many arguments\n");
+		ft_dprintf(STDERR_FILENO, "MINIshell: %s: %s\n", args[0], strerror(errno));
 	}
 	return (shell->exit_code);
 }

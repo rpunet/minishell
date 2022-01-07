@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/04 22:37:49 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/07 13:13:22 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ char				*ft_strjoin_gnl(char *s1, char *s2);
 char				*ft_strncat(char *dest, char *src, size_t nb);
 char				*ft_strncpy(char *dest, char *src, unsigned int n);
 char				*ft_strnew(size_t size);
+int					ft_strrchr_pos(char *str, int c);
 char				*ft_strrev(const char *s);
 int					ft_strrncmp(const char *str, const char *suffix, size_t n);
 size_t				ft_strspn(const char *str, const char *chars);

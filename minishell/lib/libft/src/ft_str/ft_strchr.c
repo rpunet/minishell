@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/07/23 17:15:25 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/04/04 16:01:20 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/07 13:13:37 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,18 @@ char	*ft_strrchr(const char *s, int c)
 	if (r[len] == c)
 		return (r);
 	return (0);
+}
+
+int	ft_strrchr_pos(char *str, int c)
+{
+	int	len;
+
+	len = ft_strlen(str);
+	while (len >= 0)
+	{
+		if (str[len] == c)
+			return (len);
+		len--;
+	}
+	return (-1);
 }
