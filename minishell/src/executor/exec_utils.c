@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/04 21:17:35 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/08 15:12:51 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,53 +28,34 @@ int	count_commands(t_ast_node *cmd_node)
 	return (ret);
 }
 
-// si la quieres meter en LIBFT, y por cierto tu strrchr esta mal (len >= 0)
-
-int	ft_strrchr_pos(char *str, int c)
-{
-	int	len;
-
-	len = ft_strlen(str);
-	while (len >= 0)
-	{
-		if (str[len] == c)
-			return (len);
-		len--;
-	}
-	return (-1);
-}
-
 int	run_executable(char **args, char **envp)
 {
 	int		find;
 	char	*cwd;
 	char	*path;
 
-	// ft_printf("%s\n", cwd);
 	find = ft_strrchr_pos(args[0], '/');
 	cwd = ft_strjoin(getcwd(NULL, 0), "/");
 	path = ft_strjoin(cwd, args[0]);
-	//free(cwd);
-	args[0] = args[0] + find + 1;		// esto provoca un free() invalid pointer si es command not found, habrá que usar un duplicado de args
-	ft_printf("%i\n%s\n%s\n%s\n", find, path, args[0], args[1]);
-	return (execve(path, args, envp));
-	// si execve falla y retorna -1, como diferenciar error de execve, de command not found?
+	args[0] = args[0] + find + 1;
+	if (access(path, F_OK) == 0)
+		return (execve(path, args, envp));
+	args[0] = args[0] - find - 1;
+	return EXIT_SUCCESS;
 }
-
 
 int	exec_process(char **args, char **envp, int i)
 {
 	char		*directory;
-	char		*path;
 	DIR			*dir;
 	t_minishell	*shell;
 
 	shell = get_minishell(NULL);
 	directory = find_directory(&dir, args);
-	ft_printf("args es %s\n", args[0]);
 	if (!directory)
 	{
-		run_executable(args, envp);
+		if (run_executable(args, envp) == -1)
+			return EXEC_FAILURE;
 		if (!ft_strcmp(args[0], "$?"))
 			ft_printf("%d", shell->exit_code);
 		ft_printf("%s: Command not found\n", args[0]);
@@ -82,9 +63,7 @@ int	exec_process(char **args, char **envp, int i)
 		free_char_array(args, i);
 		exit_program(NULL, 0, 0, "");
 	}
-	path = ft_strjoin(directory, args[0]);
-	ft_printf("%s\n%s\n%s\n", path, args[0], args[1]);
-	return (execve(path, args, envp));   // si execve falla, retorna -1
+	return (execve(directory, args, envp));
 }
 
 char	*check_directories(DIR **dir, char **args, char **paths, int i)
@@ -116,10 +95,13 @@ char	*check_directories(DIR **dir, char **args, char **paths, int i)
 
 char	*find_directory(DIR **dir, char **args)
 {
-	char			*path_var;
-	char			**paths;
-	int				i;
+	char	*path_var;
+	char	**paths;
+	char	*directory;
+	int		i;
 
+	if (!ft_strcmp(args[0], "minishell"))
+		return (getenv("_"));  //tenemos hecha find_value() que hace lo mismo
 	path_var = getenv("PATH");
 	paths = ft_split(path_var, ':');
 	i = 0;
@@ -127,7 +109,11 @@ char	*find_directory(DIR **dir, char **args)
 	{
 		path_var = check_directories(dir, args, paths, i);
 		if (path_var != NULL)
-			return (path_var);
+		{
+			directory = ft_strjoin(path_var, args[0]);
+			free(path_var);
+			return (directory);
+		}
 		i++;
 	}
 	free_char_array(paths, double_len(paths));
