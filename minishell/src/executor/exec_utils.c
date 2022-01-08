@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/08 15:12:51 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/08 16:37:33 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,14 @@ int	run_executable(char **args, char **envp)
 	char	*path;
 
 	find = ft_strrchr_pos(args[0], '/');
-	cwd = ft_strjoin(getcwd(NULL, 0), "/");
+	cwd = ft_strjoin(strdup(getcwd(NULL, 0)), "/");
 	path = ft_strjoin(cwd, args[0]);
+	cwd = ft_memfree(cwd, NULL);
 	args[0] = args[0] + find + 1;
 	if (access(path, F_OK) == 0)
 		return (execve(path, args, envp));
 	args[0] = args[0] - find - 1;
-	return EXIT_SUCCESS;
+	return (EXIT_SUCCESS);
 }
 
 int	exec_process(char **args, char **envp, int i)
@@ -55,7 +56,7 @@ int	exec_process(char **args, char **envp, int i)
 	if (!directory)
 	{
 		if (run_executable(args, envp) == -1)
-			return EXEC_FAILURE;
+			return (EXEC_FAILURE);
 		if (!ft_strcmp(args[0], "$?"))
 			ft_printf("%d", shell->exit_code);
 		ft_printf("%s: Command not found\n", args[0]);

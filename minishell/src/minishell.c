@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 20:57:34 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/08 13:00:54 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	initialize_minishell(t_minishell *shell, int argc)
 			if (ft_get_input(&(shell->line)))
 				continue ;
 		if (ft_lexer(shell))
-			ft_printf("error");
+			ft_dprintf(STDERR_FILENO, "Error: Lexer: %s\n", strerror(errno));
 		if (!ft_parser(&(shell->lexer), &(shell->syntax_tree)))
 			ft_execute(shell->syntax_tree, &(shell->envp_dup));
 		else
@@ -55,9 +55,7 @@ void	initialize_minishell(t_minishell *shell, int argc)
 			shell->state = ST_ERROR;
 			shell->exit_code = E_PARSER;
 		}
-		//ft_printf("Reseting shell\n");
 		reset_shell(shell);
-		//condition = FALSE;
 		if (argc > 1)
 			condition = FALSE;
 	}

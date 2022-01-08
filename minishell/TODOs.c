@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 16:52:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/11/27 20:56:26 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/07 11:17:14 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 //*		Pipes. El output de cada comando en la pipeline se conecta a través de un pipe al input del siguiente comando
 
 //*		Las variables de entorno ($ seguidos de caracteres) deberán expandirse a sus valores
-//TODO	$? deberá expandirse al estado de salida del comando más reciente ejecutado en la pipeline
+//*	$? deberá expandirse al estado de salida del comando más reciente ejecutado en la pipeline
 
-//TODO	ctrl-C ctrl-D ctrl-\ deberán funcionar como en bash
-//TODO	Cuando sea interactivo: ctrl-C imprime una nueva entrada en una línea nueva.
-//TODO	Cuando sea interactivo: ctrl-D termina el shell.
-//TODO	Cuando sea interactivo: ctrl-\ no hace nada
+//*	ctrl-C ctrl-D ctrl-\ deberán funcionar como en bash
+//*	Cuando sea interactivo: ctrl-C imprime una nueva entrada en una línea nueva.
+//*	Cuando sea interactivo: ctrl-D termina el shell.
+//*	Cuando sea interactivo: ctrl-\ no hace nada
 
