@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:48:44 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/07 10:19:29 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/08 20:18:54 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	ft_cd(char **args, char ***envp)
 		if (chdir(args[1]) == -1)
 		{
 			shell->exit_code = EXIT_FAILURE;
-			ft_printf("MINIshell: cd: No such file or directory\n");
+			ft_dprintf(STDOUT_FILENO, "MINIshell: %s: \
+				No such file or directory\n", args[0]);
 		}
 		else
 			change_pwd(envp);
@@ -52,7 +53,7 @@ int	ft_cd(char **args, char ***envp)
 	else
 	{
 		shell->exit_code = EXIT_FAILURE;
-		ft_printf("MINIshell: cd: too many arguments\n");
+		ft_printf("MINIshell: %s: too many arguments\n", args[0]);
 	}
 	return (shell->exit_code);
 }

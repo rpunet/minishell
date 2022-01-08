@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:47:59 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/07 12:50:49 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/08 20:52:35 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,14 @@ int	ft_pwd(char **args, char ***envp)
 	ret = getcwd(NULL, 0);
 	if (ret)
 	{
-		ft_printf("%s\n", ret);
+		ft_dprintf(STDOUT_FILENO, "%s\n", ret);
 		ret = ft_memfree(ret, NULL);
 	}
 	else
 	{
 		shell->exit_code = EXIT_FAILURE;
-		ft_dprintf(STDERR_FILENO, "MINIshell: %s: %s\n", args[0], strerror(errno));
+		ft_dprintf(STDERR_FILENO, "MINIshell: %s failed: %s\n", \
+			args[0], strerror(errno));
 	}
 	return (shell->exit_code);
 }

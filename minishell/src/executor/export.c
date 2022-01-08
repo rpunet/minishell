@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/07 10:05:07 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/08 18:21:15 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,22 +46,22 @@ int	ft_export(char **args, char ***envp)
 	t_minishell	*shell;
 
 	shell = get_minishell(NULL);
+	shell->exit_code = EXIT_SUCCESS;
 	i = 1;
 	if (args[i] == NULL)
-	{
 		shell->exit_code = no_args_export(*envp);
-		return (shell->exit_code);
-	}
-	if (args[1][0] == '-')
+	else if (args[1][0] == '-')
 	{
 		shell->exit_code = EXIT_FAILURE;
-		exit_program(NULL, F_SHELL, 0, "Export doesn't handle any options\n");
+		ft_dprintf(STDOUT_FILENO, "MINIshell: %s:`%s': \
+			invalid option\n", args[0], args[1]);
 	}
-	while (args[i])
+	while (args[i] && shell->exit_code == EXIT_SUCCESS)
 	{
 		shell->exit_code = check_syntax(args[i]);
 		if (shell->exit_code == EXIT_FAILURE)
-			ft_printf("MINIsh: export:`%s': not a valid identifier\n", args[i]);
+			ft_dprintf(STDOUT_FILENO, "MINIshell: %s:`%s': \
+				not a valid identifier\n", args[0], args[i]);
 		else
 			export_variable(args, envp, i);
 		i++;

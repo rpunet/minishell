@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 21:54:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 23:10:38 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/08 20:59:51 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	exit_program(t_minishell *shell, int status, int err, char *extra)
 		error_str(err);
 	}
 	if (extra != NULL)
-		ft_dprintf(STDERR_FILENO, extra);
-	ft_dprintf(STDERR_FILENO, "\n");
+		ft_dprintf(STDERR_FILENO, "%s\n", extra);
 	exit(ex);
 }

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 16:05:03 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/07 10:14:50 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/08 21:01:46 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ int	ft_unset(char **args, char ***envp)
 	else
 	{
 		shell->exit_code = EXIT_FAILURE;
-		ft_dprintf(STDERR_FILENO, "MINIsh: unset: not a valid identifier");
+		ft_dprintf(STDOUT_FILENO, "MINIshell: %s: not a valid identifier\n", \
+			args[0]);
 	}
 	find = ft_memfree(find, NULL);
 	return (shell->exit_code);

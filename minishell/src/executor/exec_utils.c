@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/08 16:37:33 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/08 17:21:11 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ int	exec_process(char **args, char **envp, int i)
 		if (run_executable(args, envp) == -1)
 			return (EXEC_FAILURE);
 		if (!ft_strcmp(args[0], "$?"))
-			ft_printf("%d", shell->exit_code);
-		ft_printf("%s: Command not found\n", args[0]);
+			ft_dprintf(STDERR_FILENO, "%d", shell->exit_code);
+		ft_dprintf(STDERR_FILENO, "%s: Command not found\n", args[0]);
 		shell->exit_code = EB_COMMAND_NOT_FOUND;
 		free_char_array(args, i);
 		exit_program(NULL, 0, 0, "");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/03 21:20:47 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/08 17:55:11 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	not_interactive_shell(t_minishell *shell, char *argv)
 	fd = open(argv, O_RDONLY);
 	if (fd == ERROR)
 	{
-		ft_dprintf(STDERR_FILENO, "Error with FILE: %s", strerror(errno));
+		ft_dprintf(STDOUT_FILENO, "MINIshell: %s: %s", argv, strerror(errno));
 		shell->exit_code = EB_CATCHALL;
 		return ;
 	}
@@ -56,7 +56,7 @@ void	not_interactive_shell(t_minishell *shell, char *argv)
 		size = ft_get_next_line(fd, &line);
 		if (size == -1)
 		{
-			ft_dprintf(STDERR_FILENO, "Error: %s", strerror(errno));
+			ft_dprintf(STDOUT_FILENO, "MINIshell: GNL: %s", strerror(errno));
 			shell->exit_code = EXIT_FAILURE;
 			break ;
 		}
@@ -77,7 +77,6 @@ int	main(int argc, char **argv, char **envp)
 	if (argc > 1 && !ft_strcmp(argv[1], "-c"))
 	{
 		shell->line = ft_strdup(argv[2]);
-		//argc = 1;
 		interactive_shell(shell, argc);
 	}
 	else if (argc == 1)

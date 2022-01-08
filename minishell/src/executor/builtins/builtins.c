@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2021/12/12 23:44:28 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/08 20:17:02 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	check_builtins(char **args, char **envp)
 	{
 		while (*envp)
 		{
-			ft_printf("%s\n", *envp);
+			ft_dprintf(STDOUT_FILENO, "%s\n", *envp);
 			envp++;
 		}
 		return (TRUE);
