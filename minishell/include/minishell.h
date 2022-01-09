@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 21:17:49 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 22:31:25 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,9 +232,7 @@ t_ast_node	*gr_job_1(void);
 t_ast_node	*gr_job_2(void);
 t_ast_node	*gr_instr(void);
 t_ast_node	*gr_instr_1(void);
-t_ast_node	*gr_instr_2(void);
-t_ast_node	*gr_instr_3(void);
-t_ast_node	*gr_instr_4(void);
+t_ast_node	*gr_instr_redir(int node, int tok);
 t_ast_node	*gr_cmd(void);
 t_ast_node	*gr_cmd_1(void);
 t_ast_node	*gr_tokenlist(void);
@@ -275,4 +273,5 @@ int			ft_export(char **args, char ***envp);
 int			ft_unset(char **args, char ***envp);
 int			ft_pwd(char **arg, char ***envp);
 int			no_args_export(char **envp_dup);
+int			here_doc(t_minishell *shell, t_exec *exec);
 #endif

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
+#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/03 20:56:17 by rpunet           ###   ########.fr        #
+#    Updated: 2022/01/09 22:27:54 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,7 @@ FILES =	exit \
 		executor/export_no_args \
 		executor/export_utils \
 		executor/export \
+		executor/here_doc \
 		lexer/expander \
 		lexer/lexer \
 		lexer/token_utils \
