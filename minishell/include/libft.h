@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/07 13:13:22 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/09 18:58:33 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int					ft_max(int a, int b);
 void				*ft_memalloc(size_t size);
 void				*ft_memfree(void *all, void *npo);
 int					ft_min(int a, int b);
-void				ft_print_memory(void *addr, size_t len);
+void				ft_print_memory(void *addr, size_t len, int fd);
 int					ft_pow(int x, unsigned int y);
 void				ft_qsort_array(void *const base, size_t nmemb, size_t size, \
 						t_compare cmp);

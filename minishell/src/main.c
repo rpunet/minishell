@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/08 17:55:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 18:09:26 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ static t_minishell	*init_struct(void)
 	ret->envp_dup = NULL;
 	ret->exit_code = EXIT_SUCCESS;
 	ret->std.in = STDIN_FILENO;
+	ret->save_std.in = STDIN_FILENO;
 	ret->std.out = STDOUT_FILENO;
+	ret->save_std.out = STDOUT_FILENO;
 	return (ret);
 }
 

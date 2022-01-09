@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/08 20:17:02 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 19:12:29 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,14 @@ int	double_len(char **arr)
 
 int	check_builtins(char **args, char **envp)
 {
+	t_minishell	*shell;
+
+	shell = get_minishell(NULL);
 	if (!ft_strcmp(args[0], "env"))
 	{
 		while (*envp)
 		{
-			ft_dprintf(STDOUT_FILENO, "%s\n", *envp);
+			ft_dprintf(shell->std.out, "%s\n", *envp);
 			envp++;
 		}
 		return (TRUE);

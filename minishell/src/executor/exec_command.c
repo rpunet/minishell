@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/08 15:11:40 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/09 19:12:55 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	manage_fds(t_ft_builtins ptr, t_pipe fd_pipe, \
+static void	manage_fds(t_ft_builtins ptr, t_pipe *fd_pipe, \
 						char ***envp, char **args)
 {
 	int	save;
 
 	save = dup(STDOUT_FILENO);
-	if (fd_pipe.out == 1)
+	if (fd_pipe->out == 1)
 		ptr(args, envp);
 	else
 	{
-		dup2(fd_pipe.out, STDOUT_FILENO);
-		close(fd_pipe.out);
+		dup2(fd_pipe->out, STDOUT_FILENO);
+		close(fd_pipe->out);
 		ptr(args, envp);
 		dup2(save, STDOUT_FILENO);
 		close(save);
@@ -32,16 +32,19 @@ static void	manage_fds(t_ft_builtins ptr, t_pipe fd_pipe, \
 
 static void	child_process(t_exec *exec, char ***envp, int i)
 {
-	if (exec->fd_pipe.in != 0)
+	t_minishell	*shell;
+
+	shell = get_minishell(NULL);
+	if (shell->std.in != 0)
 	{
-		dup2(exec->fd_pipe.in, STDIN_FILENO);
-		close(exec->fd_pipe.in);
+		dup2(shell->std.in, STDIN_FILENO);
+		close(shell->std.in);
 	}
-	if (exec->fd_pipe.out != 1)
+	if (shell->std.out != 1)
 	{
 		close(exec->fds[READ]);
-		dup2(exec->fd_pipe.out, STDOUT_FILENO);
-		close(exec->fd_pipe.out);
+		dup2(shell->std.out, STDOUT_FILENO);
+		close(shell->std.out);
 	}
 	if (exec_process(exec->args, *envp, i) == -1)
 	{
@@ -98,7 +101,7 @@ static int	count_curr(t_exec *exec)
 	return (i);
 }
 
-void	execute_cmd(t_exec *exec, char ***envp)
+void	execute_cmd(t_minishell *shell, t_exec *exec, char ***envp)
 {
 	int			i;
 
@@ -107,16 +110,16 @@ void	execute_cmd(t_exec *exec, char ***envp)
 		&& i > 0)
 	{
 		if (!ft_strcmp(exec->args[0], "pwd"))
-			manage_fds(&ft_pwd, exec->fd_pipe, envp, exec->args);
+			manage_fds(&ft_pwd, &shell->std, envp, exec->args);
 		else if (!ft_strcmp(exec->args[0], "echo"))
-			manage_fds(&ft_echo, exec->fd_pipe, envp, exec->args);
+			manage_fds(&ft_echo, &shell->std, envp, exec->args);
 		else if (!ft_strcmp(exec->args[0], "exit"))
 			ft_exit(exec->args);
-		else if (!ft_strcmp(exec->args[0], "cd") && exec->fd_pipe.in == \
-			STDIN_FILENO && exec->fd_pipe.out == STDOUT_FILENO)
+		else if (!ft_strcmp(exec->args[0], "cd") && shell->std.in == \
+			STDIN_FILENO && shell->std.out == STDOUT_FILENO)
 			ft_cd(exec->args, envp);
 		else if (!ft_strcmp(exec->args[0], "export"))
-			manage_fds(&ft_export, exec->fd_pipe, envp, exec->args);
+			manage_fds(&ft_export, &shell->std, envp, exec->args);
 		else if (!ft_strcmp(exec->args[0], "unset"))
 			ft_unset(&exec->args[1], envp);
 		else

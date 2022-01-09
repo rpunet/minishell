@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:48:44 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/08 20:18:54 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 14:05:09 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,8 @@ int	ft_cd(char **args, char ***envp)
 	else
 	{
 		shell->exit_code = EXIT_FAILURE;
-		ft_printf("MINIshell: %s: too many arguments\n", args[0]);
+		ft_dprintf(STDOUT_FILENO, "MINIshell: %s: \
+			too many arguments\n", args[0]);
 	}
 	return (shell->exit_code);
 }

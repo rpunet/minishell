@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 12:54:19 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 19:24:04 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 ** LIBRARIES ---------------------------------
 */
 
-# include <unistd.h>
-# include <stdio.h>
+# include "libft.h"
+# include "ft_printf.h"
 # include <errno.h>
 # include <sys/wait.h>
 # include <fcntl.h>
@@ -26,8 +26,6 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "libft.h"
-# include "ft_printf.h"
 
 /*
 ** DEFINES ---------------------------------
@@ -136,8 +134,6 @@ enum	e_error
 ** STRUCTS ---------------------------------
 */
 
-typedef int	(*t_ft_builtins)(char **, char ***);
-
 typedef struct s_ast_node
 {
 	int					type;
@@ -155,7 +151,6 @@ typedef struct s_pipe
 typedef struct s_exec
 {
 	t_ast_node	*cmd_node;
-	t_pipe		fd_pipe;
 	int			fds[2];
 	char		**args;
 }					t_exec;
@@ -184,10 +179,13 @@ typedef struct s_minishell
 	int				exit_code;
 	char			*line;
 	t_pipe			std;
+	t_pipe			save_std;
 	t_lex			lexer;
 	t_ast_node		*syntax_tree;
 	char			**envp_dup;
 }					t_minishell;
+
+typedef int	(*t_ft_builtins)(char **, char ***);
 
 /*
 ** tipo general para comprobaciones de free, etc
@@ -235,6 +233,7 @@ t_ast_node	*gr_instr(void);
 t_ast_node	*gr_instr_1(void);
 t_ast_node	*gr_instr_2(void);
 t_ast_node	*gr_instr_3(void);
+t_ast_node	*gr_instr_4(void);
 t_ast_node	*gr_cmd(void);
 t_ast_node	*gr_cmd_1(void);
 t_ast_node	*gr_tokenlist(void);
@@ -262,10 +261,10 @@ int			check_builtins(char **args, char **envp);
 int			count_commands(t_ast_node *cmd_node);
 void		delete_var(char ***envp, char *del);
 int			exec_process(char **args, char **envp, int i);
-void		execute_cmd(t_exec *exec, char ***envp);
-void		execute_instr(t_exec *exec, char ***envp);
-void		execute_job(t_ast_node *job, char ***envp);
-void		execute_seq(t_ast_node *seq, char ***envp);
+void		execute_cmd(t_minishell *shell, t_exec *exec, char ***envp);
+void		execute_instr(t_minishell *shell, t_exec *exec, char ***envp);
+void		execute_job(t_minishell *shell, t_ast_node *job, char ***envp);
+void		execute_seq(t_minishell *shell, t_ast_node *seq, char ***envp);
 char		*find_variable(char **envp, char *arg, int *no_del);
 int			ft_cd(char **args, char ***envp);
 int			ft_echo(char **args, char ***envp);

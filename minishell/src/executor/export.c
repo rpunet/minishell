@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/08 18:21:15 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 19:12:15 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,14 @@ int	ft_export(char **args, char ***envp)
 	else if (args[1][0] == '-')
 	{
 		shell->exit_code = EXIT_FAILURE;
-		ft_dprintf(STDOUT_FILENO, "MINIshell: %s:`%s': \
+		ft_dprintf(shell->save_std.out, "MINIshell: %s:`%s': \
 			invalid option\n", args[0], args[1]);
 	}
 	while (args[i] && shell->exit_code == EXIT_SUCCESS)
 	{
 		shell->exit_code = check_syntax(args[i]);
 		if (shell->exit_code == EXIT_FAILURE)
-			ft_dprintf(STDOUT_FILENO, "MINIshell: %s:`%s': \
+			ft_dprintf(shell->save_std.out, "MINIshell: %s:`%s': \
 				not a valid identifier\n", args[0], args[i]);
 		else
 			export_variable(args, envp, i);

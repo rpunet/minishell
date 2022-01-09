@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 11:15:46 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 13:19:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 20:31:04 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	operator_length(t_lex *lexer, char *line)
 {
 	int	pos;
 
-	pos = lexer->token_pos;
+	pos = lexer->line_pos;
 	if (ft_strlen(line) >= 2 && \
 		((line[pos] == '<' && line[pos + 1] == '<') || \
 		(line[pos] == '>' && line[pos + 1] == '>')))
@@ -31,9 +31,9 @@ void	fill_data(t_lex *lexer, t_tok **token, char *line, int end)
 		(*token)->data[0] = (char)(line[lexer->line_pos++]);
 		(*token)->data[1] = (char)(line[lexer->line_pos]);
 		(*token)->data[2] = 0;
-		if (line[lexer->token_pos - 1] == '<' && line[lexer->token_pos] == '<')
+		if (line[lexer->line_pos - 1] == '<' && line[lexer->line_pos] == '<')
 			(*token)->type = T_LIMITER;
-		if (line[lexer->token_pos - 1] == '>' && line[lexer->token_pos] == '>')
+		if (line[lexer->line_pos - 1] == '>' && line[lexer->line_pos] == '>')
 			(*token)->type = T_APPEND;
 	}
 	else if (end == 1)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   instruction.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:08 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 19:03:31 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/09 19:23:31 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,10 @@ t_ast_node	*gr_instr(void)
 	t_ast_node	*node;
 
 	save = g_current_tok;
+	node = gr_instr_4();
+	if (node != NULL)
+		return (node);
+	g_current_tok = save;
 	node = gr_instr_3();
 	if (node != NULL)
 		return (node);
@@ -89,4 +93,16 @@ t_ast_node	*gr_instr_3(void)
 	parent->type = INDIR_NODE;
 	parent->right = NULL;
 	return (set_parent(&parent, T_INDIR));
+}
+
+t_ast_node	*gr_instr_4(void)
+{
+	t_ast_node	*parent;
+
+	parent = malloc(sizeof(t_ast_node));
+	if (parent == NULL)
+		exit_program(NULL, 0, E_MEM, strerror(errno));
+	parent->type = APPEND_NODE;
+	parent->right = NULL;
+	return (set_parent(&parent, T_APPEND));
 }

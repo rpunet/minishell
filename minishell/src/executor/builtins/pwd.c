@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:47:59 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/08 20:52:35 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 19:12:01 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	ft_pwd(char **args, char ***envp)
 	ret = getcwd(NULL, 0);
 	if (ret)
 	{
-		ft_dprintf(STDOUT_FILENO, "%s\n", ret);
+		ft_putstr_fd(ret, STDOUT_FILENO);
+		write(STDOUT_FILENO, "\n", 1);
 		ret = ft_memfree(ret, NULL);
 	}
 	else
