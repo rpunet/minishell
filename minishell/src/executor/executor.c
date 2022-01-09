@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 22:30:39 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 23:31:29 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	execute_instr(t_minishell *shell, t_exec *exec, char ***envp)
 		else if (exec->cmd_node->type == INDIR_NODE)
 			shell->std.in = open(exec->cmd_node->data, O_RDONLY);
 		else if (exec->cmd_node->type == LIMIT_NODE)
-			here_doc(shell, exec);
+			shell->std.in = here_doc(shell, exec);
 		exec->cmd_node = exec->cmd_node->left;
 		execute_cmd(shell, exec, envp);
 	}

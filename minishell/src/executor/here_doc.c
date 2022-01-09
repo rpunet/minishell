@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 21:43:57 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 23:06:42 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 23:31:34 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,8 @@ static void	stream_literal(char *data, char **literal)
 			stack = ft_strjoin(stack, buff);
 			tmp = ft_memfree(tmp, NULL);
 		}
-		printf("big buff is %s and strlen is %d\n", stack, (int)strlen(stack));
-		printf("data is %s, and strlen is %d\n", data, (int)strlen(data));
-		if (stack != NULL)
-			printf("srtncmp is %d\n", ft_strncmp(data, stack, (int)ft_strlen(stack) - 1));
 	}
 	stack = ft_memfree(stack, NULL);
-	printf("He salido");
 }
 
 int	here_doc(t_minishell *shell, t_exec *exec)
