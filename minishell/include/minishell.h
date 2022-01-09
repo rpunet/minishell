@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/08 14:21:39 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/09 12:54:19 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@
 # define WRITE			1
 # define BUILTINS		2
 
+# define S_IRWUGO		0666
+
 # define TRUE			1
 # define FALSE			0
 # define EXEC_FAILURE		-1
@@ -59,7 +61,8 @@ enum	e_tok
 	T_PIPE = '|',
 	T_REDIR = '>',
 	T_INDIR = '<',
-	T_APPEND = 66,
+	T_LIMITER = 6060,
+	T_APPEND = 6262,
 	T_QUOTE = '\'',
 	T_DQUOTE = '\"',
 	T_ESCAPE = '\\',
@@ -247,6 +250,8 @@ char		*find_value(char **envp, char *key);
 int			ft_lexer(t_minishell *shell);
 t_tok		*tok_init(int datasize);
 void		tok_delete(t_tok **token);
+void		fill_data(t_lex *lexer, t_tok **token, char *line, int end);
+int			operator_length(t_lex *lexer, char *line);
 
 /*
 ** EXECUTOR ----------------------------------

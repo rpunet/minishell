@@ -6,11 +6,43 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 11:15:46 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 17:21:33 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 13:19:31 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	operator_length(t_lex *lexer, char *line)
+{
+	int	pos;
+
+	pos = lexer->token_pos;
+	if (ft_strlen(line) >= 2 && \
+		((line[pos] == '<' && line[pos + 1] == '<') || \
+		(line[pos] == '>' && line[pos + 1] == '>')))
+		return (2);
+	return (1);
+}
+
+void	fill_data(t_lex *lexer, t_tok **token, char *line, int end)
+{
+	if (end == 2)
+	{
+		(*token)->data[0] = (char)(line[lexer->line_pos++]);
+		(*token)->data[1] = (char)(line[lexer->line_pos]);
+		(*token)->data[2] = 0;
+		if (line[lexer->token_pos - 1] == '<' && line[lexer->token_pos] == '<')
+			(*token)->type = T_LIMITER;
+		if (line[lexer->token_pos - 1] == '>' && line[lexer->token_pos] == '>')
+			(*token)->type = T_APPEND;
+	}
+	else if (end == 1)
+	{
+		(*token)->data[0] = (char)(line[lexer->line_pos]);
+		(*token)->data[1] = 0;
+		(*token)->type = line[lexer->line_pos];
+	}
+}
 
 t_tok	*tok_init(int datasize)
 {

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/08 13:00:28 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 11:59:31 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,21 +31,22 @@ static void	check_quote_end(t_lex *lexer, t_tok *token, char *line)
 static int	check_operators(t_lex *lexer, t_tok **token, \
 								char *line, char **envp)
 {
+	int	end;
+
+	end = operator_length(lexer, line);
 	if (lexer->token_pos > 0)
 	{
 		(*token)->data[lexer->token_pos] = 0;
 		if (lexer->last_quoted == FALSE)
 			expand_vars(&(*token)->data, envp);
-		(*token)->next = tok_init(1);
+		(*token)->next = tok_init(end);
 		if ((*token)->next == NULL)
 			return (EXIT_FAILURE);
 		(*token) = (*token)->next;
 		lexer->last_quoted = FALSE;
 		lexer->token_pos = 0;
 	}
-	(*token)->data[0] = (char)(line[lexer->line_pos]);
-	(*token)->data[1] = 0;
-	(*token)->type = line[lexer->line_pos];
+	fill_data(lexer, token, line, end);
 	(*token)->next = tok_init(ft_strlen(line) - lexer->line_pos);
 	if ((*token)->next == NULL)
 		return (EXIT_FAILURE);

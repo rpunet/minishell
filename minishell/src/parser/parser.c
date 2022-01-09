@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/03 17:37:41 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 12:41:44 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 ** 							CMD		>	filename
 ** 							CMD		<	filename
 ** 							CMD		>>	filename
+** 							CMD		<<	limiter
 **
 ** CMD				:=		cmdname	TOKENLIST
 **
