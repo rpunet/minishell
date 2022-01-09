@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 20:31:24 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 21:15:42 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,19 @@ void	execute_instr_pipe(t_minishell *shell, t_exec *exec, char ***envp)
 
 void	execute_instr(t_minishell *shell, t_exec *exec, char ***envp)
 {
-	if (exec->cmd_node->type == REDIR_NODE)
+	if (exec->cmd_node->type == REDIR_NODE || \
+		exec->cmd_node->type == APPEND_NODE || \
+		exec->cmd_node->type == INDIR_NODE || \
+		exec->cmd_node->type == LIMIT_NODE)
 	{
-		shell->std.out = open(exec->cmd_node->data, \
-								O_CREAT | O_WRONLY | O_TRUNC, S_IRWUGO);
-		exec->cmd_node = exec->cmd_node->left;
-		execute_cmd(shell, exec, envp);
-	}
-	else if (exec->cmd_node->type == APPEND_NODE)
-	{
-		shell->std.out = open(exec->cmd_node->data, \
+		if (exec->cmd_node->type == REDIR_NODE)
+			shell->std.out = open(exec->cmd_node->data, \
+									O_CREAT | O_WRONLY | O_TRUNC, S_IRWUGO);
+		else if (exec->cmd_node->type == APPEND_NODE)
+			shell->std.out = open(exec->cmd_node->data, \
 								O_CREAT | O_WRONLY | O_APPEND, S_IRWUGO);
+		else if (exec->cmd_node->type == INDIR_NODE)
+			shell->std.in = open(exec->cmd_node->data, O_RDONLY);
 		exec->cmd_node = exec->cmd_node->left;
 		execute_cmd(shell, exec, envp);
 	}

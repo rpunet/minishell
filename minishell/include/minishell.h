@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 19:24:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 21:17:49 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ enum	e_node
 	REDIR_NODE,
 	INDIR_NODE,
 	APPEND_NODE,
+	LIMIT_NODE,
 	CMDNAME_NODE,
 	TOKEN_NODE
 };

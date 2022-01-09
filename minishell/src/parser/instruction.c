@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:08 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 21:08:47 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/09 21:30:14 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ t_ast_node	*gr_instr_2(void)
 	parent = malloc(sizeof(t_ast_node));
 	if (parent == NULL)
 		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = T_REDIR;
+	parent->type = REDIR_NODE;
 	parent->right = NULL;
-	return (set_parent(&parent, T_REDIR)); // aqui usariamos el REDIR_NODE (usamos el enum de nodos, no el de tokens)
-}												// cuando tengamos las 4 redirecciones, habra que hacer un if del tipo de token para asignar el tipo de nodo
+	return (set_parent(&parent, T_REDIR));
+}
 
 t_ast_node	*gr_instr_3(void)
 {
