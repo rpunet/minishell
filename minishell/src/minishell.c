@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 18:10:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:52:12 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	reset_shell(t_minishell *shell)
 	shell->std.in = shell->save_std.in;
 	shell->std.out = shell->save_std.out;
 	shell->line = ft_memfree(shell->line, NULL);
+	shell->state = ST_PREPARED;
 }
 
 static int	ft_get_input(char **line)
@@ -29,6 +30,8 @@ static int	ft_get_input(char **line)
 	shell->prompt = set_prompt("$ ");
 	*line = readline(shell->prompt);
 	shell->prompt = ft_memfree(shell->prompt, NULL);
+	if (shell->state == ST_PREPARED)
+		shell->state = ST_OK;
 	if (*line == NULL)
 	{
 		null_line();
@@ -43,6 +46,7 @@ void	initialize_minishell(t_minishell *shell, int argc)
 	int	condition;
 
 	condition = TRUE;
+	shell->state = ST_PREPARED;
 	while (condition)
 	{
 		if (argc == 1)
@@ -50,7 +54,8 @@ void	initialize_minishell(t_minishell *shell, int argc)
 				continue ;
 		if (ft_lexer(shell))
 			ft_dprintf(STDOUT_FILENO, "MINIshell: Lexer: %s\n", strerror(errno));
-		if (!ft_parser(&(shell->lexer), &(shell->syntax_tree)))
+		if (!ft_parser(&(shell->lexer), &(shell->syntax_tree)) \
+				&& shell->state == ST_OK)
 			ft_execute(shell->syntax_tree, &(shell->envp_dup));
 		else
 		{

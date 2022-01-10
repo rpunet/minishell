@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 20:36:58 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/07 10:24:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:45:49 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,15 @@
 
 static void	sign_handler_nel(int signal)
 {
-	t_minishell			*shell;
+	t_minishell	*shell;
+	int			last_state;
 
 	shell = get_minishell(NULL);
 	shell->exit_code = SIGINT + EXIT_STATUS;
+	last_state = shell->state;
 	shell->state = ST_SIGINT;
-	ft_dprintf(STDIN_FILENO, "\n");
-	if (signal == SIGINT)
+	ft_putchar_fd('\n', STDIN_FILENO);
+	if (signal == SIGINT && last_state == ST_PREPARED)
 	{
 		shell->std.in = dup(STDIN_FILENO);
 		if (shell->std.in == -1)

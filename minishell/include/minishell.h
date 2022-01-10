@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 22:31:25 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:46:09 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ enum	e_node
 enum	e_state
 {
 	ST_OK = 1,
+	ST_PREPARED,
 	ST_SIGINT,
 	ST_ERROR,
 	ST_SUCCESS

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 12:41:44 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:59:04 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,16 @@ int	terminal(int tokentype)
 
 int	ft_parser(t_lex *lexer, t_ast_node **syntax_tree)
 {
+	t_minishell	*shell;
+
+	shell = get_minishell(NULL);
 	g_current_tok = lexer->list_token;
-	*syntax_tree = gr_seq();
+	if (shell->state == ST_OK)
+		*syntax_tree = gr_seq();
 	if (g_current_tok != NULL && g_current_tok->type != T_NULTOK)
+	{
+		shell->state = ST_ERROR;
 		return (EXIT_FAILURE);
+	}
 	return (EXIT_SUCCESS);
 }
