@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 19:12:55 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/10 23:18:34 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ static void	create_child(t_exec *exec, char ***envp, int i)
 
 	shell = get_minishell(NULL);
 	pid = fork();
-	//scanf("%d", &status);
 	if (pid == 0)
 		child_process(exec, envp, i);
 	else if (pid < 0)

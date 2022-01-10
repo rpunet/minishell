@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/08 17:21:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/10 23:18:53 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	*check_directories(DIR **dir, char **args, char **paths, int i)
 	*dir = opendir(paths[i]);
 	if (!*dir)
 	{
-		closedir(*dir); // no se si hace falta cerrarlo o si es el open es erróneo y da NULL ya vale
+		closedir(*dir);
 		return (NULL);
 	}
 	errno = 0;
@@ -102,7 +102,7 @@ char	*find_directory(DIR **dir, char **args)
 	int		i;
 
 	if (!ft_strcmp(args[0], "minishell"))
-		return (getenv("_"));  //tenemos hecha find_value() que hace lo mismo
+		return (getenv("_"));
 	path_var = getenv("PATH");
 	paths = ft_split(path_var, ':');
 	i = 0;
