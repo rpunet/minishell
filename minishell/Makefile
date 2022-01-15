@@ -6,17 +6,19 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/09 22:27:54 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/15 18:38:22 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 
 CC = gcc
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 
 AR = ar rcs
 RM = rm -rf
+
+NORME = norminette
 
 #################### Directories ####################
 
@@ -73,6 +75,7 @@ OBJS_B = $(addprefix $(ODIR)/,$(SRCS_B:.c=.o))
 
 ########################## Colors ##########################
 
+CUT = \033[K
 R = \033[31;1m
 G = \033[32;1m
 Y = \033[33;1m
@@ -85,61 +88,58 @@ END = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJS)
-	@echo "\n$(GR)[Compiling $(B)'$(NAME)'$(GR). Please, wait a few seconds...]${END}\n"
-	make -C $(LDIR)/$(LIBFT)
-	cp $(LDIR)/$(LIBFT)/$(LIBFT_A) ./$(LIBFT_A)
-	$(CC) $(CFLAGS) $(OBJS) -I/$(HDIR) ./$(LIBFT_A) $(LIBS) -o ${NAME}
-	$(RM) ./$(LIBFT_A)
+$(NAME): $(OBJS) 
+	$(CC) $(CFLAGS) $(OBJS) -I/$(HDIR) ./$(LDIR)/$(LIBFT)/$(LIBFT_A) $(LIBS) -o ${NAME}
 	@echo "\n$(G)[Compiled $(B)'$(NAME)' $(G)successfully]${END}\n"
 
 $(ODIR)/%.o: $(SDIR)/%.c $(HDIR)/$(HEAD) | $(ODIR)
+	$(eval STR=$(shell echo "${CUT}\t${Y}Compiling: ${END}$<${END}"))
+	@bash -c "printf '\r$(STR)\0'"
 	$(CC) $(CFLAGS) -I $(HDIR) -o $@ -c $<
 
 $(ODIR):
+	make -C $(LDIR)/$(LIBFT)
+	@echo "\n$(GR)[Compiling $(B)'$(NAME)'$(GR). Please, wait a few seconds...]${END}"
 	mkdir -p $(ODIR)
 	mkdir -p $(ODIR)/executor
 	mkdir -p $(ODIR)/executor/builtins
 	mkdir -p $(ODIR)/lexer
 	mkdir -p $(ODIR)/parser
 
-
-bonus: $(OBJS_B)
-	@echo "\n$(GR)[Compiling $(B)'$(BONUS)'$(GR). Please, wait a few seconds...]${END}\n"
-	make -C $(LDIR)/$(LIBFT)
-	cp $(LDIR)/$(LIBFT)/$(LIBFT_A) ./$(LIBFT_A)
-	$(CC) $(CFLAGS) $(OBJS_B) -I/$(HDIR) ./$(LIBFT_A) $(LIBS) -o ${BONUS}
-	$(RM) ./$(LIBFT_A)
-	@echo "\n$(G)[Compiled $(B)'$(BONUS)' $(G)successfully]${END}\n"
-
 clean:
-	$(RM) $(OBJS) $(ODIR) $(OBDIR)
-	make fclean -C $(LDIR)/$(LIBFT)
-	@echo "\n$(R)[Cleaned $(B) $(NAME) objects $(R)successfully]$(END)\n"
+	make clean -C $(LDIR)/$(LIBFT)
+ifneq ($(wildcard $(ODIR)/.*),)
+	@echo "\n$(GR)[Cleaning $(B)'$(NAME)'$(GR). Please wait...]${END}"
+	$(RM) $(OBJS) $(ODIR)
+	@echo "$(G)[Removed $(B) $(NAME) objects $(G)successfully]$(END)\n"
+else
+	@echo "\n$(R)[No objects to clean in $(B)$(NAME)$(R)]$(END)\n"
+endif
 
-fclean: clean
-	$(RM) $(NAME) $(BONUS)
-	@echo "$(R)[Removed $(B)'$(NAME)' $(R)successfully]$(END)\n"
+fclean:
+	make fclean -C $(LDIR)/$(LIBFT)
+ifneq ("$(wildcard $(NAME))$(wildcard $(ODIR)/.*)","")
+	@echo "\n$(GR)[Cleaning $(B)'$(NAME)'$(GR). Please wait...]${END}"
+ifneq ($(wildcard $(ODIR)/.*),)
+	$(RM) $(OBJS) $(ODIR)
+	@echo "$(G)[Removed $(B) $(NAME) objects $(G)successfully]$(END)"
+endif
+ifneq ("$(wildcard $(NAME))","")
+	$(RM) $(NAME)
+	@echo "$(G)[Removed $(B) $(NAME) $(G)successfully]$(END)"
+endif
+	@echo ""
+else
+	@echo "\n$(R)[Nothing to clean in $(B)$(NAME)$(R)]$(END)\n"
+endif
 
 re: fclean all
 
-re_bonus: fclean bonus
-
 norme:
-	norminette $(LIB)/ $(SDIR)/ $(HDIR)
+	$(NORME) $(SDIR)/ $(HDIR)
 	@echo "\n$(Y)[Checked norminette in $(B)'$(NAME)' $(Y)successfully]$(END)\n"
-	norminette $(SBDIR)/ $(HBDIR)
+	$(NORME) $(SBDIR)/ $(HBDIR)
 	@echo "\n$(Y)[Checked norminette in $(B)'$(NAME) BONUS' $(Y)successfully]$(END)\n"
-
-debug: CFLAGS += -g3 -fsanitize=address
-debug: fclean $(OBJS)
-	@echo "\n$(GR)[Compiling $(B)'$(NAME)'$(GR). Please, wait a few seconds...]${END}\n"
-	make Debug -C $(LDIR)/$(LIBFT)
-	cp $(LDIR)/$(LIBFT)/$(LIBFT_A) ./$(LIBFT_A)
-	$(CC) $(CFLAGS) $(OBJS) -I/$(HDIR) ./$(LIBFT_A) $(LIBS) -o ${NAME}
-	$(RM) ./$(LIBFT_A)
-	@echo "\n$(G)[Compiled $(B)'$(NAME)' $(G)successfully]${END}\n"
-	@echo "\n$(Y)[Mode debug activated for $(B)'$(NAME)']$(END)\n"
 
 .PHONY: all clean fclean re bonus Norme Debug
 

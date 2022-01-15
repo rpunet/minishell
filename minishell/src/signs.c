@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 20:36:58 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/10 22:45:49 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/15 18:24:53 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	null_line(void)
 	if (shell->state == ST_SIGINT)
 	{
 		if (dup2(shell->std.in, STDIN_FILENO) == -1)
-			exit_program(shell, F_SHELL, E_SIG, "");
+			exit_program(shell, F_SHELL, E_SIG, strerror(errno));
 		close(shell->std.in);
 	}
 	else

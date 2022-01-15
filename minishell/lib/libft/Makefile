@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/29 18:31:05 by jcarrete          #+#    #+#              #
-#    Updated: 2021/10/17 18:54:10 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/15 18:43:11 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,6 +128,7 @@ OBJS = $(addprefix $(ODIR)/,$(addsuffix .o, $(FILES)))
 
 #################### Colors ####################
 
+CUT = \033[K
 R = \033[31;1m
 G = \033[32;1m
 Y = \033[33;1m
@@ -141,14 +142,16 @@ END = \033[0m
 all: $(LNAME)
 
 $(LNAME): $(OBJS)
-	@echo "\n$(GR)[Compiling $(B)'$(LNAME)'$(GR). Please, wait a few seconds...]${END}\n"
 	$(AR) $(LNAME) $(OBJS)
 	@echo "\n$(G)[Compiled $(B)'$(LNAME)' $(G)successfully]${END}\n"
 
-$(ODIR)/%.o: $(SDIR)/%.c $(HDIR)/$(NAME).h | $(ODIR)
+$(ODIR)/%.o: $(SDIR)/%.c $(HDIR)/$(HEAD) | $(ODIR)
+	$(eval STR=$(shell echo "${CUT}\t${Y}Compiling: ${END}$<${END}"))
+	@bash -c "printf '\r$(STR)\0'"
 	$(CC) $(CFLAGS) -I $(HDIR) -o $@ -c $<
 
 $(ODIR):
+	@echo "\n$(GR)[Compiling $(B)'$(LNAME)'$(GR). Please, wait a few seconds...]${END}"
 	mkdir -p $(ODIR)
 	mkdir -p $(ODIR)/$(FTARR_PATH)
 	mkdir -p $(ODIR)/$(FTLST_PATH)
@@ -158,12 +161,29 @@ $(ODIR):
 	mkdir -p $(ODIR)/$(FTSTR_PATH)
 
 clean:
+ifneq ($(wildcard $(ODIR)/.*),)
+	@echo "\n$(GR)[Cleaning $(B)'$(NAME)'$(GR). Please wait...]${END}"
 	$(RM) $(OBJS) $(ODIR)
-	@echo "\n$(R)[Cleaned $(B)$(NAME) objects $(R)successfully]$(END)\n"
+	@echo "$(G)[Removed $(B) $(NAME) objects $(G)successfully]$(END)\n"
+else
+	@echo "\n$(R)[No objects to clean in $(B)$(NAME)$(R)]$(END)\n"
+endif
 
-fclean: clean
+fclean:
+ifneq ("$(wildcard $(LNAME))$(wildcard $(ODIR)/.*)","")
+	@echo "\n$(GR)[Cleaning $(B)'$(NAME)'$(GR). Please wait...]${END}"
+ifneq ($(wildcard $(ODIR)/.*),)
+	$(RM) $(OBJS) $(ODIR)
+	@echo "$(G)[Removed $(B) $(NAME) objects $(G)successfully]$(END)"
+endif
+ifneq ("$(wildcard $(LNAME))","")
 	$(RM) $(LNAME)
-	@echo "$(R)[Removed $(B)'$(LNAME)' $(R)successfully]$(END)\n"
+	@echo "$(G)[Removed $(B) $(NAME) $(G)successfully]$(END)"
+endif
+	@echo ""
+else
+	@echo "\n$(R)[Nothing to clean in $(B)$(NAME)$(R)]$(END)\n"
+endif
 
 re: fclean all
 

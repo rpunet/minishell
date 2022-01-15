@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 18:58:33 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/12 20:52:55 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void				ft_insertion_sort(t_qsort_data *data);
 int					ft_is_number(char *str);
 int					ft_is_prime(int nb);
 int					ft_isspace(int c);
+int					ft_iteris(char *str, int (*f)(int));
 char				*ft_itoa_base(long long n, int base);
 long long			ft_llpow(long long x, unsigned long long y);
 char				*ft_ltoa_base(long n, int base);
