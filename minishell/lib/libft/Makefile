@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/29 18:31:05 by jcarrete          #+#    #+#              #
-#    Updated: 2022/01/15 18:43:11 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/15 19:04:33 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror
 AR = ar rcs
 RM = rm -rf
+NORME = norminette
 
 HDIR = ../../include
 SDIR = src
@@ -191,8 +192,10 @@ Debug: CFLAGS += -g3 -fsanitize=address
 Debug: all
 	@echo "\n$(Y)[Mode debug activated for $(B)'$(NAME)']$(END)\n"
 
-Norme:
-	norminette -R CheckForbiddenSourceHeader $(SRCS) $(HDIR)/$(NAME).h
+norme:
+	@echo "\n$(GR)[Checking $(B)'$(NORME)'$(GR) in $(B)'$(NAME)'$(GR). Please wait...]${END}"
+	$(NORME) $(SDIR)/ $(HDIR) | GREP_COLORS='mt=01;32' egrep --color=always 'OK|' | \
+	GREP_COLORS='mt=01;31' egrep --color=always 'Error|'
 	@echo "\n$(Y)[Checked norminette in $(B)'$(NAME)' $(Y)successfully]$(END)\n"
 
 .PHONY: all clean fclean re bonus Norme

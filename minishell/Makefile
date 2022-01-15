@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/15 18:38:22 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/15 19:05:28 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -136,10 +136,11 @@ endif
 re: fclean all
 
 norme:
-	$(NORME) $(SDIR)/ $(HDIR)
+	make norme -C $(LDIR)/$(LIBFT)
+	@echo "\n$(GR)[Checking $(B)'$(NORME)'$(GR) in $(B)'$(NAME)'$(GR). Please wait...]${END}"
+	$(NORME) $(SDIR)/ $(HDIR) | GREP_COLORS='mt=01;32' egrep --color=always 'OK|' | \
+	GREP_COLORS='mt=01;31' egrep --color=always 'Error|'
 	@echo "\n$(Y)[Checked norminette in $(B)'$(NAME)' $(Y)successfully]$(END)\n"
-	$(NORME) $(SBDIR)/ $(HBDIR)
-	@echo "\n$(Y)[Checked norminette in $(B)'$(NAME) BONUS' $(Y)successfully]$(END)\n"
 
 .PHONY: all clean fclean re bonus Norme Debug
 
