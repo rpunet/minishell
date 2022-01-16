@@ -1,33 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/12 16:05:03 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/16 13:01:46 by jcarrete         ###   ########.fr       */
+/*   Created: 2022/01/16 12:35:13 by jcarrete          #+#    #+#             */
+/*   Updated: 2022/01/16 12:53:43 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_unset(char **args, char ***envp)
+static void	print_env(char **envp)
 {
-	char		*find;
-	t_minishell	*shell;
-	int			i;
+	int	i;
 
-	shell = get_minishell(NULL);
-	shell->exit_code = EXIT_SUCCESS;
-	i = 1;
-	while (args[i])
+	if (!envp)
+		return ;
+	i = 0;
+	while (envp[i])
 	{
-		find = find_variable(*envp, args[i], NULL);
-		if (find)
-			delete_var(envp, args[i]);
-		find = ft_memfree(find, NULL);
+		ft_putstr_fd(envp[i], STDOUT_FILENO);
+		write(STDOUT_FILENO, "\n", 1);
 		i++;
 	}
-	return (shell->exit_code);
+}
+
+int	ft_env(char **args, char ***envp)
+{
+	t_minishell	*shell;
+
+	shell = get_minishell(NULL);
+	if (ft_str_arr_count(args) > 1)
+	{
+		ft_putstr_fd("env: please use env without arguments\n", STDERR_FILENO);
+		shell->exit_code = EB_MISUSE_BUILTINS;
+		return (shell->exit_code);
+	}
+	print_env(*envp);
+	return (EXIT_SUCCESS);
 }

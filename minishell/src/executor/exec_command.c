@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/10 23:18:34 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/16 12:35:02 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,9 @@ void	execute_cmd(t_minishell *shell, t_exec *exec, char ***envp)
 		else if (!ft_strcmp(exec->args[0], "export"))
 			manage_fds(&ft_export, &shell->std, envp, exec->args);
 		else if (!ft_strcmp(exec->args[0], "unset"))
-			ft_unset(&exec->args[1], envp);
+			ft_unset(exec->args, envp);
+		else if (!ft_strcmp(exec->args[0], "env"))
+			ft_env(exec->args, envp);
 		else
 			create_child(exec, envp, i);
 	}

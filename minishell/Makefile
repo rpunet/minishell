@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/15 19:05:28 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/16 12:51:07 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -43,6 +43,7 @@ FILES =	exit \
 		executor/builtins/builtins \
 		executor/builtins/cd \
 		executor/builtins/echo \
+		executor/builtins/env \
 		executor/builtins/exit \
 		executor/builtins/pwd \
 		executor/builtins/unset \

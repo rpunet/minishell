@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 14:10:20 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/12 23:28:25 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/16 13:01:25 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ char	*find_variable(char **envp, char *arg, int *no_del)
 		key = ft_memfree(key, NULL);
 		envp++;
 	}
+	find = ft_memfree(find, NULL);
 	return (ft_memfree(key, NULL));
 }
 

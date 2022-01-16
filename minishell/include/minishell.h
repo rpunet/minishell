@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/10 22:46:09 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/16 12:44:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ void		execute_seq(t_minishell *shell, t_ast_node *seq, char ***envp);
 char		*find_variable(char **envp, char *arg, int *no_del);
 int			ft_cd(char **args, char ***envp);
 int			ft_echo(char **args, char ***envp);
+int			ft_env(char **args, char ***envp);
 void		ft_execute(t_ast_node *syntax_tree, char ***envp);
 int			ft_exit(char **argv);
 int			ft_export(char **args, char ***envp);
