@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/16 12:51:07 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/16 23:57:24 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -48,6 +48,7 @@ FILES =	exit \
 		executor/builtins/pwd \
 		executor/builtins/unset \
 		executor/exec_command \
+		executor/exec_process \
 		executor/exec_utils \
 		executor/executor \
 		executor/export_envp \

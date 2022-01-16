@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/16 12:44:59 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/16 23:51:06 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,6 +185,7 @@ typedef struct s_minishell
 	t_lex			lexer;
 	t_ast_node		*syntax_tree;
 	char			**envp_dup;
+	char			*path;
 }					t_minishell;
 
 typedef int	(*t_ft_builtins)(char **, char ***);
@@ -276,4 +277,5 @@ int			ft_unset(char **args, char ***envp);
 int			ft_pwd(char **arg, char ***envp);
 int			no_args_export(char **envp_dup);
 int			here_doc(t_minishell *shell, t_exec *exec);
+char		*set_command_path(t_exec *exec);
 #endif

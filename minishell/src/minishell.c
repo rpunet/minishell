@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/15 18:24:37 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/17 00:09:36 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static int	reset_shell(t_minishell *shell, int argc)
 	shell->std.in = shell->save_std.in;
 	shell->std.out = shell->save_std.out;
 	shell->line = ft_memfree(shell->line, NULL);
+	shell->path = ft_memfree(shell->path, NULL);
 	shell->state = ST_PREPARED;
 	if (argc > 1)
 		return (FALSE);

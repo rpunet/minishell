@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/12 21:04:46 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/17 00:04:23 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,54 +28,6 @@ int	count_commands(t_ast_node *cmd_node)
 	return (ret);
 }
 
-int	run_executable(char **args, char **envp)
-{
-	int		find;
-	char	*cwd;
-	char	*path;
-	char	*tmp;
-
-	find = ft_strrchr_pos(args[0], '/');
-	tmp = getcwd(NULL, 0);
-	cwd = ft_strjoin(tmp, "/");
-	path = ft_strjoin(cwd, args[0]);
-	cwd = ft_memfree(cwd, NULL);
-	tmp = ft_memfree(tmp, NULL);
-	args[0] = args[0] + find + 1;
-	if (access(path, F_OK) == 0)
-		return (execve(path, args, envp));
-	path = ft_memfree(path, NULL);
-	args[0] = args[0] - find - 1;
-	return (EXIT_SUCCESS);
-}
-
-int	exec_process(char **args, char **envp, int i)
-{
-	char		*directory;
-	DIR			*dir;
-	t_minishell	*shell;
-
-	shell = get_minishell(NULL);
-	directory = find_directory(&dir, args);
-	if (!directory)
-	{
-		if (ft_iteris(args[0], &ft_isspace))
-		{
-			shell->exit_code = EXIT_SUCCESS;
-			return (EXIT_SUCCESS);
-		}
-		if (run_executable(args, envp) == -1)
-			return (EXEC_FAILURE);
-		if (!ft_strcmp(args[0], "$?"))
-			ft_dprintf(STDERR_FILENO, "%d", shell->exit_code);
-		ft_dprintf(STDERR_FILENO, "%s: Command not found\n", args[0]);
-		shell->exit_code = EB_COMMAND_NOT_FOUND;
-		free_char_array(args, i);
-		exit_program(NULL, 0, 0, "");
-	}
-	return (execve(directory, args, envp));
-}
-
 char	*check_directories(DIR **dir, char **args, char **paths, int i)
 {
 	char			*path;
@@ -95,6 +47,7 @@ char	*check_directories(DIR **dir, char **args, char **paths, int i)
 		{
 			path = ft_strjoin(paths[i], "/");
 			free_char_array(paths, double_len(paths));
+			closedir(*dir);
 			return (path);
 		}
 		d = readdir(*dir);

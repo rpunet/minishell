@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:18:27 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 16:31:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/17 00:09:58 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void	free_program(t_minishell *shell, int status)
 	{
 		if (shell->line != NULL)
 			shell->line = ft_memfree(shell->line, NULL);
+		if (shell->path != NULL)
+			shell->path = ft_memfree(shell->path, NULL);
 		if (shell->envp_dup != NULL)
 			free_char_array(shell->envp_dup, ft_str_arr_count(shell->envp_dup));
 		if (shell->syntax_tree != NULL)

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/15 13:41:26 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/17 00:01:04 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ static t_minishell	*init_struct(void)
 	ret->save_std.in = STDIN_FILENO;
 	ret->std.out = STDOUT_FILENO;
 	ret->save_std.out = STDOUT_FILENO;
+	ret->path = NULL;
 	return (ret);
 }
 
