@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/12 15:47:08 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 19:11:46 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/16 12:09:57 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	ft_echo(char **args, char ***envp)
 	else
 	{
 		i = 1;
-		if (!ft_strcmp(args[1], "-n"))
+		while (args[i] && !ft_strncmp(args[i], "-n", 2))
 			i++;
 		while (args[i])
 		{
@@ -34,7 +34,7 @@ int	ft_echo(char **args, char ***envp)
 				write(STDOUT_FILENO, " ", 1);
 			i++;
 		}
-		if (ft_strcmp(args[1], "-n"))
+		if (ft_strncmp(args[1], "-n", 2))
 			write(STDOUT_FILENO, "\n", 1);
 	}
 	return (shell->exit_code);
