@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/10 22:59:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 19:35:42 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,17 @@
 ** 							JOB		;
 ** 							JOB
 **
-** JOB				:=		INSTR
-** 							INSTR	|	JOB
+** JOB				:=		INSTR	|	JOB
+** 							INSTR
 **
-** INSTR			:=		CMD
+
+** INSTR			:=		CMD		   >  DIR
+							CMD
+
+	DIR				:=		filename   >  DIR
+	 						filename
+
+
 ** 							CMD		>	filename
 ** 							CMD		<	filename
 ** 							CMD		>>	filename
@@ -40,7 +47,7 @@ void	ast_delete(t_ast_node **node)
 
 	if ((*node) == NULL)
 		return ;
-	if ((*node)->type >= REDIR_NODE && (*node)->data != NULL)
+	if ((*node)->type >= CMDNAME_NODE && (*node)->data != NULL)
 		(*node)->data = ft_memfree((*node)->data, NULL);
 	right = (*node)->right;
 	left = (*node)->left;
@@ -53,7 +60,7 @@ void	delete_single_ast(t_ast_node **node)
 {
 	if ((*node) == NULL)
 		return ;
-	if ((*node)->type >= REDIR_NODE && (*node)->data != NULL)
+	if ((*node)->type >= CMDNAME_NODE && (*node)->data != NULL)
 		(*node)->data = ft_memfree((*node)->data, NULL);
 	if ((*node)->right != NULL)
 		(*node)->right->left = NULL;
@@ -74,6 +81,21 @@ int	terminal(int tokentype)
 	g_current_tok = g_current_tok->next;
 	return (EXIT_FAILURE);
 }
+
+int	terminal_redir(void)
+{
+	if (g_current_tok == NULL)
+		return (EXIT_FAILURE);
+	if (g_current_tok->type == T_REDIR || g_current_tok->type == T_INDIR || g_current_tok->type == T_APPEND || g_current_tok->type == T_LIMITER)
+	{
+		g_current_tok = g_current_tok->next;
+		return (EXIT_SUCCESS);
+	}
+	g_current_tok = g_current_tok->next;
+	return (EXIT_FAILURE);
+}
+
+
 
 /*
 ** ----------------------  TREE ROOT ----------------------------

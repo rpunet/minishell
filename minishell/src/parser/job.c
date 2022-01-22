@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:29:33 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 17:19:16 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 19:07:44 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ t_ast_node	*gr_job_2(void)
 	if (parent == NULL)
 		exit_program(NULL, 0, E_MEM, strerror(errno));
 	parent->type = PIPE_NODE;
+	parent->data = NULL;
 	parent->left = instr;
 	parent->right = job;
 	return (parent);

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
+#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/19 23:54:20 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/22 18:51:13 by rpunet           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,6 +65,7 @@ FILES =	exit \
 		parser/job \
 		parser/parser \
 		parser/sequence \
+		parser/dir \
 
 SRCS = $(addsuffix .c, $(FILES))
 
@@ -91,7 +92,7 @@ END = \033[0m
 
 all: $(NAME)
 
-$(NAME): $(OBJS) 
+$(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) -I/$(HDIR) ./$(LDIR)/$(LIBFT)/$(LIBFT_A) $(LIBS) -o ${NAME}
 	@echo "\n$(G)[Compiled $(B)'$(NAME)' $(G)successfully]${END}\n"
 

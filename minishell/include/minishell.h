@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/19 23:54:00 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 19:36:09 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ enum	e_tok
 	T_INDIR = '<',
 	T_LIMITER = 6060,
 	T_APPEND = 6262,
+	T_DIR = 6666,
 	T_QUOTE = '\'',
 	T_DQUOTE = '\"',
 	T_ESCAPE = '\\',
@@ -92,6 +93,7 @@ enum	e_node
 	APPEND_NODE,
 	LIMIT_NODE,
 	CMDNAME_NODE,
+	FILENAME_NODE,
 	TOKEN_NODE
 };
 
@@ -221,10 +223,12 @@ void		set_shell_signals(t_minishell *shell);
 ** PARSER ------------------------------------
 */
 
+int			get_dir_type(void);
 int			ft_parser(t_lex *lexer, t_ast_node **syntax_tree);
 void		ast_delete(t_ast_node **node);
 void		delete_single_ast(t_ast_node **node);
 int			terminal(int tokentype);
+int			terminal_redir(void);
 t_ast_node	*gr_seq(void);
 t_ast_node	*gr_seq_1(void);
 t_ast_node	*gr_seq_2(void);
@@ -234,9 +238,12 @@ t_ast_node	*gr_job_1(void);
 t_ast_node	*gr_job_2(void);
 t_ast_node	*gr_instr(void);
 t_ast_node	*gr_instr_1(void);
-t_ast_node	*gr_instr_redir(int node, int tok);
+t_ast_node	*gr_instr_2(void);
 t_ast_node	*gr_cmd(void);
 t_ast_node	*gr_cmd_1(void);
+t_ast_node	*gr_dir(void);
+t_ast_node	*gr_dir_1(void);
+t_ast_node	*gr_dir_2(void);
 t_ast_node	*gr_tokenlist(void);
 t_ast_node	*gr_tokenlist_1(void);
 t_ast_node	*gr_tokenlist_2(void);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sequence.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:23:16 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/03 17:40:01 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 19:07:13 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ t_ast_node	*gr_seq_2(void)
 	if (parent == NULL)
 		exit_program(NULL, 0, E_MEM, strerror(errno));
 	parent->type = SEQ_NODE;
+	parent->data = NULL;
 	parent->left = job;
 	parent->right = NULL;
 	return (parent);
@@ -83,6 +84,7 @@ t_ast_node	*gr_seq_3(void)
 	if (parent == NULL)
 		exit_program(NULL, 0, E_MEM, strerror(errno));
 	parent->type = SEQ_NODE;
+	parent->data = NULL;
 	parent->left = job;
 	parent->right = seq;
 	return (parent);
