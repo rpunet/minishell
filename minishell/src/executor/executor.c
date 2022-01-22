@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 23:31:29 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/20 20:49:31 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,18 +47,8 @@ void	execute_instr(t_minishell *shell, t_exec *exec, char ***envp)
 		exec->cmd_node->type == INDIR_NODE || \
 		exec->cmd_node->type == LIMIT_NODE)
 	{
-		if (exec->cmd_node->type == REDIR_NODE)
-			shell->std.out = open(exec->cmd_node->data, \
-									O_CREAT | O_WRONLY | O_TRUNC, S_IRWUGO);
-		else if (exec->cmd_node->type == APPEND_NODE)
-			shell->std.out = open(exec->cmd_node->data, \
-								O_CREAT | O_WRONLY | O_APPEND, S_IRWUGO);
-		else if (exec->cmd_node->type == INDIR_NODE)
-			shell->std.in = open(exec->cmd_node->data, O_RDONLY);
-		else if (exec->cmd_node->type == LIMIT_NODE)
-			shell->std.in = here_doc(shell, exec);
-		exec->cmd_node = exec->cmd_node->left;
-		execute_cmd(shell, exec, envp);
+		printf("estoy en executeinstr\n");
+		execute_redirection(shell, exec, envp);
 	}
 	else
 		execute_cmd(shell, exec, envp);

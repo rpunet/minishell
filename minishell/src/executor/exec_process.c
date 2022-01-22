@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/16 22:19:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/16 23:59:42 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/17 00:14:11 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,6 @@ char	*set_command_path(t_exec *exec)
 		if (access(ret, X_OK) != 0)
 			ret = ft_memfree(ret, NULL);
 	}
-	if (ret == NULL)
-		ft_dprintf(STDERR_FILENO, "MINIshell: %s\n", strerror(errno));
 	return (ret);
 }
 

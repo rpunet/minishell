@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/16 23:51:06 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/19 23:54:00 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -278,4 +278,5 @@ int			ft_pwd(char **arg, char ***envp);
 int			no_args_export(char **envp_dup);
 int			here_doc(t_minishell *shell, t_exec *exec);
 char		*set_command_path(t_exec *exec);
+void		execute_redirection(t_minishell *shell, t_exec *exec, char ***envp);
 #endif
