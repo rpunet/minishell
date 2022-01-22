@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 19:35:42 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:47:34 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,11 @@
 ** JOB				:=		INSTR	|	JOB
 ** 							INSTR
 **
-
 ** INSTR			:=		CMD		   >  DIR
-							CMD
-
-	DIR				:=		filename   >  DIR
-	 						filename
-
-
-** 							CMD		>	filename
-** 							CMD		<	filename
-** 							CMD		>>	filename
-** 							CMD		<<	limiter
+**							CMD
+**
+**	DIR				:=		filename   >  DIR
+**							filename
 **
 ** CMD				:=		cmdname	TOKENLIST
 **
@@ -86,7 +79,10 @@ int	terminal_redir(void)
 {
 	if (g_current_tok == NULL)
 		return (EXIT_FAILURE);
-	if (g_current_tok->type == T_REDIR || g_current_tok->type == T_INDIR || g_current_tok->type == T_APPEND || g_current_tok->type == T_LIMITER)
+	if (g_current_tok->type == T_REDIR || \
+		g_current_tok->type == T_INDIR || \
+		g_current_tok->type == T_APPEND || \
+		g_current_tok->type == T_LIMITER)
 	{
 		g_current_tok = g_current_tok->next;
 		return (EXIT_SUCCESS);
@@ -94,8 +90,6 @@ int	terminal_redir(void)
 	g_current_tok = g_current_tok->next;
 	return (EXIT_FAILURE);
 }
-
-
 
 /*
 ** ----------------------  TREE ROOT ----------------------------

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sequence.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:23:16 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 19:07:13 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:44:25 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,14 +50,7 @@ t_ast_node	*gr_seq_2(void)
 		ast_delete(&job);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = SEQ_NODE;
-	parent->data = NULL;
-	parent->left = job;
-	parent->right = NULL;
-	return (parent);
+	return (create_parent_node(SEQ_NODE, NULL, job, NULL));
 }
 
 t_ast_node	*gr_seq_3(void)
@@ -80,12 +73,5 @@ t_ast_node	*gr_seq_3(void)
 		ast_delete(&job);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = SEQ_NODE;
-	parent->data = NULL;
-	parent->left = job;
-	parent->right = seq;
-	return (parent);
+	return (create_parent_node(SEQ_NODE, NULL, job, seq));
 }

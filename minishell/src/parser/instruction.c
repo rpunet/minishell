@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   instruction.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:08 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 19:37:16 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:48:29 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,7 @@ t_ast_node	*gr_instr_2(void)
 		ast_delete(&cmd);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = dir_type;
-	parent->data = NULL;
-	parent->left = cmd;
-	parent->right = dir;
-	return (parent);
+	return (create_parent_node(dir_type, NULL, cmd, dir));
 }
 
 t_ast_node	*gr_instr_1(void)
@@ -66,7 +59,7 @@ t_ast_node	*gr_instr_1(void)
 	return (gr_cmd());
 }
 
-int			get_dir_type()
+int	get_dir_type(void)
 {
 	if (g_current_tok->type == T_REDIR)
 		return (REDIR_NODE);

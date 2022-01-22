@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   job.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:29:33 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 19:07:44 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:44:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,5 @@ t_ast_node	*gr_job_2(void)
 		ast_delete(&instr);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = PIPE_NODE;
-	parent->data = NULL;
-	parent->left = instr;
-	parent->right = job;
-	return (parent);
+	return (create_parent_node(PIPE_NODE, NULL, instr, job));
 }

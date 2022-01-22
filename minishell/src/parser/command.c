@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:27:42 by jcarrete          #+#    #+#             */
-/*   Updated: 2021/12/07 12:00:12 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:50:08 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,7 @@ t_ast_node	*gr_cmd_1(void)
 	if (terminal(T_TOKEN))
 		return (return_null(dataname));
 	tokenlist = gr_tokenlist();
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = CMDNAME_NODE;
-	parent->data = dataname;
-	parent->left = NULL;
-	parent->right = tokenlist;
-	return (parent);
+	return (create_parent_node(CMDNAME_NODE, dataname, NULL, tokenlist));
 }
 
 t_ast_node	*gr_tokenlist(void)
@@ -72,14 +65,7 @@ t_ast_node	*gr_tokenlist_1(void)
 	if (terminal(T_TOKEN))
 		return (return_null(dataarg));
 	tokenlist = gr_tokenlist();
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->data = dataarg;
-	parent->type = TOKEN_NODE;
-	parent->left = NULL;
-	parent->right = tokenlist;
-	return (parent);
+	return (create_parent_node(TOKEN_NODE, dataarg, NULL, tokenlist));
 }
 
 t_ast_node	*gr_tokenlist_2(void)

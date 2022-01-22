@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dir.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 17:26:05 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 19:37:29 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:46:54 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,7 @@ t_ast_node	*gr_dir_2(void)
 		ast_delete(&filename);
 		return (NULL);
 	}
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = dir_type;
-	parent->left = filename;
-	parent->right = dir;
-	return (parent);
+	return (create_parent_node(dir_type, NULL, filename, dir));
 }
 
 t_ast_node	*gr_dir_1(void)
@@ -77,5 +71,5 @@ t_ast_node	*gr_dir_1(void)
 	parent->data = dataname;
 	parent->left = NULL;
 	parent->right = NULL;
-	return (parent);
+	return (create_parent_node(FILENAME_NODE, dataname, NULL, NULL));
 }

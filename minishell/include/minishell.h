@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 19:36:09 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/22 21:42:51 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,8 @@ void		ast_delete(t_ast_node **node);
 void		delete_single_ast(t_ast_node **node);
 int			terminal(int tokentype);
 int			terminal_redir(void);
+t_ast_node	*create_parent_node(int type, char *data, \
+				t_ast_node *left, t_ast_node *right);
 t_ast_node	*gr_seq(void);
 t_ast_node	*gr_seq_1(void);
 t_ast_node	*gr_seq_2(void);
