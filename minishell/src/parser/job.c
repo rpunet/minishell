@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:29:33 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 21:44:59 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:28:41 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ t_ast_node	*gr_job_1(void)
 
 t_ast_node	*gr_job_2(void)
 {
-	t_ast_node	*parent;
 	t_ast_node	*job;
 	t_ast_node	*instr;
 

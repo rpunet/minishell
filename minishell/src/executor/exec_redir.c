@@ -6,47 +6,54 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:59:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/20 00:06:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:46:11 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	loop_redir(t_minishell *shell, t_exec *exec)
+static int	exec_redir(t_minishell *shell, t_exec *exec, int redir)
 {
-	int	i;
+	t_ast_node	*dir;
 
-	i = 0;
-	printf("estoy en execute loop redir\n");
-	while (exec->cmd_node->type == REDIR_NODE)
-	{
-		printf("i es %d\n", i++);
-		if (exec->cmd_node->left != NULL && \
-			exec->cmd_node->left->type == REDIR_NODE)
-			close(shell->std.out);
+	dir = exec->cmd_node->right;
+	if (dir->type == FILENAME_NODE)
+		exec->cmd_node->data = dir->data;
+	else if (check_if_redir(dir->type))
+		exec->cmd_node->data = dir->left->data;
+	if (exec->cmd_node->left != NULL && redir)
+		close(shell->std.out);
+	if (exec->cmd_node->type == REDIR_NODE)
 		shell->std.out = open(exec->cmd_node->data, \
-								O_CREAT | O_WRONLY | O_TRUNC, S_IRWUGO);
-		if (exec->cmd_node->right != NULL)
-			exec->cmd_node = exec->cmd_node->right;
-		else
-			break ;
-	}
+							O_CREAT | O_WRONLY | O_TRUNC, S_IRWUGO);
+	else if (exec->cmd_node->type == APPEND_NODE)
+		shell->std.out = open(exec->cmd_node->data, \
+						O_CREAT | O_WRONLY | O_APPEND, S_IRWUGO);
+	return (TRUE);
 }
 
 void	execute_redirection(t_minishell *shell, t_exec *exec, char ***envp)
 {
 	t_ast_node	*cmd;
+	int			redir;
+	int			indir;
 
+	redir = FALSE;
+	indir = FALSE;
+	do_nothing(&indir);
 	cmd = exec->cmd_node->left;
-	if (exec->cmd_node->type == REDIR_NODE)
-		loop_redir(shell, exec);
-	else if (exec->cmd_node->type == APPEND_NODE)
-		shell->std.out = open(exec->cmd_node->data, \
-							O_CREAT | O_WRONLY | O_APPEND, S_IRWUGO);
-	else if (exec->cmd_node->type == INDIR_NODE)
-		shell->std.in = open(exec->cmd_node->data, O_RDONLY);
-	else if (exec->cmd_node->type == LIMIT_NODE)
-		shell->std.in = here_doc(shell, exec);
+	while (check_if_redir(exec->cmd_node->type))
+	{
+		if (exec->cmd_node->type == REDIR_NODE || \
+			exec->cmd_node->type == APPEND_NODE)
+			redir = exec_redir(shell, exec, redir);
+		else if (exec->cmd_node->type == INDIR_NODE)
+			shell->std.in = open(exec->cmd_node->data, O_RDONLY);
+		else if (exec->cmd_node->type == LIMIT_NODE)
+			shell->std.in = here_doc(shell, exec);
+		if (exec->cmd_node->right != NULL)
+			exec->cmd_node = exec->cmd_node->right;
+	}
 	exec->cmd_node = cmd;
 	execute_cmd(shell, exec, envp);
 }

@@ -6,11 +6,19 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/17 00:04:23 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:23:07 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	check_if_redir(int type)
+{
+	if (type == REDIR_NODE || type == APPEND_NODE || \
+		type == INDIR_NODE || type == LIMIT_NODE)
+		return (TRUE);
+	return (FALSE);
+}
 
 int	count_commands(t_ast_node *cmd_node)
 {

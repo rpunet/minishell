@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:23:16 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 21:44:25 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:28:30 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ t_ast_node	*gr_seq_1(void)
 
 t_ast_node	*gr_seq_2(void)
 {
-	t_ast_node	*parent;
 	t_ast_node	*job;
 
 	job = gr_job();
@@ -55,7 +54,6 @@ t_ast_node	*gr_seq_2(void)
 
 t_ast_node	*gr_seq_3(void)
 {
-	t_ast_node	*parent;
 	t_ast_node	*seq;
 	t_ast_node	*job;
 

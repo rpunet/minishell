@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:30:08 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 21:48:29 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:28:52 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ t_ast_node	*gr_instr_2(void)
 {
 	t_ast_node	*cmd;
 	t_ast_node	*dir;
-	t_ast_node	*parent;
 	int			dir_type;
 
 	cmd = gr_cmd();

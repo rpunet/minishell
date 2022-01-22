@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/20 20:49:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:35:11 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,8 @@ void	execute_instr_pipe(t_minishell *shell, t_exec *exec, char ***envp)
 
 void	execute_instr(t_minishell *shell, t_exec *exec, char ***envp)
 {
-	if (exec->cmd_node->type == REDIR_NODE || \
-		exec->cmd_node->type == APPEND_NODE || \
-		exec->cmd_node->type == INDIR_NODE || \
-		exec->cmd_node->type == LIMIT_NODE)
-	{
-		printf("estoy en executeinstr\n");
+	if (check_if_redir(exec->cmd_node->type))
 		execute_redirection(shell, exec, envp);
-	}
 	else
 		execute_cmd(shell, exec, envp);
 }

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 17:26:05 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 21:46:54 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:29:15 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ t_ast_node	*gr_dir(void)
 
 t_ast_node	*gr_dir_2(void)
 {
-	t_ast_node	*parent;
 	t_ast_node	*filename;
 	t_ast_node	*dir;
 	int			dir_type;
@@ -56,7 +55,6 @@ t_ast_node	*gr_dir_2(void)
 
 t_ast_node	*gr_dir_1(void)
 {
-	t_ast_node	*parent;
 	char		*dataname;
 
 	dataname = NULL;
@@ -64,12 +62,5 @@ t_ast_node	*gr_dir_1(void)
 		dataname = ft_strdup(g_current_tok->data);
 	if (terminal(T_TOKEN))
 		return (return_null(dataname));
-	parent = malloc(sizeof(t_ast_node));
-	if (parent == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
-	parent->type = FILENAME_NODE;
-	parent->data = dataname;
-	parent->left = NULL;
-	parent->right = NULL;
 	return (create_parent_node(FILENAME_NODE, dataname, NULL, NULL));
 }

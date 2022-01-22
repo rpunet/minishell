@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 21:42:51 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:22:53 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -268,6 +268,7 @@ int			operator_length(t_lex *lexer, char *line);
 
 void		add_single_exp(char ***envp, char *arg);
 int			check_builtins(char **args, char **envp);
+int			check_if_redir(int type);
 int			count_commands(t_ast_node *cmd_node);
 void		delete_var(char ***envp, char *del);
 int			exec_process(char **args, char **envp, int i);

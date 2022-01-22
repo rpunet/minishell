@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+         #
+#    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/22 18:51:13 by rpunet           ###   ########.fr        #
+#    Updated: 2022/01/22 23:30:23 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -66,6 +66,7 @@ FILES =	exit \
 		parser/parser \
 		parser/sequence \
 		parser/dir \
+		parser/parser_utils \
 
 SRCS = $(addsuffix .c, $(FILES))
 

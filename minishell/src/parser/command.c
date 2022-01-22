@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:27:42 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 21:50:08 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/22 23:29:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_ast_node	*gr_cmd(void)
 
 t_ast_node	*gr_cmd_1(void)
 {
-	t_ast_node	*parent;
 	t_ast_node	*tokenlist;
 	char		*dataname;
 
@@ -55,7 +54,6 @@ t_ast_node	*gr_tokenlist(void)
 
 t_ast_node	*gr_tokenlist_1(void)
 {
-	t_ast_node	*parent;
 	t_ast_node	*tokenlist;
 	char		*dataarg;
 
