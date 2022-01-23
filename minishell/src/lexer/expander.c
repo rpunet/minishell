@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 12:38:29 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/23 23:05:32 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/23 23:24:23 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,8 @@ static char	*get_command(t_minishell *shell, char **aux, char **find)
 	}
 	shell->lexer.current_tok->data = \
 		ft_memfree(shell->lexer.current_tok->data, NULL);
-	return (ft_memfree(*aux, ft_strjoin(*aux, *find)));
+	tmp = ft_strjoin(*aux, *find);
+	return (ft_memfree(*aux, tmp));
 }
 
 void	expand_vars(void)

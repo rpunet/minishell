@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 21:47:34 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/23 23:45:00 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@
 ** JOB				:=		INSTR	|	JOB
 ** 							INSTR
 **
-** INSTR			:=		CMD		   >  DIR
+** INSTR			:=		CMD		>	DIR
 **							CMD
 **
-**	DIR				:=		filename   >  DIR
+**	DIR				:=		filename	>	DIR
 **							filename
 **
 ** CMD				:=		cmdname	TOKENLIST
@@ -79,10 +79,7 @@ int	terminal_redir(void)
 {
 	if (g_current_tok == NULL)
 		return (EXIT_FAILURE);
-	if (g_current_tok->type == T_REDIR || \
-		g_current_tok->type == T_INDIR || \
-		g_current_tok->type == T_APPEND || \
-		g_current_tok->type == T_LIMITER)
+	if (check_if_redir(g_current_tok->type))
 	{
 		g_current_tok = g_current_tok->next;
 		return (EXIT_SUCCESS);
