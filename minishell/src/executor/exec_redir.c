@@ -6,11 +6,29 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:59:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 23:46:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/23 16:34:12 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	exec_indir(t_minishell *shell, t_exec *exec, int indir)
+{
+	t_ast_node	*dir;
+
+	dir = exec->cmd_node->right;
+	if (dir->type == FILENAME_NODE)
+		exec->cmd_node->data = dir->data;
+	else if (check_if_redir(dir->type))
+		exec->cmd_node->data = dir->left->data;
+	if (exec->cmd_node->left != NULL && indir)
+		close(shell->std.in);
+	if (exec->cmd_node->type == INDIR_NODE)
+		shell->std.in = open(exec->cmd_node->data, O_RDONLY);
+	else if (exec->cmd_node->type == LIMIT_NODE)
+		shell->std.in = here_doc(shell, exec);
+	return (TRUE);
+}
 
 static int	exec_redir(t_minishell *shell, t_exec *exec, int redir)
 {
@@ -40,17 +58,15 @@ void	execute_redirection(t_minishell *shell, t_exec *exec, char ***envp)
 
 	redir = FALSE;
 	indir = FALSE;
-	do_nothing(&indir);
 	cmd = exec->cmd_node->left;
 	while (check_if_redir(exec->cmd_node->type))
 	{
 		if (exec->cmd_node->type == REDIR_NODE || \
 			exec->cmd_node->type == APPEND_NODE)
 			redir = exec_redir(shell, exec, redir);
-		else if (exec->cmd_node->type == INDIR_NODE)
-			shell->std.in = open(exec->cmd_node->data, O_RDONLY);
-		else if (exec->cmd_node->type == LIMIT_NODE)
-			shell->std.in = here_doc(shell, exec);
+		else if (exec->cmd_node->type == INDIR_NODE || \
+				exec->cmd_node->type == LIMIT_NODE)
+			indir = exec_indir(shell, exec, indir);
 		if (exec->cmd_node->right != NULL)
 			exec->cmd_node = exec->cmd_node->right;
 	}

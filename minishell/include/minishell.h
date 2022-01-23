@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 23:22:53 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/23 22:27:55 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -254,7 +254,7 @@ t_ast_node	*gr_tokenlist_2(void);
 ** LEXER -------------------------------------
 */
 
-void		expand_vars(char **cmd, char **envp);
+void		expand_vars(void);
 char		*find_value(char **envp, char *key);
 int			ft_lexer(t_minishell *shell);
 t_tok		*tok_init(int datasize);

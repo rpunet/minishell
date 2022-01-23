@@ -6,51 +6,62 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 12:38:29 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/04 21:42:36 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/23 23:05:32 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	new_command(char **var_value, char **cmd, int i, char **aux)
+static char	*get_command(t_minishell *shell, char **aux, char **find)
 {
-	char	*new_cmd;
+	char	*tmp;
+	int		i;
+	char	*var_value;
 
-	new_cmd = malloc(i + ft_strlen(*var_value));
-	if (new_cmd == NULL)
-		return (free(*var_value));
-	new_cmd = ft_memmove(new_cmd, *cmd, i);
-	*aux = new_cmd;
-	new_cmd = ft_memmove(new_cmd + (i), \
-				*var_value, ft_strlen(*var_value));
-	*cmd = ft_memfree(*cmd, *aux);
+	var_value = find_value(shell->envp_dup, *aux);
+	i = ft_strchr_pos(shell->lexer.current_tok->data, '$');
+	*aux = ft_memfree(*aux, ft_substr(shell->lexer.current_tok->data, 0, i));
+	if (var_value)
+	{
+		tmp = ft_strjoin(*aux, var_value);
+		var_value = ft_memfree(var_value, NULL);
+		*aux = ft_memfree(*aux, tmp);
+	}
+	else if (!strcmp(shell->lexer.current_tok->data, "$?"))
+	{
+		tmp = ft_itoa(get_minishell(NULL)->exit_code);
+		*aux = ft_memfree(*aux, tmp);
+	}
+	shell->lexer.current_tok->data = \
+		ft_memfree(shell->lexer.current_tok->data, NULL);
+	return (ft_memfree(*aux, ft_strjoin(*aux, *find)));
 }
 
-void	expand_vars(char **cmd, char **envp)
+void	expand_vars(void)
 {
-	char	*var_value;
-	char	*aux;
-	int		i;
-	char	*find;
+	char		*find;
+	t_minishell	*shell;
+	char		*aux;
+	int			i;
 
-	find = ft_strchr(*cmd, '$');
-	if (find)
+	shell = get_minishell(NULL);
+	find = ft_strchr(shell->lexer.current_tok->data, '$');
+	while (find)
 	{
-		find++;
-		if (find)
+		if (++find)
 		{
-			var_value = find_value(envp, find);
-			i = ft_strlen(*cmd) - ft_strlen(find) - 1;
-			if (var_value)
-				new_command(&var_value, &(*cmd), i, &aux);
-			else if (!strcmp(*cmd, "$?"))
+			i = ft_strchr_pos(find, '$');
+			if (i != ERROR)
 			{
-				aux = ft_itoa(get_minishell(NULL)->exit_code);
-				*cmd = ft_memfree(*cmd, aux);
+				aux = ft_substr(find, 0, i);
+				find += i;
 			}
 			else
-				*cmd = ft_memfree(*cmd, ft_substr(*cmd, 0, i));
-			var_value = ft_memfree(var_value, NULL);
+			{
+				aux = ft_strdup(find);
+				find = '\0';
+			}
+			shell->lexer.current_tok->data = get_command(shell, &aux, &find);
 		}
 	}
 }

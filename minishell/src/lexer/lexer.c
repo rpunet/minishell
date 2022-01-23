@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 11:59:31 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/23 22:30:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,7 @@ static void	check_quote_end(t_lex *lexer, t_tok *token, char *line)
 	}
 }
 
-static int	check_operators(t_lex *lexer, t_tok **token, \
-								char *line, char **envp)
+static int	check_operators(t_lex *lexer, t_tok **token, char *line)
 {
 	int	end;
 
@@ -38,7 +37,7 @@ static int	check_operators(t_lex *lexer, t_tok **token, \
 	{
 		(*token)->data[lexer->token_pos] = 0;
 		if (lexer->last_quoted == FALSE)
-			expand_vars(&(*token)->data, envp);
+			expand_vars();
 		(*token)->next = tok_init(end);
 		if ((*token)->next == NULL)
 			return (EXIT_FAILURE);
@@ -54,8 +53,7 @@ static int	check_operators(t_lex *lexer, t_tok **token, \
 	return (EXIT_SUCCESS);
 }
 
-static int	check_special_chars(t_lex *lexer, t_tok **token, \
-								char *line, char **envp)
+static int	check_special_chars(t_lex *lexer, t_tok **token, char *line)
 {
 	const char	c = line[lexer->line_pos];
 
@@ -72,7 +70,7 @@ static int	check_special_chars(t_lex *lexer, t_tok **token, \
 		{
 			(*token)->data[lexer->token_pos] = 0;
 			if (lexer->last_quoted == FALSE)
-				expand_vars(&(*token)->data, envp);
+				expand_vars();
 			(*token)->next = tok_init(ft_strlen(line) - lexer->line_pos);
 			if ((*token)->next == NULL)
 				return (EXIT_FAILURE);
@@ -84,7 +82,7 @@ static int	check_special_chars(t_lex *lexer, t_tok **token, \
 	return (EXIT_SUCCESS);
 }
 
-static int	check_state(t_lex *lexer, char *line, char **envp)
+static int	check_state(t_lex *lexer, char *line)
 {
 	t_tok	*token;
 	int		ret;
@@ -94,9 +92,9 @@ static int	check_state(t_lex *lexer, char *line, char **envp)
 	if (lexer->seq_state == S_GENERAL)
 	{
 		if (ft_strchr(SPECIAL_CHARS, line[lexer->line_pos]))
-			ret = check_special_chars(lexer, &token, line, envp);
+			ret = check_special_chars(lexer, &token, line);
 		else if (ft_strchr(OPERATORS, line[lexer->line_pos]))
-			ret = check_operators(lexer, &token, line, envp);
+			ret = check_operators(lexer, &token, line);
 		else
 		{
 			token->data[lexer->token_pos] = (char)(line[lexer->line_pos]);
@@ -126,13 +124,13 @@ int	ft_lexer(t_minishell *shell)
 	lexer->token_pos = 0;
 	while (shell->line[lexer->line_pos] != 0)
 	{
-		ret = check_state(lexer, shell->line, shell->envp_dup);
+		ret = check_state(lexer, shell->line);
 		if (ret == EXIT_FAILURE)
 			return (EXIT_FAILURE);
 		(lexer->line_pos)++;
 	}
 	shell->lexer.current_tok->data[lexer->token_pos] = 0;
 	if (shell->lexer.last_quoted == FALSE)
-		expand_vars(&(shell->lexer.current_tok->data), shell->envp_dup);
+		expand_vars();
 	return (EXIT_SUCCESS);
 }
