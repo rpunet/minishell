@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/23 22:27:55 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/24 00:13:56 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@
 # define EXIT_STATUS	128
 
 # define WHOAMI			"/usr/bin/whoami"
-# define OPERATORS		";><|()"
+# define OPERATORS		";><|()&"
 # define SPECIAL_CHARS	"\'\"\\ "
 
 /*
