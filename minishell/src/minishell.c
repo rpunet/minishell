@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/17 00:09:36 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/29 00:08:46 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static int	reset_shell(t_minishell *shell, int argc)
 {
-	ast_delete(&(shell->syntax_tree));
+	if (shell->bst)
+		shell->bst = free_bst(shell->bst);
 	tok_delete(&((shell->lexer).list_token));
 	shell->std.in = shell->save_std.in;
 	shell->std.out = shell->save_std.out;
@@ -60,9 +61,8 @@ void	initialize_minishell(t_minishell *shell, int argc)
 			if (ft_lexer(shell))
 				ft_dprintf(STDOUT_FILENO, \
 					"MINIshell: Lexer: %s\n", strerror(errno));
-			if (!ft_parser(&(shell->lexer), &(shell->syntax_tree)) \
-					&& shell->state == ST_OK)
-				ft_execute(shell->syntax_tree, &(shell->envp_dup));
+			if (!ft_parser(shell) && shell->state == ST_OK)
+				ft_execute(shell);
 			else
 			{
 				shell->state = ST_ERROR;

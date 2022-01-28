@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/24 00:03:13 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/27 22:39:04 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,17 +15,11 @@
 static void	check_quote_end(t_lex *lexer, t_tok *token, char *line)
 {
 	if (lexer->seq_state == S_QUOTED && line[lexer->line_pos] == '\'')
-	{
-		lexer->last_quoted = TRUE;
 		lexer->seq_state = S_GENERAL;
-	}
 	else if (lexer->seq_state == S_DQUOTED && line[lexer->line_pos] == '\"')
 		lexer->seq_state = S_GENERAL;
-	else
-	{
-		token->data[lexer->token_pos] = (char)(line[lexer->line_pos]);
-		(lexer->token_pos)++;
-	}
+	token->data[lexer->token_pos] = (char)(line[lexer->line_pos]);
+	(lexer->token_pos)++;
 }
 
 static int	check_operators(t_lex *lexer, t_tok **token, char *line)
@@ -36,13 +30,10 @@ static int	check_operators(t_lex *lexer, t_tok **token, char *line)
 	if (lexer->token_pos > 0)
 	{
 		(*token)->data[lexer->token_pos] = 0;
-		if (lexer->last_quoted == FALSE)
-			expand_vars();
 		(*token)->next = tok_init(end);
 		if ((*token)->next == NULL)
 			return (EXIT_FAILURE);
 		(*token) = (*token)->next;
-		lexer->last_quoted = FALSE;
 		lexer->token_pos = 0;
 	}
 	fill_data(lexer, token, line, end);
@@ -57,27 +48,25 @@ static int	check_special_chars(t_lex *lexer, t_tok **token, char *line)
 {
 	const char	c = line[lexer->line_pos];
 
-	(*token)->type = T_TOKEN;
-	if (c == '\'')
-		lexer->seq_state = S_QUOTED;
-	else if (c == '\"')
-		lexer->seq_state = S_DQUOTED;
-	else if (c == '\\')
-		(*token)->data[(lexer->token_pos)++] = line[++(lexer->line_pos)];
-	else if (c == ' ')
+	if (c == ' ' && lexer->token_pos > 0)
 	{
-		if (lexer->token_pos > 0)
-		{
-			(*token)->data[lexer->token_pos] = 0;
-			if (lexer->last_quoted == FALSE)
-				expand_vars();
-			(*token)->next = tok_init(ft_strlen(line) - lexer->line_pos);
-			if ((*token)->next == NULL)
-				return (EXIT_FAILURE);
-			(*token) = (*token)->next;
-			lexer->last_quoted = FALSE;
-			lexer->token_pos = 0;
-		}
+		(*token)->data[lexer->token_pos] = 0;
+		(*token)->next = tok_init(ft_strlen(line) - lexer->line_pos);
+		if ((*token)->next == NULL)
+			return (EXIT_FAILURE);
+		(*token) = (*token)->next;
+		lexer->token_pos = 0;
+	}
+	else if (c != ' ')
+	{
+		if (c == '\'')
+			lexer->seq_state = S_QUOTED;
+		else if (c == '\"')
+			lexer->seq_state = S_DQUOTED;
+		else if (c == '\\')
+			(lexer->line_pos)++;
+		(*token)->type = T_TOKEN;
+		(*token)->data[lexer->token_pos++] = (char)(line[lexer->line_pos]);
 	}
 	return (EXIT_SUCCESS);
 }
@@ -119,7 +108,6 @@ int	ft_lexer(t_minishell *shell)
 		return (EXIT_FAILURE);
 	lexer->list_token = lexer->current_tok;
 	lexer->seq_state = S_GENERAL;
-	lexer->last_quoted = FALSE;
 	lexer->line_pos = 0;
 	lexer->token_pos = 0;
 	while (shell->line[lexer->line_pos] != 0)
@@ -130,7 +118,8 @@ int	ft_lexer(t_minishell *shell)
 		(lexer->line_pos)++;
 	}
 	shell->lexer.current_tok->data[lexer->token_pos] = 0;
-	if (shell->lexer.last_quoted == FALSE)
-		expand_vars();
+	if (shell->lexer.seq_state != S_GENERAL)
+		exit_program(shell, F_SHELL, 0, "Bad quoting");
+	check_tokens(shell, lexer->list_token);
 	return (EXIT_SUCCESS);
 }

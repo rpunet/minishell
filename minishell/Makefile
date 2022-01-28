@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/22 23:30:23 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/28 22:38:09 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -47,7 +47,9 @@ FILES =	exit \
 		executor/builtins/exit \
 		executor/builtins/pwd \
 		executor/builtins/unset \
+		executor/exec_bst \
 		executor/exec_command \
+		executor/exec_instr \
 		executor/exec_process \
 		executor/exec_utils \
 		executor/exec_redir \
@@ -57,9 +59,11 @@ FILES =	exit \
 		executor/export_utils \
 		executor/export \
 		executor/here_doc \
+		lexer/check_tokens \
 		lexer/expander \
 		lexer/lexer \
 		lexer/token_utils \
+		parser/bst \
 		parser/command \
 		parser/instruction \
 		parser/job \

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:23:16 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 23:28:30 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/27 22:06:45 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,14 @@ t_ast_node	*gr_seq_3(void)
 {
 	t_ast_node	*seq;
 	t_ast_node	*job;
+	int			seq_type;
 
 	job = gr_job();
 	if (job == NULL)
 		return (NULL);
-	if (terminal(T_SEMICOLON))
+	if (g_current_tok != NULL)
+		seq_type = get_seq_type();
+	if (terminal_seq())
 	{
 		ast_delete(&job);
 		return (NULL);
@@ -71,5 +74,16 @@ t_ast_node	*gr_seq_3(void)
 		ast_delete(&job);
 		return (NULL);
 	}
-	return (create_parent_node(SEQ_NODE, NULL, job, seq));
+	return (create_parent_node(seq_type, NULL, job, seq));
+}
+
+int	get_seq_type(void)
+{
+	if (g_current_tok->type == T_AND)
+		return (AND_NODE);
+	else if (g_current_tok->type == T_SEMICOLON)
+		return (SEQ_NODE);
+	else if (g_current_tok->type == T_OR)
+		return (OR_NODE);
+	return (0);
 }

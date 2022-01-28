@@ -6,47 +6,11 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/03/01 16:54:18 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/22 23:35:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/28 22:33:19 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-void	execute_instr_pipe(t_minishell *shell, t_exec *exec, char ***envp)
-{
-	t_ast_node	*curr;
-
-	pipe(exec->fds);
-	shell->std.out = exec->fds[WRITE];
-	curr = exec->cmd_node->right;
-	exec->cmd_node = exec->cmd_node->left;
-	execute_instr(shell, exec, envp);
-	shell->std.in = exec->fds[READ];
-	while (curr != NULL && curr->type == PIPE_NODE)
-	{
-		close(exec->fds[WRITE]);
-		pipe(exec->fds);
-		shell->std.out = exec->fds[WRITE];
-		exec->cmd_node = curr->left;
-		execute_instr(shell, exec, envp);
-		close(shell->std.in);
-		shell->std.in = exec->fds[READ];
-		curr = curr->right;
-	}
-	close(exec->fds[WRITE]);
-	shell->std.out = STDOUT_FILENO;
-	exec->cmd_node = curr;
-	execute_instr(shell, exec, envp);
-	close(exec->fds[READ]);
-}
-
-void	execute_instr(t_minishell *shell, t_exec *exec, char ***envp)
-{
-	if (check_if_redir(exec->cmd_node->type))
-		execute_redirection(shell, exec, envp);
-	else
-		execute_cmd(shell, exec, envp);
-}
 
 void	execute_job(t_minishell *shell, t_ast_node *job, char ***envp)
 {
@@ -69,6 +33,29 @@ void	execute_job(t_minishell *shell, t_ast_node *job, char ***envp)
 	}
 }
 
+static void	execute_logical_seq(t_minishell *shell, \
+						t_ast_node *seq, char ***envp)
+{
+	int	type;
+	int	other;
+
+	type = seq->type;
+	other = AND_NODE;
+	if (type == AND_NODE)
+		other = OR_NODE;
+	execute_job(shell, seq->left, envp);
+	if ((shell->exit_code == 0 && type == AND_NODE) || \
+		(shell->exit_code != 0 && type == OR_NODE))
+		execute_seq(shell, seq->right, envp);
+	else
+	{
+		while (seq->type == type)
+			seq = seq->right;
+		if (seq->type == other || seq->type == SEQ_NODE)
+			execute_seq(shell, seq->right, envp);
+	}
+}
+
 void	execute_seq(t_minishell *shell, t_ast_node *seq, char ***envp)
 {
 	if (seq == NULL)
@@ -78,14 +65,16 @@ void	execute_seq(t_minishell *shell, t_ast_node *seq, char ***envp)
 		execute_job(shell, seq->left, envp);
 		execute_seq(shell, seq->right, envp);
 	}
+	if (seq->type == AND_NODE || seq->type == OR_NODE)
+		execute_logical_seq(shell, seq, envp);
 	else
 		execute_job(shell, seq, envp);
 }
 
-void	ft_execute(t_ast_node *syntax_tree, char ***envp)
+void	ft_execute(t_minishell *shell)
 {
-	t_minishell	*shell;
-
-	shell = get_minishell(NULL);
-	execute_seq(shell, syntax_tree, envp);
+	if (shell->lexer.brackets)
+		execute_bst(shell, shell->bst, &(shell->envp_dup));
+	else
+		execute_seq(shell, shell->bst->tree, &(shell->envp_dup));
 }

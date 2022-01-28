@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/16 23:52:44 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/29 00:17:10 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ static void	create_child(t_exec *exec, char ***envp, int i)
 	}
 	if (waitpid(pid, &status, 0) == -1)
 		exit_program(NULL, 0, E_EXECUTE, "");
+	shell->path = ft_memfree(shell->path, NULL);
 	if (WIFEXITED(status))
 		shell->exit_code = WEXITSTATUS(status);
 	else if (WIFSIGNALED(status))
@@ -93,6 +94,7 @@ static int	count_curr(t_exec *exec)
 	while (curr != NULL && \
 		(curr->type == CMDNAME_NODE || curr->type == TOKEN_NODE))
 	{
+		expand_vars(&(curr->data));
 		exec->args[i] = ft_strdup(curr->data);
 		curr = curr->right;
 		i++;

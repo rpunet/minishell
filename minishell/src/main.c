@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/17 00:01:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/27 22:34:02 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static t_minishell	*init_struct(void)
 	ret->state = ST_OK;
 	ret->line = NULL;
 	ret->lexer.list_token = NULL;
-	ret->syntax_tree = NULL;
+	ret->bst = NULL;
 	ret->envp_dup = NULL;
 	ret->exit_code = EXIT_SUCCESS;
 	ret->std.in = STDIN_FILENO;

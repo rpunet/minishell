@@ -6,39 +6,39 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 12:38:29 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/23 23:24:23 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/28 22:52:41 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*get_command(t_minishell *shell, char **aux, char **find)
+static char	*get_command(t_minishell *shell, char **aux, \
+					char **find, char **str)
 {
 	char	*tmp;
 	int		i;
 	char	*var_value;
 
 	var_value = find_value(shell->envp_dup, *aux);
-	i = ft_strchr_pos(shell->lexer.current_tok->data, '$');
-	*aux = ft_memfree(*aux, ft_substr(shell->lexer.current_tok->data, 0, i));
+	i = ft_strchr_pos(*str, '$');
+	*aux = ft_memfree(*aux, ft_substr(*str, 0, i));
 	if (var_value)
 	{
 		tmp = ft_strjoin(*aux, var_value);
 		var_value = ft_memfree(var_value, NULL);
 		*aux = ft_memfree(*aux, tmp);
 	}
-	else if (!strcmp(shell->lexer.current_tok->data, "$?"))
+	else if (!strcmp(*str, "$?"))
 	{
 		tmp = ft_itoa(get_minishell(NULL)->exit_code);
 		*aux = ft_memfree(*aux, tmp);
 	}
-	shell->lexer.current_tok->data = \
-		ft_memfree(shell->lexer.current_tok->data, NULL);
+	*str = ft_memfree(*str, NULL);
 	tmp = ft_strjoin(*aux, *find);
 	return (ft_memfree(*aux, tmp));
 }
 
-void	expand_vars(void)
+void	expand_vars(char **str)
 {
 	char		*find;
 	t_minishell	*shell;
@@ -46,7 +46,7 @@ void	expand_vars(void)
 	int			i;
 
 	shell = get_minishell(NULL);
-	find = ft_strchr(shell->lexer.current_tok->data, '$');
+	find = ft_strchr(*str, '$');
 	while (find)
 	{
 		if (++find)
@@ -62,7 +62,7 @@ void	expand_vars(void)
 				aux = ft_strdup(find);
 				find = '\0';
 			}
-			shell->lexer.current_tok->data = get_command(shell, &aux, &find);
+			*str = get_command(shell, &aux, &find, str);
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/04/09 21:54:49 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/22 18:48:00 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/01/26 23:58:38 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@ static void	error_str(int status)
 {
 	if (status == E_MEM)
 		ft_dprintf(STDERR_FILENO, "Unable to allocate memory: ");
+	if (status == E_SYNTAX)
+		ft_dprintf(STDERR_FILENO, \
+			"MINIShell: syntax error near unexpected token: ");
 }
 
 void	exit_program(t_minishell *shell, int status, int err, char *extra)

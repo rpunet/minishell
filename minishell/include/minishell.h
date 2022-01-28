@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/24 00:13:56 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/29 00:09:54 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,10 @@ enum	e_tok
 	T_QUOTE = '\'',
 	T_DQUOTE = '\"',
 	T_ESCAPE = '\\',
-	T_VARIABLE = '$',
+	T_BRAKET_OPEN = '(',
+	T_BRAKET_CLOSE = ')',
+	T_OR = 124124,
+	T_AND = 3838,
 	T_NULTOK = 0,
 };
 
@@ -92,6 +95,8 @@ enum	e_node
 	INDIR_NODE,
 	APPEND_NODE,
 	LIMIT_NODE,
+	AND_NODE,
+	OR_NODE,
 	CMDNAME_NODE,
 	FILENAME_NODE,
 	TOKEN_NODE
@@ -130,6 +135,7 @@ enum	e_error
 	E_MEM = 3,
 	E_SIG,
 	E_PARSER,
+	E_SYNTAX,
 	E_EXECUTE,
 	E_EXIT
 };
@@ -166,12 +172,21 @@ typedef struct s_tok
 	struct s_tok	*next;
 }					t_tok;
 
+typedef struct s_bst
+{
+	int				operator;
+	t_ast_node		*tree;
+	struct s_bst	*child;
+	struct s_bst	*next;
+}				t_bst;
+
 typedef struct s_lex
 {
 	int				line_pos;
 	int				token_pos;
 	int				seq_state;
 	int				last_quoted;
+	int				brackets;
 	t_tok			*current_tok;
 	t_tok			*list_token;
 }					t_lex;
@@ -185,7 +200,7 @@ typedef struct s_minishell
 	t_pipe			std;
 	t_pipe			save_std;
 	t_lex			lexer;
-	t_ast_node		*syntax_tree;
+	t_bst			*bst;
 	char			**envp_dup;
 	char			*path;
 }					t_minishell;
@@ -210,6 +225,7 @@ void		exit_program(t_minishell *shell, int status, int err, char *extra);
 char		*find_directory(DIR **dir, char **args);
 void		free_program(t_minishell *shell, int status);
 void		free_char_array(char **arr, int size);
+void		*free_bst(t_bst *bst);
 char		**ft_envdup(char **envp, int len, int add, char *ignore);
 t_minishell	*get_minishell(t_minishell *minishell);
 void		initialize_minishell(t_minishell *shell, int argc);
@@ -224,11 +240,13 @@ void		set_shell_signals(t_minishell *shell);
 */
 
 int			get_dir_type(void);
-int			ft_parser(t_lex *lexer, t_ast_node **syntax_tree);
+int			get_seq_type(void);
+int			ft_parser(t_minishell *shell);
 void		ast_delete(t_ast_node **node);
 void		delete_single_ast(t_ast_node **node);
 int			terminal(int tokentype);
 int			terminal_redir(void);
+int			terminal_seq(void);
 t_ast_node	*create_parent_node(int type, char *data, \
 				t_ast_node *left, t_ast_node *right);
 t_ast_node	*gr_seq(void);
@@ -249,18 +267,21 @@ t_ast_node	*gr_dir_2(void);
 t_ast_node	*gr_tokenlist(void);
 t_ast_node	*gr_tokenlist_1(void);
 t_ast_node	*gr_tokenlist_2(void);
+t_bst		*create_bst_node(void);
+void		parse_brackets(t_minishell *shell);
 
 /*
 ** LEXER -------------------------------------
 */
 
-void		expand_vars(void);
+void		expand_vars(char **str);
 char		*find_value(char **envp, char *key);
 int			ft_lexer(t_minishell *shell);
 t_tok		*tok_init(int datasize);
 void		tok_delete(t_tok **token);
 void		fill_data(t_lex *lexer, t_tok **token, char *line, int end);
 int			operator_length(t_lex *lexer, char *line);
+void		check_tokens(t_minishell *shell, t_tok *list);
 
 /*
 ** EXECUTOR ----------------------------------
@@ -274,13 +295,14 @@ void		delete_var(char ***envp, char *del);
 int			exec_process(char **args, char **envp, int i);
 void		execute_cmd(t_minishell *shell, t_exec *exec, char ***envp);
 void		execute_instr(t_minishell *shell, t_exec *exec, char ***envp);
+void		execute_instr_pipe(t_minishell *shell, t_exec *exec, char ***envp);
 void		execute_job(t_minishell *shell, t_ast_node *job, char ***envp);
 void		execute_seq(t_minishell *shell, t_ast_node *seq, char ***envp);
 char		*find_variable(char **envp, char *arg, int *no_del);
 int			ft_cd(char **args, char ***envp);
 int			ft_echo(char **args, char ***envp);
 int			ft_env(char **args, char ***envp);
-void		ft_execute(t_ast_node *syntax_tree, char ***envp);
+void		ft_execute(t_minishell *shell);
 int			ft_exit(char **argv);
 int			ft_export(char **args, char ***envp);
 int			ft_unset(char **args, char ***envp);
@@ -289,4 +311,5 @@ int			no_args_export(char **envp_dup);
 int			here_doc(t_minishell *shell, t_exec *exec);
 char		*set_command_path(t_exec *exec);
 void		execute_redirection(t_minishell *shell, t_exec *exec, char ***envp);
+void		execute_bst(t_minishell *shell, t_bst *bst, char ***envp);
 #endif

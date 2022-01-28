@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 21:18:27 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/17 00:09:58 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/29 00:09:15 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@ void	free_char_array(char **arr, int size)
 	arr = ft_memfree(arr, NULL);
 }
 
+void	*free_bst(t_bst *bst)
+{
+	if (bst->tree != NULL)
+	{
+		ast_delete(&(bst->tree));
+		bst->tree = NULL;
+	}
+	if (bst->child)
+		free_bst(bst->child);
+	if (bst->next)
+		free_bst(bst->next);
+	return (ft_memfree(bst, NULL));
+}
+
 void	free_program(t_minishell *shell, int status)
 {
 	if (status >= F_SHELL)
@@ -35,8 +49,8 @@ void	free_program(t_minishell *shell, int status)
 			shell->path = ft_memfree(shell->path, NULL);
 		if (shell->envp_dup != NULL)
 			free_char_array(shell->envp_dup, ft_str_arr_count(shell->envp_dup));
-		if (shell->syntax_tree != NULL)
-			ast_delete(&(shell->syntax_tree));
+		if (shell->bst != NULL)
+			free_bst(shell->bst);
 		tok_delete(&((shell->lexer).list_token));
 		close(shell->std.in);
 		close(shell->std.out);
