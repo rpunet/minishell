@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:36:14 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/27 22:41:30 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/31 00:08:47 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	terminal_seq(void)
 
 int	ft_parser(t_minishell *shell)
 {
+	expand_filenames(shell->lexer.list_token);
 	g_current_tok = shell->lexer.list_token;
 	shell->bst = create_bst_node();
 	if (shell->state == ST_OK && shell->lexer.brackets == 0)

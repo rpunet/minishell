@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/29 00:17:10 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/30 23:23:59 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ static int	count_curr(t_exec *exec)
 	while (curr != NULL && \
 		(curr->type == CMDNAME_NODE || curr->type == TOKEN_NODE))
 	{
-		expand_vars(&(curr->data));
+		curr->data = ft_memfree(curr->data, check_expansion(curr->data));
 		exec->args[i] = ft_strdup(curr->data);
 		curr = curr->right;
 		i++;

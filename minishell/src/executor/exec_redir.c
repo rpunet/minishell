@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:59:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/28 23:04:42 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/30 19:07:43 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ static int	exec_indir(t_minishell *shell, t_exec *exec, int indir)
 		exec->cmd_node->data = dir->left->data;
 	if (exec->cmd_node->left != NULL && indir)
 		close(shell->std.in);
-	expand_vars(&(exec->cmd_node->data));
+	exec->cmd_node->data = ft_memfree(exec->cmd_node->data, \
+							check_expansion(exec->cmd_node->data));
 	if (exec->cmd_node->type == INDIR_NODE)
 		shell->std.in = open(exec->cmd_node->data, O_RDONLY);
 	else if (exec->cmd_node->type == LIMIT_NODE)
@@ -42,7 +43,8 @@ static int	exec_redir(t_minishell *shell, t_exec *exec, int redir)
 		exec->cmd_node->data = dir->left->data;
 	if (exec->cmd_node->left != NULL && redir)
 		close(shell->std.out);
-	expand_vars(&(exec->cmd_node->data));
+	exec->cmd_node->data = ft_memfree(exec->cmd_node->data, \
+							check_expansion(exec->cmd_node->data));
 	if (exec->cmd_node->type == REDIR_NODE)
 		shell->std.out = open(exec->cmd_node->data, \
 							O_CREAT | O_WRONLY | O_TRUNC, S_IRWUGO);

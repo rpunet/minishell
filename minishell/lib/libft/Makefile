@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/06/29 18:31:05 by jcarrete          #+#    #+#              #
-#    Updated: 2022/01/15 19:04:33 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/30 00:37:13 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,6 +107,7 @@ FTSTR = ft_atoi \
 	ft_strnstr \
 	ft_strrev \
 	ft_strspn \
+	ft_strtok \
 	ft_strtrim \
 	ft_substr \
 	ft_swap \

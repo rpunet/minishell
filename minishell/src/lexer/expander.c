@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 12:38:29 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/28 22:52:41 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/30 23:53:55 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,34 +35,79 @@ static char	*get_command(t_minishell *shell, char **aux, \
 	}
 	*str = ft_memfree(*str, NULL);
 	tmp = ft_strjoin(*aux, *find);
+	if (ft_strchr_pos(*find, '$') == ERROR)
+		*find = '\0';
 	return (ft_memfree(*aux, tmp));
 }
 
 void	expand_vars(char **str)
 {
 	char		*find;
-	t_minishell	*shell;
 	char		*aux;
 	int			i;
 
-	shell = get_minishell(NULL);
 	find = ft_strchr(*str, '$');
 	while (find)
 	{
 		if (++find)
 		{
 			i = ft_strchr_pos(find, '$');
-			if (i != ERROR)
+			if (i == ERROR)
 			{
-				aux = ft_substr(find, 0, i);
-				find += i;
+				i = 0;
+				while (find[i] == '_' || ft_isalnum(find[i]))
+					i++;
 			}
-			else
-			{
-				aux = ft_strdup(find);
-				find = '\0';
-			}
-			*str = get_command(shell, &aux, &find, str);
+			aux = ft_substr(find, 0, i);
+			find += i;
+			*str = get_command(get_minishell(NULL), &aux, &find, str);
 		}
 	}
+}
+
+static void	handle_quotes(char *str, char **line, int *i)
+{
+	char	delim;
+	int		j;
+	char	*quoted;
+
+	delim = str[*i];
+	j = 0;
+	quoted = ft_strnew(ft_strlen(str) + 1);
+	*i += 1;
+	while (str[*i] != delim)
+	{
+		quoted[j] = str[*i];
+		*i += 1;
+		j++;
+	}
+	quoted[j] = '\0';
+	if (delim == T_DQUOTE)
+		expand_vars(&quoted);
+	*line = ft_strjoin_gnl(*line, quoted);
+	quoted = ft_memfree(quoted, NULL);
+}
+
+char	*check_expansion(char *str)
+{
+	char		*line;
+	int			i;
+
+	i = 0;
+	line = ft_strnew(ft_strlen(str) + 1);
+	while (str[i])
+	{
+		while (str[i] && (str[i] != T_QUOTE && str[i] != T_DQUOTE))
+		{
+			line[i] = str[i];
+			i++;
+		}
+		line[i] = '\0';
+		expand_vars(&line);
+		if (str[i] == T_QUOTE || str[i] == T_DQUOTE)
+			handle_quotes(str, &line, &i);
+		if (str[i])
+			i++;
+	}
+	return (line);
 }

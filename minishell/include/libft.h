@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/06/30 16:05:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/12 20:52:55 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/30 00:36:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,7 @@ int					ft_strrchr_pos(char *str, int c);
 char				*ft_strrev(const char *s);
 int					ft_strrncmp(const char *str, const char *suffix, size_t n);
 size_t				ft_strspn(const char *str, const char *chars);
+char				*ft_strtok(char *str, const char *delim);
 char				*ft_strtrim_start(char const *s1, char const *set);
 void				ft_swap(void *a, void *b, size_t len);
 void				ft_swap_array_elem(void **array, int a, int b);

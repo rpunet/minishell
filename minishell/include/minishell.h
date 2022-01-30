@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/29 00:09:54 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/01/31 00:48:44 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@
 # define WHOAMI			"/usr/bin/whoami"
 # define OPERATORS		";><|()&"
 # define SPECIAL_CHARS	"\'\"\\ "
+# define WILDCARD		'*'
 
 /*
 ** ENUMS ---------------------------------
@@ -269,6 +270,7 @@ t_ast_node	*gr_tokenlist_1(void);
 t_ast_node	*gr_tokenlist_2(void);
 t_bst		*create_bst_node(void);
 void		parse_brackets(t_minishell *shell);
+void		expand_filenames(t_tok **list);
 
 /*
 ** LEXER -------------------------------------
@@ -282,6 +284,7 @@ void		tok_delete(t_tok **token);
 void		fill_data(t_lex *lexer, t_tok **token, char *line, int end);
 int			operator_length(t_lex *lexer, char *line);
 void		check_tokens(t_minishell *shell, t_tok *list);
+char		*check_expansion(char *str);
 
 /*
 ** EXECUTOR ----------------------------------
