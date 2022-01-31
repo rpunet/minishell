@@ -6,7 +6,7 @@
 #    By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/02/20 20:00:18 by rpunet            #+#    #+#              #
-#    Updated: 2022/01/31 00:49:28 by jcarrete         ###   ########.fr        #
+#    Updated: 2022/01/31 23:16:39 by jcarrete         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -71,6 +71,7 @@ FILES =	exit \
 		parser/sequence \
 		parser/dir \
 		parser/filename_exp \
+		parser/filename_utils \
 		parser/parser_utils \
 
 SRCS = $(addsuffix .c, $(FILES))

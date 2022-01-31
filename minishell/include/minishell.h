@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/31 00:48:44 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/01 00:21:38 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -271,6 +271,9 @@ t_ast_node	*gr_tokenlist_2(void);
 t_bst		*create_bst_node(void);
 void		parse_brackets(t_minishell *shell);
 void		expand_filenames(t_tok **list);
+t_tok		**add_new_token(t_tok **list, char *d_name);
+t_tok		*ft_toklist_last(t_tok *lst);
+int			check_if_wildcard(char *str);
 
 /*
 ** LEXER -------------------------------------
