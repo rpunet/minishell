@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/02/01 00:21:38 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/02 23:18:00 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,10 +175,12 @@ typedef struct s_tok
 
 typedef struct s_bst
 {
-	int				operator;
+	int				operator_child;
+	int				operator_next;
 	t_ast_node		*tree;
 	struct s_bst	*child;
 	struct s_bst	*next;
+	struct s_bst	*prev;
 }				t_bst;
 
 typedef struct s_lex

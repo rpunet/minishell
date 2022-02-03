@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 21:04:33 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/27 22:04:16 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/03 00:28:22 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ t_ast_node	*create_parent_node(int type, char *data, \
 
 	ret = malloc(sizeof(t_ast_node));
 	if (ret == NULL)
-		exit_program(NULL, 0, E_MEM, strerror(errno));
+		exit_program(NULL, F_SHELL, E_MEM, strerror(errno));
 	ret->type = type;
 	ret->data = data;
 	ret->left = left;
