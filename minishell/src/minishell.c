@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/29 00:08:46 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 00:04:32 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,23 @@ static int	ft_get_input(char **line)
 	return (TRUE);
 }
 
+static void	process_input(t_minishell *shell)
+{
+	if (ft_lexer(shell))
+	{
+		ft_putstr_fd("MINIshell: Lexer: ", STDOUT_FILENO);
+		ft_putstr_fd(strerror(errno), STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
+	if (!ft_parser(shell) && shell->state == ST_OK)
+		ft_execute(shell);
+	else
+	{
+		shell->state = ST_ERROR;
+		shell->exit_code = E_PARSER;
+	}
+}
+
 void	initialize_minishell(t_minishell *shell, int argc)
 {
 	int	condition;
@@ -57,18 +74,7 @@ void	initialize_minishell(t_minishell *shell, int argc)
 		if (argc == 1)
 			condition = ft_get_input(&(shell->line));
 		if (condition)
-		{
-			if (ft_lexer(shell))
-				ft_dprintf(STDOUT_FILENO, \
-					"MINIshell: Lexer: %s\n", strerror(errno));
-			if (!ft_parser(shell) && shell->state == ST_OK)
-				ft_execute(shell);
-			else
-			{
-				shell->state = ST_ERROR;
-				shell->exit_code = E_PARSER;
-			}
-		}
+			process_input(shell);
 		condition = reset_shell(shell, argc);
 	}
 }

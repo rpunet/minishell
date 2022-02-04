@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:43:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/04 00:28:01 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 00:32:16 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,27 +69,28 @@ char	*check_directories(DIR **dir, char **args, char **paths, int i)
 
 char	*find_directory(DIR **dir, char **args)
 {
-	char	*path_var;
-	char	**paths;
-	char	*directory;
-	int		i;
+	char		*path_var;
+	char		**paths;
+	int			i;
+	t_minishell	*shell;
 
+	shell = get_minishell(NULL);
 	if (!ft_strcmp(args[0], "minishell"))
-		return (getenv("_"));
-	path_var = getenv("PATH");
-	paths = ft_split(path_var, ':');
-	i = 0;
-	while (paths[i])
+		return (find_value(shell->envp_dup, "_"));
+	path_var = find_value(shell->envp_dup, "PATH");
+	if (path_var)
 	{
-		path_var = check_directories(dir, args, paths, i);
-		if (path_var != NULL)
+		paths = ft_split(path_var, ':');
+		path_var = ft_memfree(path_var, NULL);
+		i = 0;
+		while (paths && paths[i])
 		{
-			directory = ft_strjoin(path_var, args[0]);
-			free(path_var);
-			return (directory);
+			path_var = check_directories(dir, args, paths, i);
+			if (path_var != NULL)
+				return (ft_memfree(path_var, ft_strjoin(path_var, args[0])));
+			i++;
 		}
-		i++;
+		free_char_array(paths, double_len(paths));
 	}
-	free_char_array(paths, double_len(paths));
 	return (NULL);
 }

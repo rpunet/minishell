@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/02/02 23:18:00 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 00:33:00 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -320,4 +320,6 @@ int			here_doc(t_minishell *shell, t_exec *exec);
 char		*set_command_path(t_exec *exec);
 void		execute_redirection(t_minishell *shell, t_exec *exec, char ***envp);
 void		execute_bst(t_minishell *shell, t_bst *bst, char ***envp);
+int			check_syntax(char *arg);
+int			check_options(char **args, t_minishell *shell);
 #endif

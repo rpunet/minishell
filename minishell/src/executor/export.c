@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/28 23:04:31 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 19:12:15 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 00:27:20 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	check_syntax(char *arg)
+int	check_syntax(char *arg)
 {
 	int	i;
 
@@ -34,7 +34,8 @@ static void	export_variable(char **args, char ***envp, int i)
 	char	*find;
 
 	no_deleted = 0;
-	delete_var(envp, find = find_variable(*envp, args[i], &no_deleted));
+	find = find_variable(*envp, args[i], &no_deleted);
+	delete_var(envp, find);
 	if (!no_deleted)
 		add_single_exp(envp, args[i]);
 	find = ft_memfree(find, NULL);
@@ -46,22 +47,20 @@ int	ft_export(char **args, char ***envp)
 	t_minishell	*shell;
 
 	shell = get_minishell(NULL);
-	shell->exit_code = EXIT_SUCCESS;
 	i = 1;
 	if (args[i] == NULL)
 		shell->exit_code = no_args_export(*envp);
-	else if (args[1][0] == '-')
-	{
-		shell->exit_code = EXIT_FAILURE;
-		ft_dprintf(shell->save_std.out, "MINIshell: %s:`%s': \
-			invalid option\n", args[0], args[1]);
-	}
+	else
+		shell->exit_code = check_options(args, shell);
 	while (args[i] && shell->exit_code == EXIT_SUCCESS)
 	{
 		shell->exit_code = check_syntax(args[i]);
 		if (shell->exit_code == EXIT_FAILURE)
-			ft_dprintf(shell->save_std.out, "MINIshell: %s:`%s': \
-				not a valid identifier\n", args[0], args[i]);
+		{
+			ft_putstr_fd("MINIshell: export:`", shell->save_std.out);
+			ft_putstr_fd(args[i], shell->save_std.out);
+			ft_putstr_fd("': not a valid identifier\n", shell->save_std.out);
+		}
 		else
 			export_variable(args, envp, i);
 		i++;

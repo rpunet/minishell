@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:54:34 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/09 19:12:29 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:14:45 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	check_builtins(char **args, char **envp)
 	{
 		while (*envp)
 		{
-			ft_dprintf(shell->std.out, "%s\n", *envp);
+			ft_putstr_fd(*envp, shell->std.out);
+			ft_putchar_fd('\n', shell->std.out);
 			envp++;
 		}
 		return (TRUE);

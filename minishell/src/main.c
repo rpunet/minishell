@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:47 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/27 22:34:02 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 00:05:37 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,32 +40,42 @@ void	interactive_shell(t_minishell *shell, int argc)
 	initialize_minishell(shell, argc);
 }
 
-void	not_interactive_shell(t_minishell *shell, char *argv)
+static void	init_noninteractive(t_minishell *shell, int fd)
 {
-	int		fd;
 	char	*line;
 	int		size;
 
-	fd = open(argv, O_RDONLY);
-	if (fd == ERROR)
-	{
-		ft_dprintf(STDOUT_FILENO, "MINIshell: %s: %s", argv, strerror(errno));
-		shell->exit_code = EB_CATCHALL;
-		return ;
-	}
 	size = 1;
 	while (size > 0 && shell->state == ST_OK)
 	{
 		size = ft_get_next_line(fd, &line);
 		if (size == -1)
 		{
-			ft_dprintf(STDOUT_FILENO, "MINIshell: GNL: %s", strerror(errno));
+			ft_putstr_fd("MINIshell: GNL: ", STDOUT_FILENO);
+			ft_putstr_fd(strerror(errno), STDOUT_FILENO);
 			shell->exit_code = EXIT_FAILURE;
 			break ;
 		}
 		initialize_minishell(shell, 2);
 		line = ft_memfree(line, NULL);
 	}
+}
+
+void	not_interactive_shell(t_minishell *shell, char *argv)
+{
+	int		fd;
+
+	fd = open(argv, O_RDONLY);
+	if (fd == ERROR)
+	{
+		ft_putstr_fd("MINIshell: ", STDOUT_FILENO);
+		ft_putstr_fd(argv, STDOUT_FILENO);
+		ft_putstr_fd(": ", STDOUT_FILENO);
+		ft_putstr_fd(strerror(errno), STDOUT_FILENO);
+		shell->exit_code = EB_CATCHALL;
+		return ;
+	}
+	init_noninteractive(shell, fd);
 	close(fd);
 }
 

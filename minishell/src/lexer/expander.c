@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 12:38:29 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/30 23:53:55 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 00:14:26 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void	expand_vars(char **str)
 			aux = ft_substr(find, 0, i);
 			find += i;
 			*str = get_command(get_minishell(NULL), &aux, &find, str);
+			find = ft_strchr(*str, '$');
 		}
 	}
 }
@@ -88,22 +89,34 @@ static void	handle_quotes(char *str, char **line, int *i)
 	quoted = ft_memfree(quoted, NULL);
 }
 
+static int	handle_unquoted(char **line, char *str, int *i)
+{
+	int		ret;
+
+	ret = FALSE;
+	while (str[*i] && (str[*i] != T_QUOTE && str[*i] != T_DQUOTE))
+	{
+		ret = TRUE;
+		(*line)[*i] = str[*i];
+		*i += 1;
+	}
+	return (ret);
+}
+
 char	*check_expansion(char *str)
 {
-	char		*line;
-	int			i;
+	char	*line;
+	int		i;
 
 	i = 0;
 	line = ft_strnew(ft_strlen(str) + 1);
 	while (str[i])
 	{
-		while (str[i] && (str[i] != T_QUOTE && str[i] != T_DQUOTE))
+		if (handle_unquoted(&line, str, &i))
 		{
-			line[i] = str[i];
-			i++;
+			line[i] = '\0';
+			expand_vars(&line);
 		}
-		line[i] = '\0';
-		expand_vars(&line);
 		if (str[i] == T_QUOTE || str[i] == T_DQUOTE)
 			handle_quotes(str, &line, &i);
 		if (str[i])

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/19 22:59:24 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/04 01:03:23 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:43:20 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ static int	exec_indir(t_minishell *shell, t_exec *exec, int indir)
 		close(shell->std.in);
 	exec->cmd_node->data = ft_memfree(exec->cmd_node->data, \
 							check_expansion(exec->cmd_node->data));
+	if (dir->type == FILENAME_NODE)
+		dir->data = NULL;
+	else if (check_if_redir(dir->type))
+		dir->left->data = NULL;
 	if (exec->cmd_node->type == INDIR_NODE)
 		shell->std.in = open(exec->cmd_node->data, O_RDONLY);
 	else if (exec->cmd_node->type == LIMIT_NODE)
@@ -45,6 +49,10 @@ static int	exec_redir(t_minishell *shell, t_exec *exec, int redir)
 		close(shell->std.out);
 	exec->cmd_node->data = ft_memfree(exec->cmd_node->data, \
 							check_expansion(exec->cmd_node->data));
+	if (dir->type == FILENAME_NODE)
+		dir->data = NULL;
+	else if (check_if_redir(dir->type))
+		dir->left->data = NULL;
 	if (exec->cmd_node->type == REDIR_NODE)
 		shell->std.out = open(exec->cmd_node->data, \
 							O_CREAT | O_WRONLY | O_TRUNC, S_IRWUGO);

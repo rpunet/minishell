@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/09 21:43:57 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/09 23:31:34 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/04 21:15:10 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	stream_literal(char *data, char **literal)
 		tmp = ft_memfree(tmp, NULL);
 		stack = ft_memfree(stack, NULL);
 		buff[0] = 0;
-		ft_dprintf(1, "> ");
+		ft_putstr_fd("> ", 1);
 		while (buff[0] != '\n')
 		{
 			read(0, buff, 1);
@@ -55,7 +55,7 @@ int	here_doc(t_minishell *shell, t_exec *exec)
 	else if (pid == 0)
 	{
 		close(exec->fds[P_IN]);
-		ft_dprintf(exec->fds[P_OUT], literal);
+		ft_putstr_fd(literal, exec->fds[P_OUT]);
 		shell->std.in = exec->fds[P_IN];
 		close(exec->fds[P_OUT]);
 		literal = ft_memfree(literal, NULL);

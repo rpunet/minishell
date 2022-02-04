@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_command.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 21:42:52 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/30 23:23:59 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/04 20:07:48 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ void	execute_cmd(t_minishell *shell, t_exec *exec, char ***envp)
 		else if (!ft_strcmp(exec->args[0], "unset"))
 			ft_unset(exec->args, envp);
 		else if (!ft_strcmp(exec->args[0], "env"))
-			ft_env(exec->args, envp);
+			manage_fds(&ft_env, &shell->std, envp, exec->args);
 		else
 			create_child(exec, envp, i);
 	}
