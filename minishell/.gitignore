@@ -2,4 +2,8 @@
 stderred/
 test
 ../minishell_test
-
+ls
+file
+*.txt
+include/bash_colors.h
+../debug.c

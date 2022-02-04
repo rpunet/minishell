@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 21:04:33 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/03 00:28:22 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/04 01:02:40 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ast_delete(t_ast_node **node)
 
 	if ((*node) == NULL)
 		return ;
-	if ((*node)->type >= CMDNAME_NODE && (*node)->data != NULL)
+	if ((*node)->data != NULL)
 		(*node)->data = ft_memfree((*node)->data, NULL);
 	right = (*node)->right;
 	left = (*node)->left;
