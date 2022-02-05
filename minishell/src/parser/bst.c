@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 22:19:55 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/03 18:37:11 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 12:57:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ static void	handle_open_bracket(t_bst **bst, t_tok **curr, \
 	actual_bst->tree = gr_seq();
 	actual_bst->child = create_bst_node();
 	*bst = actual_bst->child;
+	(*bst)->prev = actual_bst;
 	g_current_tok = (*curr)->next;
 }
 
@@ -65,7 +66,7 @@ static void	handle_close_bracket(t_bst **bst, t_tok **curr, t_tok **prev)
 	(*prev)->next = NULL;
 	actual_bst->tree = gr_seq();
 	g_current_tok = NULL;
-	if ((*curr)->next == NULL)
+	if ((*curr)->next->type == T_NULTOK)
 		return ;
 	if ((*curr)->next->type == T_BRAKET_OPEN)
 		exit_program(get_minishell(NULL), F_SHELL, E_PARSER, ")");
@@ -97,15 +98,21 @@ void	parse_brackets(t_minishell *shell)
 	while (curr_tok && curr_tok->type == T_BRAKET_OPEN)
 		curr_tok = curr_tok->next;
 	g_current_tok = curr_tok;
-	while (curr_tok)
+	while ((curr_tok && curr_tok->type != T_NULTOK) && curr_tok->next != NULL)
 	{
-		while (curr_tok && (curr_tok->type != T_BRAKET_OPEN && \
-							curr_tok->type != T_BRAKET_CLOSE))
+		while ((curr_tok && curr_tok->next != NULL) \
+				&& (curr_tok->type != T_BRAKET_OPEN && \
+					curr_tok->type != T_BRAKET_CLOSE))
 			advance_one(&curr_tok, &prev_tok, &anteprev_tok);
 		if (curr_tok && curr_tok->type == T_BRAKET_OPEN)
 			handle_open_bracket(&curr_bst, &curr_tok, &prev_tok, &anteprev_tok);
 		else if (curr_tok && curr_tok->type == T_BRAKET_CLOSE)
 			handle_close_bracket(&curr_bst, &curr_tok, &prev_tok);
+		else
+		{
+			curr_bst->tree = gr_seq();
+			g_current_tok = NULL;
+		}
 		advance_one(&curr_tok, &prev_tok, &anteprev_tok);
 	}
 }
