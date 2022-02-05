@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   bst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 22:19:55 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/05 12:57:28 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 15:12:12 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-t_bst	*create_bst_node(void)
-{
-	t_bst	*statement;
-
-	statement = malloc(sizeof(t_bst));
-	if (statement == NULL)
-		return (NULL);
-	statement->operator_child = 0;
-	statement->operator_next = 0;
-	statement->tree = NULL;
-	statement->child = NULL;
-	statement->next = NULL;
-	statement->prev = NULL;
-	return (statement);
-}
 
 static void	advance_one(t_tok **curr, t_tok **prev, t_tok **ante)
 {
@@ -48,8 +32,9 @@ static void	handle_open_bracket(t_bst **bst, t_tok **curr, \
 		exit_program(get_minishell(NULL), F_SHELL, E_PARSER, "(");
 	while ((*curr)->next->type == T_BRAKET_OPEN)
 		*curr = (*curr)->next;
-	actual_bst->operator_child = (*prev)->type;
-	(*ante)->next = NULL;
+	actual_bst->operator_child = get_operator_type((*prev)->type);
+	if (*ante)
+		(*ante)->next = NULL;
 	actual_bst->tree = gr_seq();
 	actual_bst->child = create_bst_node();
 	*bst = actual_bst->child;
@@ -78,10 +63,30 @@ static void	handle_close_bracket(t_bst **bst, t_tok **curr, t_tok **prev)
 	}
 	while (link->next != NULL)
 		link = link->prev;
-	link->operator_next = (*curr)->next->type;
+	link->operator_next = get_operator_type((*curr)->next->type);
 	link->next = create_bst_node();
 	*bst = link->next;
+	(*bst)->prev = link;
 	g_current_tok = (*curr)->next->next;
+}
+
+static void	brackets_loop(t_bst *curr_bst, t_tok *curr_tok, \
+							t_tok *prev_tok, t_tok *anteprev_tok)
+{
+	while ((curr_tok && curr_tok->next != NULL) \
+			&& (curr_tok->type != T_BRAKET_OPEN && \
+				curr_tok->type != T_BRAKET_CLOSE))
+		advance_one(&curr_tok, &prev_tok, &anteprev_tok);
+	if (curr_tok && curr_tok->type == T_BRAKET_OPEN)
+		handle_open_bracket(&curr_bst, &curr_tok, &prev_tok, &anteprev_tok);
+	else if (curr_tok && curr_tok->type == T_BRAKET_CLOSE)
+		handle_close_bracket(&curr_bst, &curr_tok, &prev_tok);
+	else
+	{
+		curr_bst->tree = gr_seq();
+		g_current_tok = NULL;
+	}
+	advance_one(&curr_tok, &prev_tok, &anteprev_tok);
 }
 
 void	parse_brackets(t_minishell *shell)
@@ -99,20 +104,5 @@ void	parse_brackets(t_minishell *shell)
 		curr_tok = curr_tok->next;
 	g_current_tok = curr_tok;
 	while ((curr_tok && curr_tok->type != T_NULTOK) && curr_tok->next != NULL)
-	{
-		while ((curr_tok && curr_tok->next != NULL) \
-				&& (curr_tok->type != T_BRAKET_OPEN && \
-					curr_tok->type != T_BRAKET_CLOSE))
-			advance_one(&curr_tok, &prev_tok, &anteprev_tok);
-		if (curr_tok && curr_tok->type == T_BRAKET_OPEN)
-			handle_open_bracket(&curr_bst, &curr_tok, &prev_tok, &anteprev_tok);
-		else if (curr_tok && curr_tok->type == T_BRAKET_CLOSE)
-			handle_close_bracket(&curr_bst, &curr_tok, &prev_tok);
-		else
-		{
-			curr_bst->tree = gr_seq();
-			g_current_tok = NULL;
-		}
-		advance_one(&curr_tok, &prev_tok, &anteprev_tok);
-	}
+		brackets_loop(curr_bst, curr_tok, prev_tok, anteprev_tok);
 }

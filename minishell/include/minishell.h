@@ -6,7 +6,7 @@
 /*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/02/05 00:33:00 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/02/05 13:59:02 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ enum	e_error
 	E_NONE,
 	E_MEM = 3,
 	E_SIG,
+	E_LEXER,
 	E_PARSER,
 	E_SYNTAX,
 	E_EXECUTE,
@@ -224,6 +225,7 @@ t_tok		*g_current_tok;
 
 void		do_nothing(void *vd);
 int			double_len(char **arr);
+void		print_error(t_minishell *shell, int err, char *extra);
 void		exit_program(t_minishell *shell, int status, int err, char *extra);
 char		*find_directory(DIR **dir, char **args);
 void		free_program(t_minishell *shell, int status);
@@ -242,6 +244,7 @@ void		set_shell_signals(t_minishell *shell);
 ** PARSER ------------------------------------
 */
 
+int			get_operator_type(int type);
 int			get_dir_type(void);
 int			get_seq_type(void);
 int			ft_parser(t_minishell *shell);

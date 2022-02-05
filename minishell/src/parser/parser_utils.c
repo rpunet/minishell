@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/22 21:04:33 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/04 01:02:40 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 15:11:34 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,31 @@ t_ast_node	*create_parent_node(int type, char *data, \
 	ret->left = left;
 	ret->right = right;
 	return (ret);
+}
+
+int	get_operator_type(int type)
+{
+	if (type == T_AND)
+		return (AND_NODE);
+	else if (type == T_SEMICOLON)
+		return (SEQ_NODE);
+	else if (type == T_OR)
+		return (OR_NODE);
+	return (0);
+}
+
+t_bst	*create_bst_node(void)
+{
+	t_bst	*statement;
+
+	statement = malloc(sizeof(t_bst));
+	if (statement == NULL)
+		return (NULL);
+	statement->operator_child = 0;
+	statement->operator_next = 0;
+	statement->tree = NULL;
+	statement->child = NULL;
+	statement->next = NULL;
+	statement->prev = NULL;
+	return (statement);
 }

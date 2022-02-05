@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/27 22:27:46 by rpunet            #+#    #+#             */
-/*   Updated: 2022/01/27 22:39:04 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 13:58:21 by rpunet           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	ft_lexer(t_minishell *shell)
 	}
 	shell->lexer.current_tok->data[lexer->token_pos] = 0;
 	if (shell->lexer.seq_state != S_GENERAL)
-		exit_program(shell, F_SHELL, 0, "Bad quoting");
+		print_error(shell, E_LEXER, "Bad quoting");
 	check_tokens(shell, lexer->list_token);
 	return (EXIT_SUCCESS);
 }
