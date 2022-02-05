@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/26 23:09:34 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/05 16:45:07 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 16:52:28 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	check_parenthesis(t_tok *curr, t_tok *prev, int *bracket, int cond)
 	return (cond);
 }
 
-static int	check_syntax(t_tok *curr, t_tok *prev)
+static int	check_token_syntax(t_tok *curr, t_tok *prev)
 {
 	if (check_if_redir(curr->type) && curr->next->type > 0)
 		return (FALSE);
@@ -57,7 +57,7 @@ void	check_tokens(t_minishell *shell, t_tok *list)
 	prev = NULL;
 	while (curr)
 	{
-		condition = check_syntax(curr, prev);
+		condition = check_token_syntax(curr, prev);
 		condition = check_parenthesis(curr, prev, &bracket, condition);
 		if (condition == FALSE)
 		{
