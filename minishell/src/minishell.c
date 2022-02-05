@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/31 13:45:53 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/05 14:11:55 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/02/05 19:03:20 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,10 @@ static int	reset_shell(t_minishell *shell, int argc)
 static int	ft_get_input(char **line)
 {
 	t_minishell	*shell;
+	int			last_state;
 
 	shell = get_minishell(NULL);
+	last_state = shell->state;
 	shell->prompt = set_prompt("$ ");
 	*line = readline(shell->prompt);
 	shell->prompt = ft_memfree(shell->prompt, NULL);

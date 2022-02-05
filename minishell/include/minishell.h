@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/02/20 19:51:50 by rpunet            #+#    #+#             */
-/*   Updated: 2022/02/05 13:59:02 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/02/05 18:50:48 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ enum	e_state
 	ST_OK = 1,
 	ST_PREPARED,
 	ST_SIGINT,
+	ST_READLINE,
 	ST_ERROR,
 	ST_SUCCESS
 };

@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/04 20:36:58 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/01/15 18:24:53 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 19:15:06 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,21 @@ static void	sign_handler_nel(int signal)
 	}
 }
 
+static void	sign_quit(int signal)
+{
+	t_minishell	*shell;
+	int			last_state;
+
+	shell = get_minishell(NULL);
+	shell->exit_code = SIGQUIT + EXIT_STATUS;
+	last_state = shell->state;
+	if (signal == SIGQUIT && last_state == ST_OK)
+	{
+		ft_putstr_fd("Quit: 3\n", STDIN_FILENO);
+		kill(0, SIGCHLD);
+	}
+}
+
 void	null_line(void)
 {
 	t_minishell	*shell;
@@ -48,7 +63,7 @@ void	null_line(void)
 
 void	set_shell_signals(t_minishell *shell)
 {
-	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
+	if (signal(SIGQUIT, (void (*)(int))sign_quit) == SIG_ERR)
 		exit_program(shell, F_SHELL, E_SIG, "");
 	if (signal(SIGINT, (void (*)(int))sign_handler_nel) == SIG_ERR)
 		exit_program(shell, F_SHELL, E_SIG, "");
