@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bst.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rpunet <rpunet@student.42madrid.com>       +#+  +:+       +#+        */
+/*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/27 22:19:55 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/05 15:12:12 by rpunet           ###   ########.fr       */
+/*   Updated: 2022/02/05 16:39:52 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,39 +70,42 @@ static void	handle_close_bracket(t_bst **bst, t_tok **curr, t_tok **prev)
 	g_current_tok = (*curr)->next->next;
 }
 
-static void	brackets_loop(t_bst *curr_bst, t_tok *curr_tok, \
-							t_tok *prev_tok, t_tok *anteprev_tok)
+static void	brackets_loop(t_bst **curr_bst, t_tok **curr_tok)
 {
-	while ((curr_tok && curr_tok->next != NULL) \
-			&& (curr_tok->type != T_BRAKET_OPEN && \
-				curr_tok->type != T_BRAKET_CLOSE))
-		advance_one(&curr_tok, &prev_tok, &anteprev_tok);
-	if (curr_tok && curr_tok->type == T_BRAKET_OPEN)
-		handle_open_bracket(&curr_bst, &curr_tok, &prev_tok, &anteprev_tok);
-	else if (curr_tok && curr_tok->type == T_BRAKET_CLOSE)
-		handle_close_bracket(&curr_bst, &curr_tok, &prev_tok);
-	else
+	t_tok	*pre_tok;
+	t_tok	*ant_tok;
+
+	pre_tok = NULL;
+	ant_tok = NULL;
+	while ((*curr_tok && (*curr_tok)->type != T_NULTOK) \
+			&& (*curr_tok)->next != NULL)
 	{
-		curr_bst->tree = gr_seq();
-		g_current_tok = NULL;
+		while ((*curr_tok && (*curr_tok)->next != NULL) \
+				&& ((*curr_tok)->type != T_BRAKET_OPEN && \
+					(*curr_tok)->type != T_BRAKET_CLOSE))
+			advance_one(&(*curr_tok), &pre_tok, &ant_tok);
+		if (*curr_tok && (*curr_tok)->type == T_BRAKET_OPEN)
+			handle_open_bracket(&(*curr_bst), &(*curr_tok), &pre_tok, &ant_tok);
+		else if (*curr_tok && (*curr_tok)->type == T_BRAKET_CLOSE)
+			handle_close_bracket(&(*curr_bst), &(*curr_tok), &pre_tok);
+		else
+		{
+			(*curr_bst)->tree = gr_seq();
+			g_current_tok = NULL;
+		}
+		advance_one(&(*curr_tok), &pre_tok, &ant_tok);
 	}
-	advance_one(&curr_tok, &prev_tok, &anteprev_tok);
 }
 
 void	parse_brackets(t_minishell *shell)
 {
 	t_bst	*curr_bst;
 	t_tok	*curr_tok;
-	t_tok	*prev_tok;
-	t_tok	*anteprev_tok;
 
 	curr_bst = shell->bst;
-	prev_tok = NULL;
-	anteprev_tok = NULL;
 	curr_tok = shell->lexer.list_token;
 	while (curr_tok && curr_tok->type == T_BRAKET_OPEN)
 		curr_tok = curr_tok->next;
 	g_current_tok = curr_tok;
-	while ((curr_tok && curr_tok->type != T_NULTOK) && curr_tok->next != NULL)
-		brackets_loop(curr_bst, curr_tok, prev_tok, anteprev_tok);
+	brackets_loop(&curr_bst, &curr_tok);
 }
