@@ -6,7 +6,7 @@
 /*   By: jcarrete <jcarrete@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/06 12:38:29 by jcarrete          #+#    #+#             */
-/*   Updated: 2022/02/05 16:31:47 by jcarrete         ###   ########.fr       */
+/*   Updated: 2022/02/05 16:53:26 by jcarrete         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ static char	*get_command(t_minishell *shell, char **aux, \
 	*str = ft_memfree(*str, NULL);
 	tmp = ft_strjoin(*aux, *find);
 	if (ft_strchr_pos(*find, '$') == ERROR)
-		**find = '\0';
+		*find = NULL;
 	return (ft_memfree(*aux, tmp));
 }
 
